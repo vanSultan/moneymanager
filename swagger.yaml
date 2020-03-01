@@ -1,0 +1,197 @@
+swagger: "2.0"
+info:
+  description: "Проект по командной разработке 4 семестр"
+  version: "1.0.0"
+  title: "Money manager"
+basePath: "/api"
+tags:
+- name: "users"
+  description: "Информация о пользователях"
+- name: "auth"
+  description: "Авторизация пользователя"
+schemes:
+- "https"
+paths:
+  /users:
+    post:
+      tags:
+        - users
+      summary: "Получение списка пользователей"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "token"
+          description: "Токен администратора"
+          required: true
+          schema:
+            $ref: "#/definitions/Tocken"
+      responses:
+        200:
+          description: "Список зарегистрированных пользователей"
+          schema:
+            $ref: "#/definitions/UsersList"
+        401:
+          description: "Доступ запрещен"
+          schema:
+            $ref: '#/definitions/Message'
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: "Выход из приложения"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "tocken"
+          description: "Токен авторизованного пользователя"
+          required: true
+          schema:
+            $ref: '#/definitions/Tocken'
+      responses:
+        200:
+          description: "Успешный выход"
+          schema:
+            $ref: '#/definitions/Message'
+        400:
+          description: "Ошибка доступа"
+          schema:
+            $ref: '#/definitions/Message'
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: "Аутентификация пользователя"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "user-info"
+          description: "Логин и пароль пользователя"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginInfo"
+      responses:
+        200:
+          description: "Успешный вход"
+          schema:
+            $ref: '#/definitions/Tocken'
+        400:
+          description: "Ошибка входа"
+          schema:
+            $ref: '#/definitions/Message'
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: "Регистрация пользователя"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "login-info"
+          description: "Логин и пароль нового пользователя"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginInfo"
+      responses:
+        200:
+          description: "Успешная регистрация"
+          schema:
+            $ref: '#/definitions/Message'
+        400:
+          description: "Ошибка регистрации"
+          schema:
+            $ref: '#/definitions/Message'
+  /users/profile:
+    post:
+      tags:
+        - users
+      summary: "Получить профиль"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "token"
+          description: "Токен пользователя"
+          required: true
+          schema:
+            $ref: "#/definitions/Tocken"
+      responses:
+        200:
+          description: "Информация о поользователе"
+          schema:
+            $ref: '#/definitions/UserInfo'
+        400:
+          description: "Ошибка доступа"
+          schema:
+            $ref: '#/definitions/Message'
+    put:
+      tags:
+        - users
+      summary: "Обновить профиль"
+      parameters:
+        - in: "body"
+          name: "updated info"
+          description: "Токен и информация о пользователе"
+          required: true
+          schema:
+            allOf:
+              - $ref: "#/definitions/Tocken"
+              - $ref: "#/definitions/UserInfo"
+      responses:
+        200:
+          description: "Информация обновлена"
+          schema:
+            $ref: '#/definitions/Message'
+        400:
+          description: "Ошибка доступа"
+          schema:
+            $ref: '#/definitions/Message'
+definitions:
+  Tocken:
+    type: "object"
+    properties:
+      tocken:
+        type: "string"
+      userId:
+        type: "string"
+  Message:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+  UsersList:
+    type: "object"
+    properties:
+      users:
+        type: "array"
+        items:
+          type: "string"
+  LoginInfo:
+    type: "object"
+    properties:
+      login:
+        type: "string"
+      password:
+        type: "string"
+  UserInfo:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      name:
+        type: "string"
+      surname:
+        type: "string"
