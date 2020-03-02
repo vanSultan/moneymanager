@@ -1,197 +1,167 @@
-swagger: "2.0"
+openapi: 3.0.0
+
 info:
-  description: "Проект по командной разработке 4 семестр"
-  version: "1.0.0"
-  title: "Money manager"
-basePath: "/api"
-tags:
-- name: "users"
-  description: "Информация о пользователях"
-- name: "auth"
-  description: "Авторизация пользователя"
-schemes:
-- "https"
+  version: "1.0"
+  title: "Проект по командной разработке"
+
 paths:
   /users:
-    post:
-      tags:
+    get:
+      summary: "Получить список зарегистрированных пользователей"
+      security: 
+      - bearerAuth: []
+      tags: 
         - users
-      summary: "Получение списка пользователей"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-        - in: "body"
-          name: "token"
-          description: "Токен администратора"
-          required: true
-          schema:
-            $ref: "#/definitions/Tocken"
       responses:
         200:
-          description: "Список зарегистрированных пользователей"
-          schema:
-            $ref: "#/definitions/UsersList"
-        401:
-          description: "Доступ запрещен"
-          schema:
-            $ref: '#/definitions/Message'
-  /users/logout:
-    post:
+          description: "Список пользователей"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersList'
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /users/profile:
+    get:
+      summary: "Получить профиль пользоваетля"
+      security: 
+        - bearerAuth: []
       tags:
         - users
+      responses:
+        200:
+          description: "Информация о пользователе"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    put:
+      summary: "Обновить информацию профиля пользователя"
+      security: 
+        - bearerAuth: []
+      tags:
+        - users
+      requestBody:
+        description: "Обновленная информация профиля"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInfo'
+      responses:
+        200:
+          description: "Профиль обновлен"
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /auth/login:
+    post:
+      description: "Авторизация пользователя"
+      tags:
+        - auth
+      requestBody:
+        description: "Логин и пароль для авторизации"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInfo'
+      responses:
+        200:
+          description: "Успешная авторизация"
+          content:
+            application/json:
+              schema:
+                properties:
+                  token:
+                    type: string
+        400:
+          description: "Неверный логин или пароль"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /auth/logout:
+    get:
       summary: "Выход из приложения"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-        - in: "body"
-          name: "tocken"
-          description: "Токен авторизованного пользователя"
-          required: true
-          schema:
-            $ref: '#/definitions/Tocken'
+      security: 
+        - bearerAuth: []
+      tags:
+        - auth
       responses:
         200:
           description: "Успешный выход"
-          schema:
-            $ref: '#/definitions/Message'
         400:
-          description: "Ошибка доступа"
-          schema:
-            $ref: '#/definitions/Message'
-  /auth/login:
-    post:
-      tags:
-        - auth
-      summary: "Аутентификация пользователя"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-        - in: "body"
-          name: "user-info"
-          description: "Логин и пароль пользователя"
-          required: true
-          schema:
-            $ref: "#/definitions/LoginInfo"
-      responses:
-        200:
-          description: "Успешный вход"
-          schema:
-            $ref: '#/definitions/Tocken'
-        400:
-          description: "Ошибка входа"
-          schema:
-            $ref: '#/definitions/Message'
+          description: "Ошибка выхода"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
   /auth/register:
     post:
+      summary: "Регистрация нового пользователя"
+      security: 
+        - bearerAuth: []
       tags:
         - auth
-      summary: "Регистрация пользователя"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-        - in: "body"
-          name: "login-info"
-          description: "Логин и пароль нового пользователя"
-          required: true
-          schema:
-            $ref: "#/definitions/LoginInfo"
+      requestBody:
+        description: "Логин и пароль"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInfo'
       responses:
         200:
-          description: "Успешная регистрация"
-          schema:
-            $ref: '#/definitions/Message'
-        400:
-          description: "Ошибка регистрации"
-          schema:
-            $ref: '#/definitions/Message'
-  /users/profile:
-    post:
-      tags:
-        - users
-      summary: "Получить профиль"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-        - in: "body"
-          name: "token"
-          description: "Токен пользователя"
-          required: true
-          schema:
-            $ref: "#/definitions/Tocken"
-      responses:
-        200:
-          description: "Информация о поользователе"
-          schema:
-            $ref: '#/definitions/UserInfo'
-        400:
-          description: "Ошибка доступа"
-          schema:
-            $ref: '#/definitions/Message'
-    put:
-      tags:
-        - users
-      summary: "Обновить профиль"
-      parameters:
-        - in: "body"
-          name: "updated info"
-          description: "Токен и информация о пользователе"
-          required: true
-          schema:
-            allOf:
-              - $ref: "#/definitions/Tocken"
-              - $ref: "#/definitions/UserInfo"
-      responses:
-        200:
-          description: "Информация обновлена"
-          schema:
-            $ref: '#/definitions/Message'
-        400:
-          description: "Ошибка доступа"
-          schema:
-            $ref: '#/definitions/Message'
-definitions:
-  Tocken:
-    type: "object"
-    properties:
-      tocken:
-        type: "string"
-      userId:
-        type: "string"
-  Message:
-    type: "object"
-    properties:
-      message:
-        type: "string"
-  UsersList:
-    type: "object"
-    properties:
-      users:
-        type: "array"
-        items:
-          type: "string"
-  LoginInfo:
-    type: "object"
-    properties:
-      login:
-        type: "string"
-      password:
-        type: "string"
-  UserInfo:
-    type: "object"
-    properties:
-      email:
-        type: "string"
-      name:
-        type: "string"
-      surname:
-        type: "string"
+          description: "Новый пользователь зарегистрирован"
+        409:
+          description: "Невозможно зарегистрировать нового пользователя"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UsersList:
+      type: array
+      items: 
+        type: string
+    UserInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+    LoginInfo:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
