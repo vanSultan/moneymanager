@@ -130,7 +130,235 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
-
+  /accounts:
+    get:
+      summary: "Получение списка счетов пользователя"
+      security: 
+        - bearerAuth: []
+      tags:
+        - accounts
+      responses:
+        200:
+          description: "Список счетов пользователя"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountsList'
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /accounts/create:
+    post:
+      summary: "Создание нового счета"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - accounts
+      requestBody:
+        description: "Информация о новом счете"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccoutInfo'
+      responses:
+        200:
+          description: "Создан новый счет"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountId:
+                    type: integer
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /accounts/{accountId}:
+    get:
+      summary: "Получение операций по счету"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - accounts
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: "Уникальный идентификатор счета"
+      responses:
+        200:
+          description: "Успешная операция"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OperationInfo'
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    put:
+      summary: "Изменение информации о счете"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - accounts
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: "Уникальный идентификатор счета"
+      requestBody:
+        description: "Обновленная информация о счете"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccoutInfo'
+      responses:
+        200:
+          description: "Успешная операция"
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    delete:
+      summary: "Удаление пользовательского счета"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - accounts
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: "Уникальный идентификатор счета"
+      responses:
+        200:
+          description: "Успешная операция"
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /operations:
+    get:
+      summary: "Получение проведенных пользователем операций"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - operations
+      responses:
+        200:
+          description: "Успешная операция"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OperationInfo'
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /operations/create:
+    post:
+      summary: "Проведение новой операции"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - operations
+      requestBody:
+        description: "Параметры операции"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationInfo'
+      responses:
+        200:
+          description: "Операция сохранена"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: "Идентификатор операции"
+                    type: integer
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /operations/{operationId}:
+    delete:
+      summary: "Удаление операции"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - operations
+      parameters:
+        - in: path
+          name: operationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Операция удалена"
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    put:
+      summary: "Редактирование операции"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - operations
+      parameters:
+        - in: path
+          name: operationId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: "Обновленная информация"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationInfo'
+      responses:
+        200:
+          description: "Операция обновлена"
+        403:
+          description: "Ошибка доступа"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
 components:
   securitySchemes:
     bearerAuth:
@@ -142,6 +370,10 @@ components:
       type: array
       items: 
         type: string
+    AccountsList:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccoutInfo'
     UserInfo:
       type: object
       properties:
@@ -151,12 +383,40 @@ components:
           type: string
         email:
           type: string
+          format: email
     LoginInfo:
       type: object
       properties:
         login:
           type: string
         password:
+          type: string
+          format: password
+    AccoutInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        balance:
+          type: number
+    OperationInfo:
+      type: object
+      properties:
+        operationType:
+          type: string
+        from:
+          type: integer
+        to:
+          type: integer
+        systemDate:
+          type: string
+          format: date-time
+        userDate:
+          type: string
+          format: date-time
+        category:
           type: string
     ErrorMessage:
       type: object
