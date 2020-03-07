@@ -54,6 +54,17 @@ paths:
           description: "Профиль обновлен"
         403:
           $ref: '#/components/responses/403'
+    delete:
+      summary: "Удалить пользователя"
+      security: 
+        - bearerAuth: []
+      tags:
+        - users
+      responses:
+        200:
+          description: "Профиль удален"
+        403:
+          $ref: '#/components/responses/403'
   /auth/login:
     post:
       description: "Авторизация пользователя"
