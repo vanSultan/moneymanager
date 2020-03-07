@@ -20,11 +20,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UsersList'
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/403'
   /users/profile:
     get:
       summary: "Получить профиль пользоваетля"
@@ -40,11 +36,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserInfo'
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/403'
     put:
       summary: "Обновить информацию профиля пользователя"
       security: 
@@ -61,11 +53,7 @@ paths:
         200:
           description: "Профиль обновлен"
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/403'
   /auth/login:
     post:
       description: "Авторизация пользователя"
@@ -145,12 +133,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountsList'
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-  /accounts/create:
+          $ref: '#/components/responses/403'
     post:
       summary: "Создание нового счета"
       security: 
@@ -173,41 +156,73 @@ paths:
                 properties:
                   accountId:
                     type: integer
+                    format: int64
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-  /accounts/{accountId}:
+          $ref: '#/components/responses/403'
+  /accounts/types:
     get:
-      summary: "Получение операций по счету"
+      summary: "Получение доступных типов счетов"
       security: 
         - bearerAuth: []
       tags: 
         - accounts
-      parameters:
-        - in: path
-          name: accountId
-          schema:
-            type: integer
-          required: true
-          description: "Уникальный идентификатор счета"
       responses:
         200:
-          description: "Успешная операция"
+          description: "Доступные типы счетов"
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/OperationInfo'
-        403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                  type: string
+  # /accounts/{accountId}/operations:
+  #   get:
+  #     summary: "Получение операций по счету"
+  #     security: 
+  #       - bearerAuth: []
+  #     tags: 
+  #       - accounts
+  #     parameters:
+  #       - in: path
+  #         name: accountId
+  #         schema:
+  #           type: integer
+  #         required: true
+  #         description: "Уникальный идентификатор счета"
+  #       - in: query
+  #         name: from
+  #         schema:
+  #           type: string
+  #           format: date
+  #         required: false
+  #         description: "Начало запрашиваемоего периода"
+  #       - in: query
+  #         name: till
+  #         schema:
+  #           type: string
+  #           format: date
+  #         required: false
+  #         description: "Конец запрашиваемоего периода"
+  #     responses:
+  #       200:
+  #         description: "Успешная операция"
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 type: object
+  #                 properties:
+  #                   from: 
+  #                     type: string
+  #                   to:
+  #                     type: string
+  #                   date:
+  #                     type: string
+  #                     format: date-time
+  #       403:
+  #         $ref: '#/components/responses/403'
+  /accounts/{accountId}:
     put:
       summary: "Изменение информации о счете"
       security: 
@@ -231,11 +246,7 @@ paths:
         200:
           description: "Успешная операция"
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/403'
     delete:
       summary: "Удаление пользовательского счета"
       security: 
@@ -253,11 +264,29 @@ paths:
         200:
           description: "Успешная операция"
         403:
-          description: "Ошибка доступа"
+          $ref: '#/components/responses/403'
+    get:
+      summary: "Получение информации о счете"
+      security: 
+        - bearerAuth: []
+      tags: 
+        - accounts
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: "Уникальный идентификатор счета"
+      responses:
+        200:
+          description: "Информация о счете"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/AccoutInfo'
+        403:
+          $ref: '#/components/responses/403'
   /operations:
     get:
       summary: "Получение проведенных пользователем операций"
@@ -265,6 +294,37 @@ paths:
         - bearerAuth: []
       tags: 
         - operations
+      parameters:
+        - in: query
+          name: from
+          description: "Начало периода"
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: till
+          description: "Конец периода"
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: accountId
+          description: "Идентификатор счета"
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: categoryId
+          description: "Идентификатор категории"
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: entityId
+          description: "Идентификатор внешней сущности"
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: "Успешная операция"
@@ -275,14 +335,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/OperationInfo'
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-  /operations/create:
+          $ref: '#/components/responses/403'
     post:
-      summary: "Проведение новой операции"
+      summary: "Создание новой операции"
       security: 
         - bearerAuth: []
       tags: 
@@ -301,15 +356,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  operationId:
                     description: "Идентификатор операции"
                     type: integer
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/403'
   /operations/{operationId}:
     delete:
       summary: "Удаление операции"
@@ -327,11 +378,7 @@ paths:
         200:
           description: "Операция удалена"
         403:
-          description: "Ошибка доступа"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
+          $ref: '#/components/responses/403'
     put:
       summary: "Редактирование операции"
       security: 
@@ -354,12 +401,273 @@ paths:
         200:
           description: "Операция обновлена"
         403:
-          description: "Ошибка доступа"
+          $ref: '#/components/responses/403'
+  /categories:
+    get:
+      summary: "Получение доступных категорий"
+      security:
+        - bearerAuth: []
+      tags:
+        - categories
+      responses:
+        200:
+          description: "Пользовательские категории"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        403:
+          $ref: '#/components/responses/403'
+    post:
+      summary: "Создание новой подкатегории"
+      security:
+        - bearerAuth: []
+      tags:
+        - categories
+      requestBody:
+        required: true
+        description: "Информация о новой категории"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                parentCategoryId:
+                  type: integer
+                  format: int64
+      responses:
+        200:
+          description: "Идентификатор категории"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+  /categories/{categoryId}:
+    get:
+      summary: "Получение информации о категории"
+      security:
+        - bearerAuth: []
+      tags:
+        - categories
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: "Идентификатор категории"
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Пользовательские категории"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        403:
+          $ref: '#/components/responses/403'
+    put:
+      summary: "Обновление информации о категории"
+      security:
+        - bearerAuth: []
+      tags:
+        - categories
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: "Идентификатор категории"
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: "Обновленная информация о категории"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        200:
+          description: "Категория обновлена"
+        403:
+          $ref: '#/components/responses/403'
+    delete:
+      summary: "Обновление информации о категории"
+      security:
+        - bearerAuth: []
+      tags:
+        - categories
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: "Идентификатор категории"
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Категория удалена"
+        403:
+          $ref: '#/components/responses/403'
+    patch:
+      summary: "Сокрытие категории"
+      security:
+        - bearerAuth: []
+      tags:
+        - categories
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: "Идентификатор категории"
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Категория сокрыта"
+        403:
+          $ref: '#/components/responses/403'
+  /externalEntities:
+    get:
+      summary: "Получение списка внешних сущностей"
+      security:
+        - bearerAuth: []
+      tags:
+        - entities
+      responses:
+        200:
+          description: "Внешние сущности"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                    name:
+                      type: string
+        403:
+          $ref: '#/components/responses/403'
+    post:
+      summary: "Создание новой внешней сущности"
+      security:
+        - bearerAuth: []
+      tags:
+        - entities
+      requestBody:
+        required: true
+        description: "Информация о новой внешней сущности"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExternalEntity'
+      responses:
+        200:
+          description: "Идентификатор внешней сущности"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+        403:
+          $ref: '#/components/responses/403'
+  /externalEntities/{entityId}:
+    get:
+      summary: "Получение информации о внешней сущности"
+      security:
+        - bearerAuth: []
+      tags:
+        - entities
+      parameters:
+        - in: path
+          name: entityId
+          description: "Идентификатор внещней сущности"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Информация о внешней сущности"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalEntity'
+        403:
+          $ref: '#/components/responses/403'
+    put:
+      summary: "Создание новой внешней сущности"
+      security:
+        - bearerAuth: []
+      tags:
+        - entities
+      parameters:
+        - in: path
+          name: entityId
+          description: "Идентификатор внещней сущности"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        description: "Информация о новой внешней сущности"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        200:
+          description: "Внешняя сущность изменена"
+        403:
+          $ref: '#/components/responses/403'
+    delete:
+      summary: "Удаление внешней сущности"
+      security:
+        - bearerAuth: []
+      tags:
+        - entities
+      parameters:
+        - in: path
+          name: entityId
+          description: "Идентификатор внещней сущности"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "Внешняя сущность удалена"
+        403:
+          $ref: '#/components/responses/403'
 components:
+  responses:
+    403:
+      description: "Ошибка доступа"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
   securitySchemes:
     bearerAuth:
       type: http
@@ -396,6 +704,9 @@ components:
       type: object
       properties:
         id:
+          type: integer
+          format: int64
+        name:
           type: string
         type:
           type: string
@@ -410,14 +721,37 @@ components:
           type: integer
         to:
           type: integer
-        systemDate:
-          type: string
-          format: date-time
+        value:
+          type: number
         userDate:
           type: string
           format: date-time
         category:
           type: string
+        comment:
+          type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: boolean
+          description: "Отображается ли категория у пользователя"
+        subcategory:
+          type: boolean
+    ExternalAccounts:
+      type: object
+      properties:
+        name:
+          type: string
+        popularCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
     ErrorMessage:
       type: object
       properties:
@@ -425,3 +759,14 @@ components:
           type: integer
         message:
           type: string
+    ExternalEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        popularCategoryId:
+          type: integer
+          format: int64
