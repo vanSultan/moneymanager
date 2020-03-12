@@ -186,53 +186,6 @@ paths:
                 type: array
                 items:
                   type: string
-  # /accounts/{accountId}/operations:
-  #   get:
-  #     summary: "Получение операций по счету"
-  #     security: 
-  #       - bearerAuth: []
-  #     tags: 
-  #       - accounts
-  #     parameters:
-  #       - in: path
-  #         name: accountId
-  #         schema:
-  #           type: integer
-  #         required: true
-  #         description: "Уникальный идентификатор счета"
-  #       - in: query
-  #         name: from
-  #         schema:
-  #           type: string
-  #           format: date
-  #         required: false
-  #         description: "Начало запрашиваемоего периода"
-  #       - in: query
-  #         name: till
-  #         schema:
-  #           type: string
-  #           format: date
-  #         required: false
-  #         description: "Конец запрашиваемоего периода"
-  #     responses:
-  #       200:
-  #         description: "Успешная операция"
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: array
-  #               items:
-  #                 type: object
-  #                 properties:
-  #                   from: 
-  #                     type: string
-  #                   to:
-  #                     type: string
-  #                   date:
-  #                     type: string
-  #                     format: date-time
-  #       403:
-  #         $ref: '#/components/responses/403'
   /accounts/{accountId}:
     put:
       summary: "Изменение информации о счете"
@@ -752,8 +705,9 @@ components:
         status:
           type: boolean
           description: "Отображается ли категория у пользователя"
-        subcategory:
-          type: boolean
+        parentCategoryId:
+          type: integer
+          format: int64
     ExternalAccounts:
       type: object
       properties:
