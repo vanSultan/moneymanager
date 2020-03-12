@@ -1,4 +1,0 @@
-{
-  "port": 5000,
-  "postgresUri": "postgres://moneymanager:mmpwd@192.168.43.27:5432/moneymanagerdb"
-}

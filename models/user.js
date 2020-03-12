@@ -1,8 +1,4 @@
-const {
-    DataTypes
-} = require('sequelize');
-
-module.exports = sequelize => {
+module.exports = (sequelize, DataTypes) => {
     const attributes = {
         id: {
             type: DataTypes.INTEGER,
@@ -28,7 +24,7 @@ module.exports = sequelize => {
             field: "role_id",
             references: {
                 key: "id",
-                model: "role_model"
+                model: "role"
             }
         }
     };
@@ -37,5 +33,5 @@ module.exports = sequelize => {
         tableName: "user"
     };
 
-    return sequelize.define("user_model", attributes, options);
+    return sequelize.define("user", attributes, options);
 };
