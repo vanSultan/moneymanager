@@ -1,16 +1,21 @@
 const express = require('express');
-const config = require('config');
-const { Sequelize } = require('sequelize');
+const {app: appConfig} = require('./config/config');
+const db = require('./models');
+
+process.env.NODE_CONFIG_DIR = './config';
 
 const app = express();
-const sequelize = new Sequelize(config.get('postgresUri'));
+app.use(express.json());
 
-const PORT = config.get('port') || 5000;
+app.use('/api/auth', require('./routes/auth.routes'));
+app.use('/api/users', require('./routes/users.routes'));
+
+const PORT = appConfig.post || 5000;
 
 async function start() {
     try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.')
+        await db.sequelize.sync();
+        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
     } catch (e) {
         console.log('Server Error:', e.message);
         process.exit(1);
@@ -18,5 +23,3 @@ async function start() {
 }
 
 start().then(() => {});
-
-app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
