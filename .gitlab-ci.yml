@@ -1,21 +1,17 @@
-image: node:latest
-
 stages:
-  - build
+  - build_image
   - test
 
-cache:
-  paths:
-    - node_modules/
-
-install_dependencies:
-  stage: build
+build_image:
+  stage: build_image
+  image: docker:stable
+  before_script:
+    - docker info
   script:
-    - npm install
-  artifacts:
-    paths:
-      - node_modules/
+    - docker build -t moneyback .
 
-testing_testing:
+test:
   stage: test
-  script: npm test
+  script:
+    - docker run moneyback
+    - docker stop moneyback
