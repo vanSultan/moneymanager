@@ -1,0 +1,17 @@
+stages:
+  - build_image
+  - test
+
+build_image:
+  stage: build_image
+  image: docker:stable
+  before_script:
+    - docker info
+  script:
+    - docker build -t moneyback .
+
+test:
+  stage: test
+  script:
+    - docker run moneyback
+    - docker stop moneyback
