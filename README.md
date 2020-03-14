@@ -2,4 +2,4 @@
 
 Подробная информация о проекте указана в [wiki](../wikis/home).
 
-
+Сборка на travis-ci: [![Build Status](https://travis-ci.org/vanSultan/moneymanager.svg?branch=dev)](https://travis-ci.org/vanSultan/moneymanager)
