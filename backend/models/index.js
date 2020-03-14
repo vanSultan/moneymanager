@@ -1,13 +1,7 @@
-const Sequelize = require('sequelize');
+const {Sequelize} = require('sequelize');
 const {database: dbConfig} = require('../config/config');
 
-let sequelize;
-
-if (dbConfig.url) {
-    sequelize = new Sequelize(dbConfig.url, dbConfig);
-} else {
-    sequelize = new Sequelize(dbConfig)
-}
+const sequelize = new Sequelize(dbConfig);
 
 const db = {};
 
