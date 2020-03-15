@@ -1,0 +1,20 @@
+dist: bionic
+sudo: enabled
+
+language: node_js
+
+os:
+  - linux
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+
+env:
+  DOCKER_COMPOSE_VERSION: 3.7.0
+
+sript:
+  - docker-compose --version
+  - chmod +x docker-compose
