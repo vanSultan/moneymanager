@@ -7,11 +7,16 @@ os:
 services:
   - docker
 
-before_install:
-  - sudo apt-get update
-
-env:
-  - DOCKER_COMPOSE_VERSION=3.7.0
-
-sript:
+script:
   - docker-compose --version
+
+jobs:
+  include:
+    - stage: build
+      script: docker-compose build
+    - stage: run
+      script: docker-compose up
+    - stage: test
+      script: docker ps
+    - stage: deploy
+      script: docker-compose down
