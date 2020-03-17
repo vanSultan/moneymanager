@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node app.js",
         "server": "nodemon app.js",
-        "linter": "eslint -c .eslintrc.js "
+        "lint": "./node_modules/.bin/eslint ."
     },
     "repository": {
         "type": "git",
