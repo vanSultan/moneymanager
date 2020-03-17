@@ -12,6 +12,7 @@ before_install:
   - cd backend/
   - npm install
   - eslint --version
+  - npm i eslint-plugin-standard@latest --save-dev
   - eslint .
   - cd ..
 
