@@ -1,14 +1,27 @@
 dist: bionic
-sudo: enabled
 
-os:
-  - linux
+os: linux
+language: node_js
+node_js:
+  - "7"
 
 services:
   - docker
 
 before_install:
-  - docker build -t backend backend/
+  - cd backend/
+  - npm install
+  - npm i eslint-plugin-standard@latest --save-dev
+  - npm i eslint-plugin-promise@latest --save-dev
+  - eslint .
+  - cd ..
 
-install:
-  - docker-compose run backend tests
+script:
+  - docker image ls
+  - docker-compose run $DOCKERHUB_TOKEN/backend tests
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
+    docker push $DOCKERHUB_TOKEN/moneymanager;
+    fi
