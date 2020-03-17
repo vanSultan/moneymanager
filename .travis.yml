@@ -1,8 +1,6 @@
 dist: bionic
 sudo: enabled
 
-language: node_js
-
 os:
   - linux
 
@@ -10,11 +8,7 @@ services:
   - docker
 
 before_install:
-  - sudo apt-get update
+  - docker build -t backend backend/
 
-env:
-  DOCKER_COMPOSE_VERSION: 3.7.0
-
-sript:
-  - docker-compose --version
-  - chmod +x docker-compose
+install:
+  - docker-compose run backend tests
