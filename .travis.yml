@@ -6,9 +6,11 @@ services:
   - docker
 
 before_install:
+  - cd backend/
   - npm install
   - eslint --version
-  - eslint backend/
+  - eslint .
+  - cd ..
 
 script:
   - docker image ls
