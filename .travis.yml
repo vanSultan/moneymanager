@@ -4,8 +4,6 @@ os: linux
 language: node_js
 node_js:
   - "13"
-npm:
-  - "6"
 
 services:
   - docker
@@ -17,6 +15,7 @@ before_install:
   - cd ..
 
 script:
+  - docker build -t $DOCKERHUB_TOKEN/backend backend/
   - docker image ls
   - docker-compose run $DOCKERHUB_TOKEN/backend tests
 
