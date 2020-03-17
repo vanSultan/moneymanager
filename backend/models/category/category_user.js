@@ -1,39 +1,25 @@
-const {
-    DataTypes
-} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  const attributes = {
+    user_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      field: 'user_id',
+    },
+    category_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      field: 'category_id',
+    },
+    hidden_flag: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      field: 'hidden_flag',
+    },
+  };
 
-module.exports = sequelize => {
-    const attributes = {
-        user_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            field: "user_id",
-            references: {
-                key: "id",
-                model: "user_model"
-            }
-        },
-        category_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            field: "category_id",
-            references: {
-                key: "id",
-                model: "category_model"
-            }
-        },
-        hidden_flag: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            field: "hidden_flag"
-        }
-    };
+  const options = {
+    freezeTableName: true,
+  };
 
-    const options = {
-        tableName: "category_user"
-    };
-
-    return sequelize.define("category_user_model", attributes, options);
+  return sequelize.define('category_user', attributes, options);
 };

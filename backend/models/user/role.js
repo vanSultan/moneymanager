@@ -1,23 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
-    const attributes = {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            field: "id",
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.CHAR,
-            allowNull: false,
-            field: "name",
-            unique: "user_role_name_uindex"
-        }
-    };
+  const attributes = {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      field: 'id',
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.CHAR,
+      allowNull: false,
+      field: 'name',
+      unique: true,
+    },
+  };
 
-    const options = {
-        tableName: "role"
-    };
+  const options = {
+    freezeTableName: true,
+  };
 
-    return sequelize.define("role", attributes, options);
+  return sequelize.define('role', attributes, options);
 };
