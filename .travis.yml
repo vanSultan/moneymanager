@@ -1,6 +1,6 @@
 dist: bionic
 
-language: javascript
+language: nodejs
 
 services:
   - docker
@@ -14,7 +14,7 @@ before_install:
 
 script:
   - docker image ls
-  - docker-compose run backend tests
+  - docker-compose run $DOCKERHUB_TOKEN/backend tests
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
