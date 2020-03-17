@@ -13,6 +13,7 @@ before_install:
   - npm install
   - eslint --version
   - npm i eslint-plugin-standard@latest --save-dev
+  - npm i eslint-plugin-promise@latest --save-dev
   - eslint .
   - cd ..
 
