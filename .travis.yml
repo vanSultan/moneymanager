@@ -6,8 +6,8 @@ services:
   - docker
 
 before_install:
-  - eslint --version
   - npm install
+  - eslint --version
   - eslint backend/
 
 script:
@@ -17,5 +17,5 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
-    docker push $DOCKERHUB_TOKEN/elasticsearch;
+    docker push $DOCKERHUB_TOKEN/moneymanager;
     fi
