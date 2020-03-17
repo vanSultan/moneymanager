@@ -16,10 +16,9 @@ const dev = {
     "database": {
         storage: "./moneymanagerdb.sqlite3",
         dialect: 'sqlite',
-        options: {
-            define: {
-                timestamps: false
-            }
+        schema: 'money_manager',
+        define: {
+            timestamps: false
         }
     }
 };

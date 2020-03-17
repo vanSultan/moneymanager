@@ -18,19 +18,19 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             field: "password"
         },
-        role_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            field: "role_id",
-            references: {
-                key: "id",
-                model: "role"
-            }
-        }
+        // role_id: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: false,
+        //     field: "role_id",
+        //     references: {
+        //         model: 'role',
+        //         key: 'id'
+        //     }
+        // }
     };
 
     const options = {
-        tableName: "user"
+        freezeTableName: true
     };
 
     return sequelize.define("user", attributes, options);

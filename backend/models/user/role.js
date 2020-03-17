@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     const options = {
-        tableName: "role"
+        freezeTableName: true
     };
 
     return sequelize.define("role", attributes, options);
