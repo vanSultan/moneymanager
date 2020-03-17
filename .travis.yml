@@ -11,9 +11,7 @@ services:
 before_install:
   - cd backend/
   - npm install
-  - npm i eslint-plugin-standard@latest --save-dev
-  - npm i eslint-plugin-promise@latest --save-dev
-  - eslint .
+  - npm run lint
   - cd ..
 
 script:
