@@ -1,6 +1,6 @@
 const express = require('express');
-const {app: appConfig} = require('./config/config');
-const {db} = require('./models');
+const { app: appConfig } = require('./config/config');
+const { db } = require('./models');
 
 process.env.NODE_CONFIG_DIR = './config';
 
@@ -13,13 +13,15 @@ app.use('/api/users', require('./routes/users.routes'));
 const PORT = appConfig.port;
 
 async function start() {
-    try {
-        await db.sequelize.sync();
-        app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
-    } catch (e) {
-        console.log('Server Error:', e.message);
-        process.exit(1);
-    }
+  try {
+    await db.sequelize.sync();
+    // eslint-disable-next-line no-console
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log('Server Error:', e.message);
+    process.exit(1);
+  }
 }
 
 start().then(() => {});
