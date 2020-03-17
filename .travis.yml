@@ -3,7 +3,9 @@ dist: bionic
 os: linux
 language: node_js
 node_js:
-  - "7"
+  - "13"
+npm:
+  - "6"
 
 services:
   - docker
