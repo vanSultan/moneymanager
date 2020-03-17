@@ -18,15 +18,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             field: "password"
         },
-        // role_id: {
-        //     type: DataTypes.INTEGER,
-        //     allowNull: false,
-        //     field: "role_id",
-        //     references: {
-        //         model: 'role',
-        //         key: 'id'
-        //     }
-        // }
+        role_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: "role_id",
+            references: {
+                model: 'role',
+                key: 'id'
+            }
+        }
     };
 
     const options = {
