@@ -21,7 +21,7 @@ services:
       args:
           PORT: ${NODE_PORT}
     command: run start
-    image: moneyback
+    image: ${DOCKERHUB_TOKEN}/moneyback
     container_name: backend
     restart: always
     ports:

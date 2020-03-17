@@ -1,14 +1,18 @@
 dist: bionic
-sudo: enabled
-
-os:
-  - linux
 
 services:
   - docker
 
 before_install:
-  - docker build -t backend backend/
+  - npm install eslint -g
+  - eslint backend/
 
-install:
+script:
+  - docker image ls
   - docker-compose run backend tests
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
+    docker push $DOCKERHUB_TOKEN/elasticsearch;
+    fi
