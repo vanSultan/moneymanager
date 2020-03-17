@@ -7,16 +7,8 @@ os:
 services:
   - docker
 
-script:
-  - docker-compose --version
+before_install:
+  - docker build -t backend backend/
 
-jobs:
-  include:
-    - stage: build
-      script: docker-compose build
-    - stage: run
-      script: docker-compose up
-    - stage: test
-      script: docker ps
-    - stage: deploy
-      script: docker-compose down
+install:
+  - docker-compose run backend tests
