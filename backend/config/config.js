@@ -29,13 +29,13 @@ const test = {
         "jwtSecret": JWT_SECRET || 'its secret code',
     },
     "database": {
-        database: POSTGRES_DATABASE || 'moneymanagerdb',
-        username: POSTGRES_USER || 'moneymanager',
-        password: POSTGRES_PASSWORD || 'mmpwd',
+        database: POSTGRES_DATABASE,
+        username: POSTGRES_USER,
+        password: POSTGRES_PASSWORD,
         dialect: 'postgres',
-        host: POSTGRES_HOST || 'localhost',
-        port: POSTGRES_PORT || '5432',
-        schema: POSTGRES_SCHEMA || 'money_manager',
+        host: POSTGRES_HOST,
+        port: POSTGRES_PORT,
+        schema: POSTGRES_SCHEMA,
         define: {
             timestamps: false
         }
