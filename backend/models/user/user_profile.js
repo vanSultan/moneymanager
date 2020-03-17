@@ -2,19 +2,14 @@ module.exports = (sequelize, DataTypes) => {
     const attributes = {
         user_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             primaryKey: true,
-            field: "user_id",
-            references: {
-                key: "id",
-                model: "user"
-            }
+            field: "user_id"
         },
         email: {
             type: DataTypes.CHAR,
             allowNull: false,
             field: "email",
-            unique: "user_profile_email_uindex"
+            unique: true
         },
         name: {
             type: DataTypes.CHAR,
@@ -29,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     const options = {
-        tableName: "user_profile"
+        freezeTableName: true
     };
 
     return sequelize.define("user_profile", attributes, options);

@@ -1,12 +1,7 @@
-const {
-    DataTypes
-} = require('sequelize');
-
-module.exports = sequelize => {
+module.exports = (sequelize, DataTypes) => {
     const attributes = {
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             primaryKey: true,
             field: "id",
             autoIncrement: true
@@ -15,23 +10,18 @@ module.exports = sequelize => {
             type: DataTypes.CHAR,
             allowNull: false,
             field: "name",
-            unique: "category_name_uindex"
+            unique: true
         },
         parent_category_id: {
             type: DataTypes.INTEGER,
-            allowNull: true,
             defaultValue: null,
-            field: "parent_category_id",
-            references: {
-                key: "id",
-                model: "category_model"
-            }
+            field: "parent_category_id"
         }
     };
 
     const options = {
-        tableName: "category"
+        freezeTableName: true
     };
 
-    return sequelize.define("category_model", attributes, options);
+    return sequelize.define("category", attributes, options);
 };

@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const sequelize = require('sequelize');
-const db = require('../models');
-const {UserProfile} = db;
+const {models} = require('../models');
+const {UserProfile} = models;
 const auth = require('../middleware/auth.middleware');
 const router = Router(sequelize);
 

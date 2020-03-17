@@ -1,12 +1,7 @@
-const {
-    DataTypes
-} = require('sequelize');
-
-module.exports = sequelize => {
+module.exports = (sequelize, DataTypes) => {
     const attributes = {
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             primaryKey: true,
             field: "id",
             autoIncrement: true
@@ -14,15 +9,14 @@ module.exports = sequelize => {
         type_name: {
             type: DataTypes.CHAR,
             allowNull: false,
-            primaryKey: false,
             field: "type_name",
-            unique: "account_type_type_name_uindex"
+            unique: true
         }
     };
 
     const options = {
-        tableName: "account_type"
+        freezeTableName: true
     };
 
-    return sequelize.define("account_type_model", attributes, options);
+    return sequelize.define("account_type", attributes, options);
 };

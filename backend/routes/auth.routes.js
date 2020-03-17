@@ -4,8 +4,8 @@ const {app: appConfig} = require('../config/config');
 const jwt = require('jsonwebtoken');
 const sequelize = require('sequelize');
 const {check, validationResult} = require('express-validator');
-const db = require('../models');
-const {User, Role} = db;
+const {models} = require('../models');
+const {User, Role} = models;
 
 const router = Router(sequelize);
 

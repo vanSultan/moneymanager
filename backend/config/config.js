@@ -19,7 +19,8 @@ const dev = {
         schema: 'money_manager',
         define: {
             timestamps: false
-        }
+        },
+        timestamp_now_function: 'current_timestamp'
     }
 };
 
@@ -38,7 +39,8 @@ const test = {
         schema: POSTGRES_SCHEMA,
         define: {
             timestamps: false
-        }
+        },
+        timestamp_now_function: 'now()'
     }
 };
 
@@ -57,7 +59,8 @@ const prod = {
         schema: POSTGRES_SCHEMA,
         define: {
             timestamps: false
-        }
+        },
+        timestamp_now_function: 'now()'
     }
 };
 
