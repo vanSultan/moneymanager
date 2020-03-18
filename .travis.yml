@@ -16,7 +16,7 @@ before_install:
 
 script:
   - docker-compose build
-  - docker-compose up
+  - docker-compose run backend test
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
