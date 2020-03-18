@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       field: 'user_id',
     },
     name: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'name',
     },

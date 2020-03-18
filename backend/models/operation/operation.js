@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       field: 'value',
     },
     comment: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       defaultValue: null,
       field: 'comment',
     },

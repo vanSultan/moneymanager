@@ -6,18 +6,18 @@ module.exports = (sequelize, DataTypes) => {
       field: 'user_id',
     },
     email: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'email',
       unique: true,
     },
     name: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'name',
     },
     surname: {
-      type: DataTypes.CHAR,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'surname',
     },
