@@ -17,7 +17,7 @@ before_install:
 script:
   - docker build -t $DOCKERHUB_TOKEN/backend backend/
   - docker image ls
-  - docker-compose run $DOCKERHUB_TOKEN/backend tests
+  - docker-compose run backend tests
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
