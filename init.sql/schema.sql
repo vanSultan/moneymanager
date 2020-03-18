@@ -20,10 +20,8 @@ SET row_security = off;
 -- Name: postgres; Type: SCHEMA; Schema: -; Owner: moneymanager
 --
 
-CREATE SCHEMA money_manager;
 
-
-ALTER SCHEMA money_manager OWNER TO moneymanager;
+ALTER SCHEMA public OWNER TO moneymanager;
 
 SET default_tablespace = '';
 
@@ -33,7 +31,7 @@ SET default_with_oids = false;
 -- Name: account; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.account (
+CREATE TABLE public.account (
     id integer NOT NULL,
     user_id integer NOT NULL,
     name character varying NOT NULL,
@@ -42,20 +40,20 @@ CREATE TABLE money_manager.account (
 );
 
 
-ALTER TABLE money_manager.account OWNER TO moneymanager;
+ALTER TABLE public.account OWNER TO moneymanager;
 
 --
 -- Name: TABLE account; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.account IS 'Счет';
+COMMENT ON TABLE public.account IS 'Счет';
 
 
 --
 -- Name: account_id_seq; Type: SEQUENCE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE SEQUENCE money_manager.account_id_seq
+CREATE SEQUENCE public.account_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -64,59 +62,59 @@ CREATE SEQUENCE money_manager.account_id_seq
     CACHE 1;
 
 
-ALTER TABLE money_manager.account_id_seq OWNER TO moneymanager;
+ALTER TABLE public.account_id_seq OWNER TO moneymanager;
 
 --
 -- Name: account_id_seq; Type: SEQUENCE OWNED BY; Schema: postgres; Owner: moneymanager
 --
 
-ALTER SEQUENCE money_manager.account_id_seq OWNED BY money_manager.account.id;
+ALTER SEQUENCE public.account_id_seq OWNED BY public.account.id;
 
 
 --
 -- Name: account_type; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.account_type (
+CREATE TABLE public.account_type (
     id integer NOT NULL,
     type_name character varying NOT NULL
 );
 
 
-ALTER TABLE money_manager.account_type OWNER TO moneymanager;
+ALTER TABLE public.account_type OWNER TO moneymanager;
 
 --
 -- Name: TABLE account_type; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.account_type IS 'Тип счета';
+COMMENT ON TABLE public.account_type IS 'Тип счета';
 
 
 --
 -- Name: category; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.category (
+CREATE TABLE public.category (
     id integer NOT NULL,
     name character varying NOT NULL,
     parent_category_id integer
 );
 
 
-ALTER TABLE money_manager.category OWNER TO moneymanager;
+ALTER TABLE public.category OWNER TO moneymanager;
 
 --
 -- Name: TABLE category; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.category IS 'Категория';
+COMMENT ON TABLE public.category IS 'Категория';
 
 
 --
 -- Name: category_id_seq; Type: SEQUENCE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE SEQUENCE money_manager.category_id_seq
+CREATE SEQUENCE public.category_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -125,40 +123,40 @@ CREATE SEQUENCE money_manager.category_id_seq
     CACHE 1;
 
 
-ALTER TABLE money_manager.category_id_seq OWNER TO moneymanager;
+ALTER TABLE public.category_id_seq OWNER TO moneymanager;
 
 --
 -- Name: category_id_seq; Type: SEQUENCE OWNED BY; Schema: postgres; Owner: moneymanager
 --
 
-ALTER SEQUENCE money_manager.category_id_seq OWNED BY money_manager.category.id;
+ALTER SEQUENCE public.category_id_seq OWNED BY public.category.id;
 
 
 --
 -- Name: category_user; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.category_user (
+CREATE TABLE public.category_user (
     user_id integer NOT NULL,
     category_id integer NOT NULL,
     hidden_flag boolean DEFAULT false NOT NULL
 );
 
 
-ALTER TABLE money_manager.category_user OWNER TO moneymanager;
+ALTER TABLE public.category_user OWNER TO moneymanager;
 
 --
 -- Name: TABLE category_user; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.category_user IS 'Пользовательская категрия';
+COMMENT ON TABLE public.category_user IS 'Пользовательская категрия';
 
 
 --
 -- Name: cell_type_id_seq; Type: SEQUENCE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE SEQUENCE money_manager.cell_type_id_seq
+CREATE SEQUENCE public.cell_type_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -167,39 +165,39 @@ CREATE SEQUENCE money_manager.cell_type_id_seq
     CACHE 1;
 
 
-ALTER TABLE money_manager.cell_type_id_seq OWNER TO moneymanager;
+ALTER TABLE public.cell_type_id_seq OWNER TO moneymanager;
 
 --
 -- Name: cell_type_id_seq; Type: SEQUENCE OWNED BY; Schema: postgres; Owner: moneymanager
 --
 
-ALTER SEQUENCE money_manager.cell_type_id_seq OWNED BY money_manager.account_type.id;
+ALTER SEQUENCE public.cell_type_id_seq OWNED BY public.account_type.id;
 
 
 --
 -- Name: external_entity; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.external_entity (
+CREATE TABLE public.external_entity (
     id integer NOT NULL,
     name character varying NOT NULL
 );
 
 
-ALTER TABLE money_manager.external_entity OWNER TO moneymanager;
+ALTER TABLE public.external_entity OWNER TO moneymanager;
 
 --
 -- Name: TABLE external_entity; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.external_entity IS 'Внешняя сущность';
+COMMENT ON TABLE public.external_entity IS 'Внешняя сущность';
 
 
 --
 -- Name: external_entity_id_seq; Type: SEQUENCE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE SEQUENCE money_manager.external_entity_id_seq
+CREATE SEQUENCE public.external_entity_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -208,40 +206,40 @@ CREATE SEQUENCE money_manager.external_entity_id_seq
     CACHE 1;
 
 
-ALTER TABLE money_manager.external_entity_id_seq OWNER TO moneymanager;
+ALTER TABLE public.external_entity_id_seq OWNER TO moneymanager;
 
 --
 -- Name: external_entity_id_seq; Type: SEQUENCE OWNED BY; Schema: postgres; Owner: moneymanager
 --
 
-ALTER SEQUENCE money_manager.external_entity_id_seq OWNED BY money_manager.external_entity.id;
+ALTER SEQUENCE public.external_entity_id_seq OWNED BY public.external_entity.id;
 
 
 --
 -- Name: external_entity_user; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.external_entity_user (
+CREATE TABLE public.external_entity_user (
     user_id integer NOT NULL,
     external_entity_id integer NOT NULL,
     popular_category_id integer
 );
 
 
-ALTER TABLE money_manager.external_entity_user OWNER TO moneymanager;
+ALTER TABLE public.external_entity_user OWNER TO moneymanager;
 
 --
 -- Name: TABLE external_entity_user; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.external_entity_user IS 'Пользовательская внешняя сущность';
+COMMENT ON TABLE public.external_entity_user IS 'Пользовательская внешняя сущность';
 
 
 --
 -- Name: operation; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.operation (
+CREATE TABLE public.operation (
     id integer NOT NULL,
     user_id integer NOT NULL,
     account_from_id integer,
@@ -255,20 +253,20 @@ CREATE TABLE money_manager.operation (
 );
 
 
-ALTER TABLE money_manager.operation OWNER TO moneymanager;
+ALTER TABLE public.operation OWNER TO moneymanager;
 
 --
 -- Name: TABLE operation; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.operation IS 'Операция';
+COMMENT ON TABLE public.operation IS 'Операция';
 
 
 --
 -- Name: operation_id_seq; Type: SEQUENCE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE SEQUENCE money_manager.operation_id_seq
+CREATE SEQUENCE public.operation_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -277,39 +275,39 @@ CREATE SEQUENCE money_manager.operation_id_seq
     CACHE 1;
 
 
-ALTER TABLE money_manager.operation_id_seq OWNER TO moneymanager;
+ALTER TABLE public.operation_id_seq OWNER TO moneymanager;
 
 --
 -- Name: operation_id_seq; Type: SEQUENCE OWNED BY; Schema: postgres; Owner: moneymanager
 --
 
-ALTER SEQUENCE money_manager.operation_id_seq OWNED BY money_manager.operation.id;
+ALTER SEQUENCE public.operation_id_seq OWNED BY public.operation.id;
 
 
 --
 -- Name: role; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.role (
+CREATE TABLE public.role (
     id integer NOT NULL,
     name character varying NOT NULL
 );
 
 
-ALTER TABLE money_manager.role OWNER TO moneymanager;
+ALTER TABLE public.role OWNER TO moneymanager;
 
 --
 -- Name: TABLE role; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.role IS 'Роль пользователя';
+COMMENT ON TABLE public.role IS 'Роль пользователя';
 
 
 --
 -- Name: user; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager."user" (
+CREATE TABLE public."user" (
     id integer NOT NULL,
     login character varying NOT NULL,
     password character varying NOT NULL,
@@ -317,20 +315,20 @@ CREATE TABLE money_manager."user" (
 );
 
 
-ALTER TABLE money_manager."user" OWNER TO moneymanager;
+ALTER TABLE public."user" OWNER TO moneymanager;
 
 --
 -- Name: TABLE "user"; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager."user" IS 'Пользователь';
+COMMENT ON TABLE public."user" IS 'Пользователь';
 
 
 --
 -- Name: user_id_seq; Type: SEQUENCE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE SEQUENCE money_manager.user_id_seq
+CREATE SEQUENCE public.user_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -339,20 +337,20 @@ CREATE SEQUENCE money_manager.user_id_seq
     CACHE 1;
 
 
-ALTER TABLE money_manager.user_id_seq OWNER TO moneymanager;
+ALTER TABLE public.user_id_seq OWNER TO moneymanager;
 
 --
 -- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: postgres; Owner: moneymanager
 --
 
-ALTER SEQUENCE money_manager.user_id_seq OWNED BY money_manager."user".id;
+ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 
 
 --
 -- Name: user_profile; Type: TABLE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE TABLE money_manager.user_profile (
+CREATE TABLE public.user_profile (
     user_id integer NOT NULL,
     email character varying NOT NULL,
     name character varying NOT NULL,
@@ -360,20 +358,20 @@ CREATE TABLE money_manager.user_profile (
 );
 
 
-ALTER TABLE money_manager.user_profile OWNER TO moneymanager;
+ALTER TABLE public.user_profile OWNER TO moneymanager;
 
 --
 -- Name: TABLE user_profile; Type: COMMENT; Schema: postgres; Owner: moneymanager
 --
 
-COMMENT ON TABLE money_manager.user_profile IS 'Профиль пользователя';
+COMMENT ON TABLE public.user_profile IS 'Профиль пользователя';
 
 
 --
 -- Name: user_role_id_seq; Type: SEQUENCE; Schema: postgres; Owner: moneymanager
 --
 
-CREATE SEQUENCE money_manager.user_role_id_seq
+CREATE SEQUENCE public.user_role_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -382,69 +380,69 @@ CREATE SEQUENCE money_manager.user_role_id_seq
     CACHE 1;
 
 
-ALTER TABLE money_manager.user_role_id_seq OWNER TO moneymanager;
+ALTER TABLE public.user_role_id_seq OWNER TO moneymanager;
 
 --
 -- Name: user_role_id_seq; Type: SEQUENCE OWNED BY; Schema: postgres; Owner: moneymanager
 --
 
-ALTER SEQUENCE money_manager.user_role_id_seq OWNED BY money_manager.role.id;
+ALTER SEQUENCE public.user_role_id_seq OWNED BY public.role.id;
 
 
 --
 -- Name: account id; Type: DEFAULT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.account ALTER COLUMN id SET DEFAULT nextval('money_manager.account_id_seq'::regclass);
+ALTER TABLE ONLY public.account ALTER COLUMN id SET DEFAULT nextval('public.account_id_seq'::regclass);
 
 
 --
 -- Name: account_type id; Type: DEFAULT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.account_type ALTER COLUMN id SET DEFAULT nextval('money_manager.cell_type_id_seq'::regclass);
+ALTER TABLE ONLY public.account_type ALTER COLUMN id SET DEFAULT nextval('public.cell_type_id_seq'::regclass);
 
 
 --
 -- Name: category id; Type: DEFAULT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.category ALTER COLUMN id SET DEFAULT nextval('money_manager.category_id_seq'::regclass);
+ALTER TABLE ONLY public.category ALTER COLUMN id SET DEFAULT nextval('public.category_id_seq'::regclass);
 
 
 --
 -- Name: external_entity id; Type: DEFAULT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.external_entity ALTER COLUMN id SET DEFAULT nextval('money_manager.external_entity_id_seq'::regclass);
+ALTER TABLE ONLY public.external_entity ALTER COLUMN id SET DEFAULT nextval('public.external_entity_id_seq'::regclass);
 
 
 --
 -- Name: operation id; Type: DEFAULT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.operation ALTER COLUMN id SET DEFAULT nextval('money_manager.operation_id_seq'::regclass);
+ALTER TABLE ONLY public.operation ALTER COLUMN id SET DEFAULT nextval('public.operation_id_seq'::regclass);
 
 
 --
 -- Name: role id; Type: DEFAULT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.role ALTER COLUMN id SET DEFAULT nextval('money_manager.user_role_id_seq'::regclass);
+ALTER TABLE ONLY public.role ALTER COLUMN id SET DEFAULT nextval('public.user_role_id_seq'::regclass);
 
 
 --
 -- Name: user id; Type: DEFAULT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager."user" ALTER COLUMN id SET DEFAULT nextval('money_manager.user_id_seq'::regclass);
+ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 
 
 --
 -- Data for Name: account; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.account (id, user_id, name, type_id, balance) FROM stdin;
+COPY public.account (id, user_id, name, type_id, balance) FROM stdin;
 \.
 
 
@@ -452,7 +450,7 @@ COPY money_manager.account (id, user_id, name, type_id, balance) FROM stdin;
 -- Data for Name: account_type; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.account_type (id, type_name) FROM stdin;
+COPY public.account_type (id, type_name) FROM stdin;
 1	cash
 2	bank_card
 3	savings_account
@@ -463,7 +461,7 @@ COPY money_manager.account_type (id, type_name) FROM stdin;
 -- Data for Name: category; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.category (id, name, parent_category_id) FROM stdin;
+COPY public.category (id, name, parent_category_id) FROM stdin;
 \.
 
 
@@ -471,7 +469,7 @@ COPY money_manager.category (id, name, parent_category_id) FROM stdin;
 -- Data for Name: category_user; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.category_user (user_id, category_id, hidden_flag) FROM stdin;
+COPY public.category_user (user_id, category_id, hidden_flag) FROM stdin;
 \.
 
 
@@ -479,7 +477,7 @@ COPY money_manager.category_user (user_id, category_id, hidden_flag) FROM stdin;
 -- Data for Name: external_entity; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.external_entity (id, name) FROM stdin;
+COPY public.external_entity (id, name) FROM stdin;
 \.
 
 
@@ -487,7 +485,7 @@ COPY money_manager.external_entity (id, name) FROM stdin;
 -- Data for Name: external_entity_user; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.external_entity_user (user_id, external_entity_id, popular_category_id) FROM stdin;
+COPY public.external_entity_user (user_id, external_entity_id, popular_category_id) FROM stdin;
 \.
 
 
@@ -495,7 +493,7 @@ COPY money_manager.external_entity_user (user_id, external_entity_id, popular_ca
 -- Data for Name: operation; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.operation (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment, system_date, user_date) FROM stdin;
+COPY public.operation (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment, system_date, user_date) FROM stdin;
 \.
 
 
@@ -503,7 +501,7 @@ COPY money_manager.operation (id, user_id, account_from_id, account_to_id, categ
 -- Data for Name: role; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.role (id, name) FROM stdin;
+COPY public.role (id, name) FROM stdin;
 1	user
 2	moderator
 \.
@@ -513,7 +511,7 @@ COPY money_manager.role (id, name) FROM stdin;
 -- Data for Name: user; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager."user" (id, login, password, role_id) FROM stdin;
+COPY public."user" (id, login, password, role_id) FROM stdin;
 \.
 
 
@@ -521,7 +519,7 @@ COPY money_manager."user" (id, login, password, role_id) FROM stdin;
 -- Data for Name: user_profile; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY money_manager.user_profile (user_id, email, name, surname) FROM stdin;
+COPY public.user_profile (user_id, email, name, surname) FROM stdin;
 \.
 
 
@@ -529,56 +527,56 @@ COPY money_manager.user_profile (user_id, email, name, surname) FROM stdin;
 -- Name: account_id_seq; Type: SEQUENCE SET; Schema: postgres; Owner: moneymanager
 --
 
-SELECT pg_catalog.setval('money_manager.account_id_seq', 1, false);
+SELECT pg_catalog.setval('public.account_id_seq', 1, false);
 
 
 --
 -- Name: category_id_seq; Type: SEQUENCE SET; Schema: postgres; Owner: moneymanager
 --
 
-SELECT pg_catalog.setval('money_manager.category_id_seq', 1, false);
+SELECT pg_catalog.setval('public.category_id_seq', 1, false);
 
 
 --
 -- Name: cell_type_id_seq; Type: SEQUENCE SET; Schema: postgres; Owner: moneymanager
 --
 
-SELECT pg_catalog.setval('money_manager.cell_type_id_seq', 3, true);
+SELECT pg_catalog.setval('public.cell_type_id_seq', 3, true);
 
 
 --
 -- Name: external_entity_id_seq; Type: SEQUENCE SET; Schema: postgres; Owner: moneymanager
 --
 
-SELECT pg_catalog.setval('money_manager.external_entity_id_seq', 1, false);
+SELECT pg_catalog.setval('public.external_entity_id_seq', 1, false);
 
 
 --
 -- Name: operation_id_seq; Type: SEQUENCE SET; Schema: postgres; Owner: moneymanager
 --
 
-SELECT pg_catalog.setval('money_manager.operation_id_seq', 1, false);
+SELECT pg_catalog.setval('public.operation_id_seq', 1, false);
 
 
 --
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: postgres; Owner: moneymanager
 --
 
-SELECT pg_catalog.setval('money_manager.user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_id_seq', 1, false);
 
 
 --
 -- Name: user_role_id_seq; Type: SEQUENCE SET; Schema: postgres; Owner: moneymanager
 --
 
-SELECT pg_catalog.setval('money_manager.user_role_id_seq', 2, true);
+SELECT pg_catalog.setval('public.user_role_id_seq', 2, true);
 
 
 --
 -- Name: account account_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.account
+ALTER TABLE ONLY public.account
     ADD CONSTRAINT account_pk PRIMARY KEY (id);
 
 
@@ -586,7 +584,7 @@ ALTER TABLE ONLY money_manager.account
 -- Name: category category_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.category
+ALTER TABLE ONLY public.category
     ADD CONSTRAINT category_pk PRIMARY KEY (id);
 
 
@@ -594,7 +592,7 @@ ALTER TABLE ONLY money_manager.category
 -- Name: category_user category_user_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.category_user
+ALTER TABLE ONLY public.category_user
     ADD CONSTRAINT category_user_pk PRIMARY KEY (user_id, category_id);
 
 
@@ -602,7 +600,7 @@ ALTER TABLE ONLY money_manager.category_user
 -- Name: account_type cell_type_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.account_type
+ALTER TABLE ONLY public.account_type
     ADD CONSTRAINT cell_type_pk PRIMARY KEY (id);
 
 
@@ -610,7 +608,7 @@ ALTER TABLE ONLY money_manager.account_type
 -- Name: external_entity external_entity_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.external_entity
+ALTER TABLE ONLY public.external_entity
     ADD CONSTRAINT external_entity_pk PRIMARY KEY (id);
 
 
@@ -618,7 +616,7 @@ ALTER TABLE ONLY money_manager.external_entity
 -- Name: external_entity_user external_entity_user_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.external_entity_user
+ALTER TABLE ONLY public.external_entity_user
     ADD CONSTRAINT external_entity_user_pk PRIMARY KEY (user_id, external_entity_id);
 
 
@@ -626,7 +624,7 @@ ALTER TABLE ONLY money_manager.external_entity_user
 -- Name: operation operation_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.operation
+ALTER TABLE ONLY public.operation
     ADD CONSTRAINT operation_pk PRIMARY KEY (id);
 
 
@@ -634,7 +632,7 @@ ALTER TABLE ONLY money_manager.operation
 -- Name: user user_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager."user"
+ALTER TABLE ONLY public."user"
     ADD CONSTRAINT user_pk PRIMARY KEY (id);
 
 
@@ -642,7 +640,7 @@ ALTER TABLE ONLY money_manager."user"
 -- Name: user_profile user_profile_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.user_profile
+ALTER TABLE ONLY public.user_profile
     ADD CONSTRAINT user_profile_pk PRIMARY KEY (user_id);
 
 
@@ -650,7 +648,7 @@ ALTER TABLE ONLY money_manager.user_profile
 -- Name: role user_role_pk; Type: CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.role
+ALTER TABLE ONLY public.role
     ADD CONSTRAINT user_role_pk PRIMARY KEY (id);
 
 
@@ -658,171 +656,173 @@ ALTER TABLE ONLY money_manager.role
 -- Name: account_type_type_name_uindex; Type: INDEX; Schema: postgres; Owner: moneymanager
 --
 
-CREATE UNIQUE INDEX account_type_type_name_uindex ON money_manager.account_type USING btree (type_name);
+CREATE UNIQUE INDEX account_type_type_name_uindex ON public.account_type USING btree (type_name);
 
 
 --
 -- Name: account_user_id_name_uindex; Type: INDEX; Schema: postgres; Owner: moneymanager
 --
 
-CREATE UNIQUE INDEX account_user_id_name_uindex ON money_manager.account USING btree (user_id, name);
+CREATE UNIQUE INDEX account_user_id_name_uindex ON public.account USING btree (user_id, name);
 
 
 --
 -- Name: category_name_uindex; Type: INDEX; Schema: postgres; Owner: moneymanager
 --
 
-CREATE UNIQUE INDEX category_name_uindex ON money_manager.category USING btree (name);
+CREATE UNIQUE INDEX category_name_uindex ON public.category USING btree (name);
 
 
 --
 -- Name: external_entity_name_uindex; Type: INDEX; Schema: postgres; Owner: moneymanager
 --
 
-CREATE UNIQUE INDEX external_entity_name_uindex ON money_manager.external_entity USING btree (name);
+CREATE UNIQUE INDEX external_entity_name_uindex ON public.external_entity USING btree (name);
 
 
 --
 -- Name: user_login_uindex; Type: INDEX; Schema: postgres; Owner: moneymanager
 --
 
-CREATE UNIQUE INDEX user_login_uindex ON money_manager."user" USING btree (login);
+CREATE UNIQUE INDEX user_login_uindex ON public."user" USING btree (login);
 
 
 --
 -- Name: user_profile_email_uindex; Type: INDEX; Schema: postgres; Owner: moneymanager
 --
 
-CREATE UNIQUE INDEX user_profile_email_uindex ON money_manager.user_profile USING btree (email);
+CREATE UNIQUE INDEX user_profile_email_uindex ON public.user_profile USING btree (email);
 
 
 --
 -- Name: user_role_name_uindex; Type: INDEX; Schema: postgres; Owner: moneymanager
 --
 
-CREATE UNIQUE INDEX user_role_name_uindex ON money_manager.role USING btree (name);
+CREATE UNIQUE INDEX user_role_name_uindex ON public.role USING btree (name);
 
 
 --
 -- Name: account account_account_type_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.account
-    ADD CONSTRAINT account_account_type_id_fk FOREIGN KEY (type_id) REFERENCES money_manager.account_type(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT account_account_type_id_fk FOREIGN KEY (type_id) REFERENCES public.account_type(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- Name: account account_user_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.account
-    ADD CONSTRAINT account_user_id_fk FOREIGN KEY (user_id) REFERENCES money_manager."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT account_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
 -- Name: category category_category_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.category
-    ADD CONSTRAINT category_category_id_fk FOREIGN KEY (parent_category_id) REFERENCES money_manager.category(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_category_id_fk FOREIGN KEY (parent_category_id) REFERENCES public.category(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- Name: category_user category_user_category_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.category_user
-    ADD CONSTRAINT category_user_category_id_fk FOREIGN KEY (category_id) REFERENCES money_manager.category(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public.category_user
+    ADD CONSTRAINT category_user_category_id_fk FOREIGN KEY (category_id) REFERENCES public.category(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- Name: category_user category_user_user_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.category_user
-    ADD CONSTRAINT category_user_user_id_fk FOREIGN KEY (user_id) REFERENCES money_manager."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.category_user
+    ADD CONSTRAINT category_user_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
 -- Name: external_entity_user external_entity_user_category_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.external_entity_user
-    ADD CONSTRAINT external_entity_user_category_id_fk FOREIGN KEY (popular_category_id) REFERENCES money_manager.category(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ONLY public.external_entity_user
+    ADD CONSTRAINT external_entity_user_category_id_fk FOREIGN KEY (popular_category_id) REFERENCES public.category(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
 -- Name: external_entity_user external_entity_user_external_entity_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.external_entity_user
-    ADD CONSTRAINT external_entity_user_external_entity_id_fk FOREIGN KEY (external_entity_id) REFERENCES money_manager.external_entity(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public.external_entity_user
+    ADD CONSTRAINT external_entity_user_external_entity_id_fk FOREIGN KEY (external_entity_id) REFERENCES public.external_entity(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- Name: external_entity_user external_entity_user_user_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.external_entity_user
-    ADD CONSTRAINT external_entity_user_user_id_fk FOREIGN KEY (user_id) REFERENCES money_manager."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.external_entity_user
+    ADD CONSTRAINT external_entity_user_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
 -- Name: operation operation_account_from_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.operation
-    ADD CONSTRAINT operation_account_from_id_fk FOREIGN KEY (account_from_id) REFERENCES money_manager.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public.operation
+    ADD CONSTRAINT operation_account_from_id_fk FOREIGN KEY (account_from_id) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- Name: operation operation_account_to_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.operation
-    ADD CONSTRAINT operation_account_to_id_fk FOREIGN KEY (account_to_id) REFERENCES money_manager.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public.operation
+    ADD CONSTRAINT operation_account_to_id_fk FOREIGN KEY (account_to_id) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- Name: operation operation_category_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.operation
-    ADD CONSTRAINT operation_category_id_fk FOREIGN KEY (category_id) REFERENCES money_manager.category(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public.operation
+    ADD CONSTRAINT operation_category_id_fk FOREIGN KEY (category_id) REFERENCES public.category(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- Name: operation operation_external_entity_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.operation
-    ADD CONSTRAINT operation_external_entity_id_fk FOREIGN KEY (external_entity_id) REFERENCES money_manager.external_entity(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ONLY public.operation
+    ADD CONSTRAINT operation_external_entity_id_fk FOREIGN KEY (external_entity_id) REFERENCES public.external_entity(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
 -- Name: operation operation_user_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.operation
-    ADD CONSTRAINT operation_user_id_fk FOREIGN KEY (user_id) REFERENCES money_manager."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.operation
+    ADD CONSTRAINT operation_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
 -- Name: user_profile user_profile_user_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager.user_profile
-    ADD CONSTRAINT user_profile_user_id_fk FOREIGN KEY (user_id) REFERENCES money_manager."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.user_profile
+    ADD CONSTRAINT user_profile_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
 -- Name: user user_user_role_id_fk; Type: FK CONSTRAINT; Schema: postgres; Owner: moneymanager
 --
 
-ALTER TABLE ONLY money_manager."user"
-    ADD CONSTRAINT user_user_role_id_fk FOREIGN KEY (role_id) REFERENCES money_manager.role(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_user_role_id_fk FOREIGN KEY (role_id) REFERENCES public.role(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
 -- PostgreSQL database dump complete
 --
+
+insert into public."user" ("login", "password", role_id) values ('existing_user', 'existing_passwrod', 1);
