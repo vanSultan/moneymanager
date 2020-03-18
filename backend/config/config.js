@@ -16,7 +16,6 @@ const dev = {
   database: {
     storage: './moneymanagerdb.sqlite3',
     dialect: 'sqlite',
-    schema: 'money_manager',
     define: {
       timestamps: false,
     },
@@ -36,7 +35,6 @@ const test = {
     dialect: 'postgres',
     host: POSTGRES_HOST,
     port: POSTGRES_PORT,
-    schema: POSTGRES_SCHEMA,
     define: {
       timestamps: false,
     },
@@ -56,7 +54,6 @@ const prod = {
     dialect: 'postgres',
     host: POSTGRES_HOST,
     port: POSTGRES_PORT,
-    schema: POSTGRES_SCHEMA,
     define: {
       timestamps: false,
     },
