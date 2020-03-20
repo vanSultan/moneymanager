@@ -1,7 +1,7 @@
 const express = require('express');
 const { app: appConfig } = require('./config/config');
-// const { db } = require('./models');
-// const initDatabase = require('./models/init_database');
+const { db } = require('./models');
+const initDatabase = require('./models/init_database');
 
 process.env.NODE_CONFIG_DIR = './config';
 
