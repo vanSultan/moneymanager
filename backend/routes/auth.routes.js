@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const { check, validationResult } = require('express-validator');
+const { createUser, getTokenOfUser } = require('../controllers/auth.controller');
+const logger = require('../config/logger').appLogger;
 
 const router = Router(sequelize);
-const { createUser, getTokenOfUser } = require('../controllers/auth.controller');
 
 // /auth/register
 router.post(
@@ -23,12 +24,11 @@ router.post(
         });
       }
 
-      await createUser(req, res);
+      return await createUser(req, res);
     } catch (e) {
-      res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+      logger.error(e.message);
+      return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }
-
-    return undefined;
   },
 );
 
@@ -50,12 +50,11 @@ router.post(
         });
       }
 
-      await getTokenOfUser(req, res);
+      return await getTokenOfUser(req, res);
     } catch (e) {
-      res.status(500).json({ message: 'Что-то не так, попробуйте снова' });
+      logger.error(e.message);
+      return res.status(500).json({ message: 'Что-то не так, попробуйте снова' });
     }
-
-    return undefined;
   },
 );
 

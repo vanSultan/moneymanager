@@ -1,3 +1,5 @@
+const logger = require('../../config/logger').appLogger;
+
 module.exports = function initCategory(CategoryModel) {
   CategoryModel.bulkCreate([
     { name: 'Прочее' },
@@ -10,5 +12,5 @@ module.exports = function initCategory(CategoryModel) {
     { name: 'Финансовые расходы' },
     { name: 'Доход' },
     // eslint-disable-next-line no-console
-  ]).catch(() => { console.log('Category have already been initialized'); });
+  ]).catch(() => { logger.info('Category have already been initialized'); });
 };

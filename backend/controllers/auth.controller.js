@@ -23,9 +23,7 @@ async function createUser(req, res) {
     role_id: userRole.id,
   });
 
-  res.status(201).json({ message: 'Пользователь создан' });
-
-  return undefined;
+  return res.status(201).json({ message: 'Пользователь создан' });
 }
 
 async function getTokenOfUser(req, res) {
@@ -49,9 +47,7 @@ async function getTokenOfUser(req, res) {
     { expiresIn: '1h' },
   );
 
-  res.json({ token, userId: user.id });
-
-  return undefined;
+  return res.status(200).json({ token, userId: user.id });
 }
 
 module.exports = {

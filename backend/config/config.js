@@ -1,3 +1,4 @@
+const logger = require('./logger').sqlLogger;
 require('dotenv').config();
 
 const {
@@ -20,6 +21,7 @@ const dev = {
       timestamps: false,
     },
     timestamp_now_function: 'current_timestamp',
+    logging: (msg) => logger.debug(msg),
   },
 };
 
@@ -58,6 +60,7 @@ const prod = {
       timestamps: false,
     },
     timestamp_now_function: 'now()',
+    logging: (msg) => logger.debug(msg),
   },
 };
 
