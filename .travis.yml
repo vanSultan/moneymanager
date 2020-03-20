@@ -23,5 +23,8 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
-    docker push $DOCKERHUB_TOKEN/moneymanager;
+    docker push $DOCKERHUB_TOKEN/moneyback;
     fi
+
+notifications:
+  email: false
