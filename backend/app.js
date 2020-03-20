@@ -15,8 +15,8 @@ const PORT = appConfig.port;
 
 async function start() {
   try {
-    // await db.sequelize.sync();
-    // initDatabase(db.models);
+    await db.sequelize.sync();
+    initDatabase(db.models);
     // eslint-disable-next-line no-console
     app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
