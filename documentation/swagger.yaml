@@ -37,6 +37,23 @@ paths:
                 $ref: '#/components/schemas/UserInfo'
         403:
           $ref: '#/components/responses/403'
+    post:
+      summary: "Добавить профиль пользователя"
+      security: 
+        - bearerAuth: []
+      tags:
+        - users
+      requestBody:
+        description: "Информация о пользователе"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInfo'
+      responses:
+        200:
+          description: "Профиль добавлен"
+        403:
+          $ref: '#/components/responses/403'
     put:
       summary: "Обновить информацию профиля пользователя"
       security: 
@@ -121,7 +138,7 @@ paths:
             schema:
               $ref: '#/components/schemas/LoginInfo'
       responses:
-        200:
+        201:
           description: "Новый пользователь зарегистрирован"
         409:
           description: "Невозможно зарегистрировать нового пользователя"
@@ -465,7 +482,7 @@ paths:
         403:
           $ref: '#/components/responses/403'
     delete:
-      summary: "Обновление информации о категории"
+      summary: "Удаление категории"
       security:
         - bearerAuth: []
       tags:
@@ -720,8 +737,6 @@ components:
     ErrorMessage:
       type: object
       properties:
-        code:
-          type: integer
         message:
           type: string
     ExternalEntity:
