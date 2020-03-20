@@ -2,10 +2,17 @@ const express = require('express');
 const { app: appConfig } = require('./config/config');
 const { db } = require('./models');
 const initDatabase = require('./models/init_database');
+const { appLogger, accessLoggerConsole, accessLoggerFile } = require('./config/logger');
 
 process.env.NODE_CONFIG_DIR = './config';
 
 const app = express();
+if (process.env.NODE_ENV !== 'prod') {
+  app.use(accessLoggerConsole);
+}
+if (process.env.NODE_ENV !== 'test') {
+  app.use(accessLoggerFile);
+}
 app.use(express.json());
 
 require('./routes')(app);
@@ -16,11 +23,9 @@ async function start() {
   try {
     await db.sequelize.sync();
     initDatabase(db.models);
-    // eslint-disable-next-line no-console
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () => appLogger.info(`App has been started on port ${PORT}...`));
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('Server Error:', e.message);
+    appLogger.error('Server Error:', e.message);
     process.exit(1);
   }
 }
