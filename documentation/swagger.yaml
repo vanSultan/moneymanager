@@ -482,7 +482,7 @@ paths:
         403:
           $ref: '#/components/responses/403'
     delete:
-      summary: "Обновление информации о категории"
+      summary: "Удаление категории"
       security:
         - bearerAuth: []
       tags:
