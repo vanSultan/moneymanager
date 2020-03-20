@@ -37,6 +37,23 @@ paths:
                 $ref: '#/components/schemas/UserInfo'
         403:
           $ref: '#/components/responses/403'
+    post:
+      summary: "Добавить профиль пользователя"
+      security: 
+        - bearerAuth: []
+      tags:
+        - users
+      requestBody:
+        description: "Информация о пользователе"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInfo'
+      responses:
+        200:
+          description: "Профиль добавлен"
+        403:
+          $ref: '#/components/responses/403'
     put:
       summary: "Обновить информацию профиля пользователя"
       security: 
