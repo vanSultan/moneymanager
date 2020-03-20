@@ -27,3 +27,5 @@ async function start() {
 }
 
 start().then(() => {});
+
+module.exports = app;
