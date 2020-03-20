@@ -1,0 +1,42 @@
+{
+    "name": "moneymanager",
+    "version": "1.0.0",
+    "description": "Подробная информация о проекте указана в [wiki](../wikis/home).",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "server": "nodemon app.js",
+        "lint": "./node_modules/.bin/eslint .",
+        "test": "mocha --timeout 10000"
+    },
+    "repository": {
+        "type": "git",
+        "url": "gitlab@git.iu7.bmstu.ru:sip16u393/moneymanager.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "config": "^3.3.0",
+        "dotenv": "^8.2.0",
+        "eslint-config-standard": "^14.1.0",
+        "express": "^4.17.1",
+        "express-validator": "^6.4.0",
+        "jsonwebtoken": "^8.5.1",
+        "pg": "^7.18.2",
+        "pg-hstore": "^2.3.3",
+        "sequelize": "^5.21.5"
+    },
+    "devDependencies": {
+        "concurrently": "^5.1.0",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-config-google": "^0.14.0",
+        "eslint-plugin-import": "^2.20.1",
+        "nodemon": "^2.0.2",
+        "sqlite3": "^4.1.1",
+        "chai": "^3.5.0",
+        "chai-http": "^2.0.1",
+        "mocha": "^2.4.5"
+    }
+}

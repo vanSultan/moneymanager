@@ -1,0 +1,25 @@
+dist: bionic
+
+os: linux
+language: node_js
+node_js:
+  - "13"
+
+services:
+  - docker
+
+before_install:
+  - cd backend/
+  - npm install
+  - npm run lint
+  - cd ..
+
+script:
+  - docker-compose build
+  - docker-compose run backend test
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
+    docker push $DOCKERHUB_TOKEN/moneymanager;
+    fi
