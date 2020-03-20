@@ -138,7 +138,7 @@ paths:
             schema:
               $ref: '#/components/schemas/LoginInfo'
       responses:
-        200:
+        201:
           description: "Новый пользователь зарегистрирован"
         409:
           description: "Невозможно зарегистрировать нового пользователя"
