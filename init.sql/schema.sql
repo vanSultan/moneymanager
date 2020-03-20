@@ -826,3 +826,12 @@ ALTER TABLE ONLY public."user"
 --
 
 insert into public."user" ("login", "password", role_id) values ('existing_user', 'existing_passwrod', 1);
+insert into public."category" ("name") values ('Прочее');
+insert into public."category" ("name") values ('Еда и напитки');
+insert into public."category" ("name") values ('Покупки');
+insert into public."category" ("name") values ('Жильё');
+insert into public."category" ("name") values ('Транспорт');
+insert into public."category" ("name") values ('Жизнь и развлечения');
+insert into public."category" ("name") values ('Связь, ПК');
+insert into public."category" ("name") values ('Финансовые расходы');
+insert into public."category" ("name") values ('Доход');
