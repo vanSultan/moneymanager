@@ -9,6 +9,7 @@ services:
   - docker
 
 before_install:
+  - apt update && apt upgrade
   - cd backend/
   - npm install
   - npm run lint
