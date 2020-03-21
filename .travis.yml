@@ -8,12 +8,8 @@ node_js:
 services:
   - docker
 
-cache: false
-
 before_install:
   - cd backend/
-  - npm install -g npm
-  - npm install -g node-gyp
   - npm install
   - npm run lint
   - cd ..
