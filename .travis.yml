@@ -5,15 +5,12 @@ language: node_js
 node_js:
   - "13"
 
-sudo: required
-
 services:
   - docker
 
 before_install:
-  - sudo apt update
-  - sudo apt-get install node-legacy
   - cd backend/
+  - rm package-lock.json && rm -rf node_modules && rm -rf ~/.node-gyp
   - npm install
   - npm run lint
   - cd ..
