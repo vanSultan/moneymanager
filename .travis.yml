@@ -9,6 +9,7 @@ services:
   - docker
 
 before_install:
+  - dpkg --compare-versions `npm -v` ge 6.14.3 || npm i -g npm@^6.14.3
   - cd backend/
   - npm install
   - npm run lint
