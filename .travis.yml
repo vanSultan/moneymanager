@@ -3,15 +3,13 @@ dist: bionic
 os: linux
 language: node_js
 node_js:
-  - "10.16.0"
+  - "13"
 
 services:
   - docker
 
 before_install:
   - cd backend/
-  - npm i -g npm@^6.14.3
-  - npm i -g node-gyp@latest && npm config set node_gyp "/usr/local/lib/node_modules/node-gyp/bin/node-gyp.js"
   - npm install
   - npm run lint
   - cd ..
