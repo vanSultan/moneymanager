@@ -11,6 +11,7 @@ services:
   - docker
 
 before_install:
+  - sudo apt update
   - sudo apt-get install node-legacy
   - cd backend/
   - npm install
