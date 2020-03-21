@@ -11,7 +11,7 @@ services:
   - docker
 
 before_install:
-  - sudo apt update && sudo apt upgrade -y
+  - sudo apt-get install build-essential
   - cd backend/
   - npm install
   - npm run lint
