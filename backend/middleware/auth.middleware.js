@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const jwtBlackList = require('jwt-blacklist')(jwt);
 const { app: appConfig } = require('../config/config');
 
 module.exports = (req, res, next) => {
@@ -13,7 +14,7 @@ module.exports = (req, res, next) => {
       return res.status(401).json({ message: 'Не установлен токен' });
     }
 
-    req.user = jwt.verify(token, appConfig.jwtSecret);
+    req.user = jwtBlackList.verify(token, appConfig.jwtSecret);
   } catch (e) {
     return res.status(401).json({ message: 'Ошибка при авторизации' });
   }

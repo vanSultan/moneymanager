@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const jwtBlackList = require('jwt-blacklist')(jwt);
 const { app: appConfig } = require('../config/config');
 const { models } = require('../models');
 
@@ -41,7 +42,7 @@ async function getTokenOfUser(req, res) {
     return res.status(400).json({ message: 'Неверный пароль, попробуйте снова' });
   }
 
-  const token = jwt.sign(
+  const token = jwtBlackList.sign(
     { userId: user.id },
     appConfig.jwtSecret,
     { expiresIn: '1h' },
@@ -50,7 +51,16 @@ async function getTokenOfUser(req, res) {
   return res.status(200).json({ token, userId: user.id });
 }
 
+async function destroyTokenOfUser(req, res) {
+  const token = req.headers.authorization.split(' ')[1]; // "Bearer TOKEN"
+
+  jwtBlackList.blacklist(token);
+
+  return res.status(200).json({ message: 'Токен успешно сброшен' });
+}
+
 module.exports = {
   createUser,
   getTokenOfUser,
+  destroyTokenOfUser,
 };
