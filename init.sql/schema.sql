@@ -826,6 +826,7 @@ ALTER TABLE ONLY public."user"
 --
 
 insert into public."user" ("login", "password", role_id) values ('existing_user', 'existing_password', 1);
+insert into public."user" ("login", "password", role_id) values ('new user', '$2a$12$dAIFnhO2kIljY0Y/c3hfi.EJxukhcCBBiXJgEQ0Ry3JdzotLCds.q', 1);
 insert into public."category" ("name") values ('Прочее');
 insert into public."category" ("name") values ('Еда и напитки');
 insert into public."category" ("name") values ('Покупки');
