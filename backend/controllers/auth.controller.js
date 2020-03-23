@@ -47,7 +47,7 @@ async function getTokenOfUser(req, res) {
     { expiresIn: '1h' },
   );
 
-  return res.status(200).json({ token, userId: user.id });
+  return res.status(200).json({ token });
 }
 
 module.exports = {
