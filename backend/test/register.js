@@ -6,12 +6,13 @@ chai.should();
 
 chai.use(chaiHttp);
 
+const user = {
+  login: 'new_user',
+  password: 'new_password',
+};
+
 describe('/POST user', () => {
   it('it should create new user', (done) => {
-    const user = {
-      login: 'new_user',
-      password: 'new_passwrod',
-    };
     chai.request(server)
       .post('/api/auth/register/')
       .send(user)
@@ -23,10 +24,8 @@ describe('/POST user', () => {
       });
   });
   it('it should return an error on existing user', (done) => {
-    const user = {
-      login: 'existing_user',
-      password: 'existing_password',
-    };
+    user.login = 'existing_user';
+    user.password = 'existing_password';
     chai.request(server)
       .post('/api/auth/register/')
       .send(user)
@@ -38,10 +37,8 @@ describe('/POST user', () => {
       });
   });
   it('it should return an error on invalid password (less then 6 chars)', (done) => {
-    const user = {
-      login: 'unknown user',
-      password: '',
-    };
+    user.login = 'unknown user';
+    user.password = '';
     chai.request(server)
       .post('/api/auth/register/')
       .send(user)

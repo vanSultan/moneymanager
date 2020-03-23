@@ -825,7 +825,7 @@ ALTER TABLE ONLY public."user"
 -- PostgreSQL database dump complete
 --
 
-insert into public."user" ("login", "password", role_id) values ('existing_user', 'existing_passwrod', 1);
+insert into public."user" ("login", "password", role_id) values ('existing_user', 'existing_password', 1);
 insert into public."category" ("name") values ('Прочее');
 insert into public."category" ("name") values ('Еда и напитки');
 insert into public."category" ("name") values ('Покупки');
