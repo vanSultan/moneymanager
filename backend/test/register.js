@@ -2,14 +2,11 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
 
-// eslint-disable-next-line no-unused-vars
-const should = chai.should();
+chai.should();
 
 chai.use(chaiHttp);
 
-// eslint-disable-next-line no-undef
 describe('/POST user', () => {
-  // eslint-disable-next-line no-undef
   it('it should create new user', (done) => {
     const user = {
       login: 'new_user',
@@ -25,11 +22,10 @@ describe('/POST user', () => {
         done();
       });
   });
-  // eslint-disable-next-line no-undef
   it('it should return an error on existing user', (done) => {
     const user = {
       login: 'existing_user',
-      password: 'existing_passwrod',
+      password: 'existing_password',
     };
     chai.request(server)
       .post('/api/auth/register/')
@@ -41,7 +37,6 @@ describe('/POST user', () => {
         done();
       });
   });
-  // eslint-disable-next-line no-undef
   it('it should return an error on invalid password (less then 6 chars)', (done) => {
     const user = {
       login: 'unknown user',
