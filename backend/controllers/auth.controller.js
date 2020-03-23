@@ -50,7 +50,13 @@ async function getTokenOfUser(req, res) {
   return res.status(200).json({ token, userId: user.id });
 }
 
+async function destroyTokenOfUser(req, res) {
+  // Реализуем на стороне клиента
+  return res.status(200).json({ message: 'Токен успешно сброшен' });
+}
+
 module.exports = {
   createUser,
   getTokenOfUser,
+  destroyTokenOfUser,
 };

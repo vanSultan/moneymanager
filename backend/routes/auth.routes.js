@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const { check, validationResult } = require('express-validator');
-const { createUser, getTokenOfUser } = require('../controllers/auth.controller');
+const { createUser, getTokenOfUser, destroyTokenOfUser } = require('../controllers/auth.controller');
 const logger = require('../config/logger').appLogger;
+const auth = require('../middleware/auth.middleware');
 
 const router = Router(sequelize);
 
@@ -57,5 +58,15 @@ router.post(
     }
   },
 );
+
+// /auth/logout
+router.get('/logout', auth, async (req, res) => {
+  try {
+    return await destroyTokenOfUser(req, res);
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+  }
+});
 
 module.exports = router;
