@@ -41,4 +41,20 @@ describe('/POST user', () => {
         done();
       });
   });
+  // eslint-disable-next-line no-undef
+  it('it should return an error on invalid password (less then 6 chars)', (done) => {
+    const user = {
+      login: 'unknown user',
+      password: '',
+    };
+    chai.request(server)
+      .post('/api/auth/register/')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.should.be.a('object');
+        res.body.message.should.be.equal('Некорректные данные при регистрации');
+        done();
+      });
+  });
 });
