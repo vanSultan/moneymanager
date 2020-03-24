@@ -49,7 +49,14 @@ async function getUserAccounts(userId) {
   return resultList;
 }
 
+async function getAccountTypes() {
+  return AccountType.findAll({
+    attributes: ['type_name'],
+  });
+}
+
 module.exports = {
   createAccount,
   getUserAccounts,
+  getAccountTypes,
 };

@@ -3,7 +3,7 @@ const sequelize = require('sequelize');
 const logger = require('../config/logger').appLogger;
 const auth = require('../middleware/auth.middleware');
 
-const { createAccount, getUserAccounts } = require('../controllers/accounts');
+const { createAccount, getUserAccounts, getAccountTypes } = require('../controllers/accounts');
 
 const router = Router(sequelize);
 
@@ -37,6 +37,19 @@ router.get(
       logger.info('Get all user\'s accounts');
       const list = await getUserAccounts(req.user.userId);
       return res.status(200).json({ list });
+    } catch (e) {
+      return res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  },
+);
+
+router.get(
+  '/types/',
+  auth,
+  async (req, res) => {
+    try {
+      const types = await getAccountTypes();
+      return res.status(200).json(types);
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
