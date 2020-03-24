@@ -8,6 +8,7 @@ const {
   getUserAccounts,
   getAccountTypes,
   getAccountById,
+  updateAccount,
 } = require('../controllers/accounts');
 
 const router = Router(sequelize);
@@ -41,7 +42,7 @@ router.get(
     try {
       logger.info('Get all user\'s accounts');
       const list = await getUserAccounts(req.user.userId);
-      return res.status(200).json({ list });
+      return res.status(200).json(list);
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
@@ -72,7 +73,22 @@ router.get(
       }
       return res.status(400).json({ message: 'Такого счета не существует' });
     } catch (e) {
-      logger.info(e.message);
+      return res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  },
+);
+
+router.put(
+  '/:accountId',
+  auth,
+  async (req, res) => {
+    try {
+      const code = await updateAccount(req.params.accountId, req.body, req.user.userId);
+      if (code !== undefined) {
+        return res.status(200).json({ message: 'Счет успешно обновлен' });
+      }
+      return res.status(403).json({ message: 'Счет не найден' });
+    } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
   },

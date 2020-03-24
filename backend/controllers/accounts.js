@@ -81,9 +81,42 @@ async function getAccountById(accountId, userId) {
   return undefined;
 }
 
+async function updateAccount(accountId, accountInfo, userId) {
+  if (accountId === undefined || accountInfo === undefined
+          || userId === undefined) return undefined;
+
+  if (await getAccountById(accountId, userId) !== undefined) {
+    const accountType = await AccountType.findOne({
+      attributes: ['id'],
+      where: {
+        type_name: accountInfo.type,
+      },
+    });
+
+    await Account.update(
+      {
+        name: accountInfo.name,
+        balance: accountInfo.balance,
+        type_id: accountType.id,
+      },
+      {
+        where: {
+          user_id: userId,
+          id: accountId,
+        },
+      },
+    );
+
+    return 0;
+  }
+
+  return undefined;
+}
+
 module.exports = {
   createAccount,
   getUserAccounts,
   getAccountTypes,
   getAccountById,
+  updateAccount,
 };
