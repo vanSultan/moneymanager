@@ -113,10 +113,27 @@ async function updateAccount(accountId, accountInfo, userId) {
   return undefined;
 }
 
+async function deleteAccount(accountId, userId) {
+  if (accountId === undefined || userId === undefined) return undefined;
+
+  if (await getAccountById(accountId, userId) !== undefined) {
+    await Account.destroy({
+      where: {
+        user_id: userId,
+        id: accountId,
+      },
+    });
+    return 0;
+  }
+
+  return undefined;
+}
+
 module.exports = {
   createAccount,
   getUserAccounts,
   getAccountTypes,
   getAccountById,
   updateAccount,
+  deleteAccount,
 };

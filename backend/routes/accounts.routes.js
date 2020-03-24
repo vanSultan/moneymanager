@@ -9,6 +9,7 @@ const {
   getAccountTypes,
   getAccountById,
   updateAccount,
+  deleteAccount,
 } = require('../controllers/accounts');
 
 const router = Router(sequelize);
@@ -86,6 +87,22 @@ router.put(
       const code = await updateAccount(req.params.accountId, req.body, req.user.userId);
       if (code !== undefined) {
         return res.status(200).json({ message: 'Счет успешно обновлен' });
+      }
+      return res.status(403).json({ message: 'Счет не найден' });
+    } catch (e) {
+      return res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  },
+);
+
+router.delete(
+  '/:accountId',
+  auth,
+  async (req, res) => {
+    try {
+      const code = await deleteAccount(req.params.accountId, req.user.userId);
+      if (code !== undefined) {
+        return res.status(200).json({ message: 'Счет успешно удален' });
       }
       return res.status(403).json({ message: 'Счет не найден' });
     } catch (e) {
