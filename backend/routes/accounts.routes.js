@@ -3,7 +3,12 @@ const sequelize = require('sequelize');
 const logger = require('../config/logger').appLogger;
 const auth = require('../middleware/auth.middleware');
 
-const { createAccount, getUserAccounts, getAccountTypes } = require('../controllers/accounts');
+const {
+  createAccount,
+  getUserAccounts,
+  getAccountTypes,
+  getAccountById,
+} = require('../controllers/accounts');
 
 const router = Router(sequelize);
 
@@ -51,6 +56,23 @@ router.get(
       const types = await getAccountTypes();
       return res.status(200).json(types);
     } catch (e) {
+      return res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  },
+);
+
+router.get(
+  '/:accountId',
+  auth,
+  async (req, res) => {
+    try {
+      const account = await getAccountById(req.params.accountId, req.user.userId);
+      if (account !== undefined) {
+        return res.status(200).json(account);
+      }
+      return res.status(400).json({ message: 'Такого счета не существует' });
+    } catch (e) {
+      logger.info(e.message);
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
   },

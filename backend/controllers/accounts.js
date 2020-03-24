@@ -55,8 +55,35 @@ async function getAccountTypes() {
   });
 }
 
+async function getAccountById(accountId, userId) {
+  if (accountId === undefined) return undefined;
+
+  const accountInfo = await Account.findOne({
+    include: [{
+      model: AccountType,
+    }],
+    where: {
+      id: accountId,
+      user_id: userId,
+    },
+    attributes: ['id', 'name', 'balance'],
+  });
+
+  if (accountInfo !== undefined) {
+    return {
+      id: accountInfo.id,
+      name: accountInfo.name,
+      balance: accountInfo.balance,
+      type_name: accountInfo.account_type.type_name,
+    };
+  }
+
+  return undefined;
+}
+
 module.exports = {
   createAccount,
   getUserAccounts,
   getAccountTypes,
+  getAccountById,
 };
