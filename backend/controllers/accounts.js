@@ -1,17 +1,9 @@
 const { models } = require('../models');
-const logger = require('../config/logger').appLogger;
 
 const { Account, AccountType } = models;
 
 async function createAccount(accountInfo, userId) {
-  logger.info(`accountInfo ${accountInfo}`);
-  logger.info(`userId ${userId}`);
-  logger.info('createAccount');
   if (accountInfo === undefined || userId === undefined) return undefined;
-  logger.info('createAccount');
-
-  logger.info(`accountInfo ${accountInfo}`);
-  logger.info(`userId ${userId}`);
 
   const accountType = await AccountType.findOne({
     attributes: ['id'],
@@ -19,8 +11,6 @@ async function createAccount(accountInfo, userId) {
       type_name: accountInfo.type,
     },
   });
-
-  logger.info(`accountType ${accountType}`);
 
   if (accountType != null) {
     return Account.create({
@@ -34,6 +24,32 @@ async function createAccount(accountInfo, userId) {
   return undefined;
 }
 
+async function getUserAccounts(userId) {
+  if (userId === undefined) return undefined;
+
+  const accountList = await Account.findAll({
+    include: [{
+      model: AccountType,
+    }],
+    where: {
+      user_id: userId,
+    },
+    attributes: ['id', 'name', 'balance'],
+  });
+  const resultList = [];
+  for (let i = 0; i < accountList.length; i += 1) {
+    resultList.push({
+      id: accountList[i].id,
+      name: accountList[i].name,
+      balance: accountList[i].balance,
+      type_name: accountList[i].account_type.type_name,
+    });
+  }
+
+  return resultList;
+}
+
 module.exports = {
   createAccount,
+  getUserAccounts,
 };

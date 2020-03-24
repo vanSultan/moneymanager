@@ -3,7 +3,7 @@ const sequelize = require('sequelize');
 const logger = require('../config/logger').appLogger;
 const auth = require('../middleware/auth.middleware');
 
-const { createAccount } = require('../controllers/accounts');
+const { createAccount, getUserAccounts } = require('../controllers/accounts');
 
 const router = Router(sequelize);
 
@@ -23,6 +23,20 @@ router.post(
       }
 
       return res.status(403).json({ message: 'Не получилось создать новый счет' });
+    } catch (e) {
+      return res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  },
+);
+
+router.get(
+  '/',
+  auth,
+  async (req, res) => {
+    try {
+      logger.info('Get all user\'s accounts');
+      const list = await getUserAccounts(req.user.userId);
+      return res.status(200).json({ list });
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
