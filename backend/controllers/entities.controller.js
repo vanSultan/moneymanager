@@ -128,3 +128,8 @@ async function getInfoById(entityId, userId) {
 
   return entityInfo;
 }
+
+module.exports = {
+  createEntityUser,
+  getInfoById,
+};
