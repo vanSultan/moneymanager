@@ -35,6 +35,22 @@ async function connectEntityUser(entityId, userId) {
 }
 
 /*
+  Удаляет связь Сущность-Пользователь
+ */
+async function deleteEntityUserConnection(entityId, userId) {
+  if (entityId === undefined || userId === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  return ExternalEntityUser.delete({
+    where: {
+      user_id: userId,
+      external_entity_id: entityId,
+    },
+  });
+}
+
+/*
   Получение id Сущности по имени
   В случае успеха возвращает ее id, иначе undefined
 */
@@ -103,6 +119,45 @@ async function createEntityUser(entityName, userId) {
   }
 
   return entityId;
+}
+
+async function checkEntityConnections(entityId) {
+  const connections = ExternalEntityUser.findAll({
+    where: {
+      external_entity_id: entityId,
+    },
+  });
+
+  return connections.length !== 0;
+}
+
+async function deleteExternalEntity(entityId) {
+  return ExternalEntity.delete({
+    where: {
+      id: entityId,
+    },
+  });
+}
+
+/*
+  Удаляет связь Сущность-Пользователь по id
+  Возвращет true, если связь была удалена, иначе false
+*/
+async function deleteEntityUser(entityId, userId) {
+  if (entityId === undefined || userId === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  if (await checkEntityUserConnection(entityId, userId) !== undefined) {
+    await deleteEntityUserConnection(entityId, userId);
+    if (await checkEntityConnections(entityId) === false) {
+      await deleteExternalEntity(entityId);
+    }
+  } else {
+    return false;
+  }
+
+  return true;
 }
 
 /*
