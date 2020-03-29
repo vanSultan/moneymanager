@@ -184,7 +184,34 @@ async function getInfoById(entityId, userId) {
   return entityInfo;
 }
 
+async function updateEntityUserRelation(entityId, newEntityId) {
+  return ExternalEntityUser.update({
+    external_entity_id: newEntityId,
+  }, {
+    where: {
+      external_entity_id: entityId,
+    },
+  });
+}
+
+async function updateEntityName(entityId, newEntityName, userId) {
+  if (entityId === undefined || newEntityName === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  if (await checkEntityUserConnection(entityId, userId) !== undefined) {
+    let newEntityId = await getEntityIdByName(newEntityName);
+    if (newEntityId === undefined) {
+      newEntityId = await createExternalEntity(newEntityName);
+    }
+    return await updateEntityUserRelation(entityId, newEntityId) !== undefined;
+  }
+  return false;
+}
+
 module.exports = {
   createEntityUser,
   getInfoById,
+  deleteEntityUser,
+  updateEntityName,
 };
