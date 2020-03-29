@@ -104,3 +104,27 @@ async function createEntityUser(entityName, userId) {
 
   return entityId;
 }
+
+/*
+  Получает информацию о внешней сущности по ее id и id пользователя.
+  Возвращает объект в случае успеха, undefined если пользователя нет такой сущности
+*/
+async function getInfoById(entityId, userId) {
+  if (entityId === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  let entityInfo;
+  const entityName = await getEntityNameById(entityId);
+  if (entityName !== undefined) {
+    const entityUser = await checkEntityUserConnection(entityId, userId);
+    if (entityUser !== undefined) {
+      entityInfo = {
+        name: entityName,
+        categoryId: entityUser.popular_category_id,
+      };
+    }
+  }
+
+  return entityInfo;
+}
