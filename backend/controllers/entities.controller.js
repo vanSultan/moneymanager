@@ -81,3 +81,26 @@ async function createExternalEntity(entityName) {
     name: entityName,
   });
 }
+
+/*
+  Создает новую внешнюю сущность, если такой не существует, а затем привязывает ее к пользователю
+  Вернет id внешней сущности в случае успеха, иначе undefined
+*/
+async function createEntityUser(entityName, userId) {
+  if (entityName === undefined || userId === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  let entityId = getEntityIdByName(entityName);
+  if (entityId === undefined) {
+    entityId = createExternalEntity(entityName);
+  }
+
+  if (await checkEntityUserConnection(entityId, userId) === undefined) {
+    await connectEntityUser(entityId, userId);
+  } else {
+    return undefined;
+  }
+
+  return entityId;
+}
