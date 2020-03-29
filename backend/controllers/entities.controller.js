@@ -18,3 +18,18 @@ async function checkEntityUserConnection(entityId, userId) {
     },
   });
 }
+
+/*
+Создает связь Пользователь-Внешняя сущность
+Возвращает сущность связи в случае успеха, иначе undefined
+ */
+async function connectEntityUser(entityId, userId) {
+  if (entityId === undefined || userId === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  return ExternalEntityUser.create({
+    user_id: userId,
+    external_entity_id: entityId,
+  });
+}
