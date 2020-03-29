@@ -67,3 +67,17 @@ async function getEntityNameById(entityId) {
     },
   }).name;
 }
+
+/*
+  Создает новую внешнюю сущность
+  В случае успеха возвращает ее id, иначе undefined
+*/
+async function createExternalEntity(entityName) {
+  if (entityName === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  return ExternalEntity.create({
+    name: entityName,
+  });
+}
