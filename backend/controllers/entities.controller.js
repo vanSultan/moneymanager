@@ -50,3 +50,20 @@ async function getEntityIdByName(entityName) {
     },
   }).id;
 }
+
+/*
+  Проверяет существование внешней сущности по id
+  В случае успеха возвращает ее имя, иначе undefined
+*/
+async function getEntityNameById(entityId) {
+  if (entityId === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  return ExternalEntity.findOne({
+    attributes: ['name'],
+    where: {
+      id: entityId,
+    },
+  }).name;
+}
