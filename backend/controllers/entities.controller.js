@@ -209,9 +209,37 @@ async function updateEntityName(entityId, newEntityName, userId) {
   return false;
 }
 
+async function getUserEntities(userId) {
+  if (userId === undefined) {
+    throw new Error('Undefined arguments');
+  }
+
+  const userEntities = [];
+  const entities = await ExternalEntityUser.getAll({
+    include: [{
+      model: ExternalEntity,
+    }],
+    where: {
+      user_id: userId,
+    },
+  });
+
+  if (entities !== undefined) {
+    for (let i = 0; i < entities.length; i += 1) {
+      userEntities.push({
+        id: entities[i].external_entity.id,
+        name: entities[i].external_entity.name,
+      });
+    }
+  }
+
+  return userEntities;
+}
+
 module.exports = {
   createEntityUser,
   getInfoById,
   deleteEntityUser,
   updateEntityName,
+  getUserEntities,
 };
