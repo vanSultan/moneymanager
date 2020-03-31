@@ -223,33 +223,28 @@ async function updateEntityName(entityId, newEntityName, userId) {
   return false;
 }
 
+/*
+  Получает внешние сущности пользователя
+  Возвращвет Promise<Array<Model>>
+*/
 async function getUserEntities(userId) {
   if (userId === undefined) {
-    throw new Error('Undefined arguments');
+    throw new Error('Нулевые аргументы');
   }
 
-  const userEntities = [];
-  const entities = await ExternalEntityUser.getAll({
+  return ExternalEntity.findAll({
     include: [{
-      model: ExternalEntity,
+      attributes: [],
+      model: ExternalEntityUser,
+      where: {
+        user_id: userId,
+      },
     }],
-    where: {
-      user_id: userId,
-    },
+    attributes: ['id', 'name'],
   });
-
-  if (entities !== undefined) {
-    for (let i = 0; i < entities.length; i += 1) {
-      userEntities.push({
-        id: entities[i].external_entity.id,
-        name: entities[i].external_entity.name,
-      });
-    }
-  }
-
-  return userEntities;
 }
 
 module.exports = {
   addEntityToUser,
+  getUserEntities,
 };
