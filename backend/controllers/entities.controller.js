@@ -5,27 +5,27 @@ const { ExternalEntity, ExternalEntityUser } = models;
 
 /*
   Проверяет существует ли связь между пользователем и сущностью
-  Возвращает сущность связи, если она существует, иначе undefined
+  Возвращает сущность связи, если она существует, иначе null
 */
-async function checkEntityUserConnection(entityId, userId) {
-  if (entityId === undefined || userId === undefined) {
-    throw new Error('Undefined arguments');
-  }
-
-  return ExternalEntityUser.findOne({
-    where: {
-      user_id: userId,
-      external_entity_id: entityId,
-    },
-  });
-}
+// async function checkEntityUserConnection(entityId, userId) {
+//   if (entityId === null || userId === null) {
+//     throw new Error('Undefined arguments');
+//   }
+//
+//   return ExternalEntityUser.findOne({
+//     where: {
+//       user_id: userId,
+//       external_entity_id: entityId,
+//     },
+//   });
+// }
 
 /*
   Создает связь Пользователь-Внешняя сущность
-  Возвращает id связи в случае успеха, иначе undefined
+  Возвращает id связи в случае успеха, иначе null
 */
 async function connectEntityUser(entityId, userId) {
-  if (entityId === undefined || userId === undefined) {
+  if (entityId === null || userId === null) {
     throw new Error('Undefined arguments');
   }
 
@@ -38,25 +38,25 @@ async function connectEntityUser(entityId, userId) {
 /*
   Удаляет связь Сущность-Пользователь
  */
-async function deleteEntityUserConnection(entityId, userId) {
-  if (entityId === undefined || userId === undefined) {
-    throw new Error('Undefined arguments');
-  }
-
-  return ExternalEntityUser.delete({
-    where: {
-      user_id: userId,
-      external_entity_id: entityId,
-    },
-  });
-}
+// async function deleteEntityUserConnection(entityId, userId) {
+//   if (entityId === null || userId === null) {
+//     throw new Error('Undefined arguments');
+//   }
+//
+//   return ExternalEntityUser.delete({
+//     where: {
+//       user_id: userId,
+//       external_entity_id: entityId,
+//     },
+//   });
+// }
 
 /*
   Получение id Сущности по имени
   Возвращает Promise<Model>
 */
 async function getEntityIdByName(entityName) {
-  if (entityName === undefined) {
+  if (entityName === null) {
     throw new Error('Нулевые аргументы');
   }
 
@@ -70,27 +70,27 @@ async function getEntityIdByName(entityName) {
 
 /*
   Проверяет существование внешней сущности по id
-  В случае успеха возвращает ее имя, иначе undefined
+  В случае успеха возвращает ее имя, иначе null
 */
-async function getEntityNameById(entityId) {
-  if (entityId === undefined) {
-    throw new Error('Undefined arguments');
-  }
-
-  return ExternalEntity.findOne({
-    attributes: ['name'],
-    where: {
-      id: entityId,
-    },
-  }).name;
-}
+// async function getEntityNameById(entityId) {
+//   if (entityId === null) {
+//     throw new Error('Undefined arguments');
+//   }
+//
+//   return ExternalEntity.findOne({
+//     attributes: ['name'],
+//     where: {
+//       id: entityId,
+//     },
+//   }).name;
+// }
 
 /*
   Создает новую внешнюю сущность
   В случае успеха возвращает Promise<Model>
 */
 async function createNewEntity(entityName) {
-  if (entityName === undefined) {
+  if (entityName === null) {
     throw new Error('Undefined arguments');
   }
 
@@ -104,7 +104,7 @@ async function createNewEntity(entityName) {
   Возвращает Promise<number>
 */
 async function addEntityToUser(entityName, userId) {
-  if (entityName === undefined || userId === undefined) {
+  if (entityName === null || userId === null) {
     throw new Error('Нулевые аргументы');
   }
 
@@ -135,106 +135,104 @@ async function addEntityToUser(entityName, userId) {
     });
 }
 
-async function checkEntityConnections(entityId) {
-  const connections = ExternalEntityUser.findAll({
-    where: {
-      external_entity_id: entityId,
-    },
-  });
-
-  return connections.length !== 0;
-}
-
-async function deleteExternalEntity(entityId) {
-  return ExternalEntity.delete({
-    where: {
-      id: entityId,
-    },
-  });
-}
+// async function checkEntityConnections(entityId) {
+//   const connections = ExternalEntityUser.findAll({
+//     where: {
+//       external_entity_id: entityId,
+//     },
+//   });
+//
+//   return connections.length !== 0;
+// }
+//
+// async function deleteExternalEntity(entityId) {
+//   return ExternalEntity.delete({
+//     where: {
+//       id: entityId,
+//     },
+//   });
+// }
 
 /*
   Удаляет связь Сущность-Пользователь по id
   Возвращет true, если связь была удалена, иначе false
 */
-async function deleteEntityUser(entityId, userId) {
-  if (entityId === undefined || userId === undefined) {
-    throw new Error('Undefined arguments');
-  }
-
-  if (await checkEntityUserConnection(entityId, userId) !== undefined) {
-    await deleteEntityUserConnection(entityId, userId);
-    if (await checkEntityConnections(entityId) === false) {
-      await deleteExternalEntity(entityId);
-    }
-  } else {
-    return false;
-  }
-
-  return true;
-}
+// async function deleteEntityUser(entityId, userId) {
+//   if (entityId === null || userId === null) {
+//     throw new Error('Undefined arguments');
+//   }
+//
+//   if (await checkEntityUserConnection(entityId, userId) !== null) {
+//     await deleteEntityUserConnection(entityId, userId);
+//     if (await checkEntityConnections(entityId) === false) {
+//       await deleteExternalEntity(entityId);
+//     }
+//   } else {
+//     return false;
+//   }
+//
+//   return true;
+// }
 
 /*
-  Получает информацию о внешней сущности по ее id и id пользователя.
-  Возвращает объект в случае успеха, undefined если пользователя нет такой сущности
+  Получает информацию о внешней сущности пользователя по ее id и id пользователя.
+  Возвращает Promise<Model>
 */
-async function getInfoById(entityId, userId) {
-  if (entityId === undefined) {
+async function getEntityInfo(entityId, userId) {
+  if (entityId === null || userId === null) {
     throw new Error('Undefined arguments');
   }
 
-  let entityInfo;
-  const entityName = await getEntityNameById(entityId);
-  if (entityName !== undefined) {
-    const entityUser = await checkEntityUserConnection(entityId, userId);
-    if (entityUser !== undefined) {
-      entityInfo = {
-        name: entityName,
-        categoryId: entityUser.popular_category_id,
-      };
-    }
-  }
-
-  return entityInfo;
-}
-
-async function updateEntityUserRelation(entityId, newEntityId) {
-  return ExternalEntityUser.update({
-    external_entity_id: newEntityId,
-  }, {
-    where: {
-      external_entity_id: entityId,
-    },
+  return ExternalEntity.findOne({
+    include: [{
+      attributes: ['popular_category_id'],
+      model: ExternalEntityUser,
+      where: {
+        user_id: userId,
+        external_entity_id: entityId,
+      },
+    }],
+    attributes: ['name'],
   });
 }
 
-async function updateEntityName(entityId, newEntityName, userId) {
-  if (entityId === undefined || newEntityName === undefined) {
-    throw new Error('Undefined arguments');
-  }
+// async function updateEntityUserRelation(entityId, newEntityId) {
+//   return ExternalEntityUser.update({
+//     external_entity_id: newEntityId,
+//   }, {
+//     where: {
+//       external_entity_id: entityId,
+//     },
+//   });
+// }
 
-  if (await checkEntityUserConnection(entityId, userId) !== undefined) {
-    let newEntityId = await getEntityIdByName(newEntityName);
-    if (newEntityId === undefined) {
-      newEntityId = await createExternalEntity(newEntityName);
-    }
-    return await updateEntityUserRelation(entityId, newEntityId) !== undefined;
-  }
-  return false;
-}
+// async function updateEntityName(entityId, newEntityName, userId) {
+//   if (entityId === null || newEntityName === null) {
+//     throw new Error('Undefined arguments');
+//   }
+//
+//   if (await checkEntityUserConnection(entityId, userId) !== null) {
+//     let newEntityId = await getEntityIdByName(newEntityName);
+//     if (newEntityId === null) {
+//       newEntityId = await createExternalEntity(newEntityName);
+//     }
+//     return await updateEntityUserRelation(entityId, newEntityId) !== null;
+//   }
+//   return false;
+// }
 
 /*
   Получает внешние сущности пользователя
   Возвращвет Promise<Array<Model>>
 */
 async function getUserEntities(userId) {
-  if (userId === undefined) {
+  if (userId === null) {
     throw new Error('Нулевые аргументы');
   }
 
   return ExternalEntity.findAll({
     include: [{
-      attributes: [],
+      attributes: ['popular_category_id'],
       model: ExternalEntityUser,
       where: {
         user_id: userId,
@@ -247,4 +245,5 @@ async function getUserEntities(userId) {
 module.exports = {
   addEntityToUser,
   getUserEntities,
+  getEntityInfo,
 };
