@@ -69,6 +69,8 @@ models.Operation.belongsTo(models.Category, { foreignKey: 'category_id', onDelet
 models.ExternalEntity.hasMany(models.Operation, { foreignKey: 'external_entity_id', onDelete: 'set null' });
 models.Operation.belongsTo(models.ExternalEntity, { foreignKey: 'external_entity_id', onDelete: 'set null' });
 
+models.ExternalEntity.hasMany(models.ExternalEntityUser, { foreignKey: 'external_entity_id' });
+
 db.models = models;
 
 module.exports = { db, models };
