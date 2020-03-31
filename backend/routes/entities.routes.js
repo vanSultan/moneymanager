@@ -8,6 +8,8 @@ const {
   getUserEntities,
   getEntityInfo,
   updateUserEntity,
+  deleteUserEntity,
+  deleteEntity,
 } = require('../controllers/entities.controller');
 
 const router = Router(sequelize);
@@ -101,6 +103,30 @@ router.put(
       return updateUserEntity(entityId, newEntityName, userId)
         .then(() => {
           res.status(200).json();
+        })
+        .catch(() => {
+          res.status(403).json({ message: 'Операция не выполнена' });
+        });
+    } catch (err) {
+      return res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  },
+);
+
+// /api/externalEntities/{entityId}
+router.delete(
+  '/:entityId',
+  auth,
+  async (req, res) => {
+    try {
+      const { userId } = req.user;
+      const { entityId } = req.params;
+      logger.info(`Пользователь ${userId} пытается удалить сущность ${entityId}`);
+
+      return deleteUserEntity(entityId, userId)
+        .then(() => {
+          deleteEntity(entityId);
+          return res.status(200).json();
         })
         .catch(() => {
           res.status(403).json({ message: 'Операция не выполнена' });
