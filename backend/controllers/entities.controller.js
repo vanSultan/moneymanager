@@ -155,9 +155,50 @@ async function updateUserEntity(entityId, newEntityName, userId) {
   });
 }
 
+/*
+  Удаляет Сущность, если пользователи ее не используют
+  Возвращает Promise<number>
+*/
+async function deleteEntity(entityId) {
+  if (entityId === null) return;
+
+  ExternalEntityUser.findAll({
+    where: {
+      external_entity_id: entityId,
+    },
+  }).then((list) => {
+    if (list.length === 0) {
+      ExternalEntity.destroy({
+        where: {
+          id: entityId,
+        },
+      });
+    }
+  });
+}
+
+/*
+  Удаляет внешнюю сущность у пользователя
+  Возвращает Promise<number>
+*/
+async function deleteUserEntity(entityId, userId) {
+  if (entityId === null || userId === null) {
+    throw new Error('Нулевые аргументы функции');
+  }
+
+  return ExternalEntityUser.destroy({
+    where: {
+      user_id: userId,
+      external_entity_id: entityId,
+    },
+  });
+}
+
 module.exports = {
   addEntityToUser,
   getUserEntities,
   getEntityInfo,
   updateUserEntity,
+  deleteUserEntity,
+  deleteEntity,
 };
