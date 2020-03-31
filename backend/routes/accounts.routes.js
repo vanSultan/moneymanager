@@ -10,10 +10,11 @@ const {
   getAccountById,
   updateAccount,
   deleteAccount,
-} = require('../controllers/accounts');
+} = require('../controllers/accounts.controller');
 
 const router = Router(sequelize);
 
+// /api/accounts/
 router.post(
   '/',
   auth,
@@ -21,15 +22,15 @@ router.post(
     logger.info('Create new account');
     try {
       const accountInfo = req.body;
-      const id = await createAccount(accountInfo, req.user.userId);
-
-      if (id !== undefined) {
-        return res.status(200).json({
-          accountId: id,
+      const { userId } = req.user;
+      return createAccount(accountInfo, userId)
+        .then((account) => {
+          const id = account.get('id');
+          res.status(201).json({ accountId: id });
+        })
+        .catch(() => {
+          res.status(403).json({ message: 'Не получилось создать новый счет' });
         });
-      }
-
-      return res.status(403).json({ message: 'Не получилось создать новый счет' });
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
