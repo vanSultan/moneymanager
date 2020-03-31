@@ -4,8 +4,7 @@ const logger = require('../config/logger').appLogger;
 const auth = require('../middleware/auth.middleware');
 
 const {
-  createEntityUser,
-  getInfoById,
+  addEntityToUser,
 } = require('../controllers/entities.controller');
 
 const router = Router(sequelize);
@@ -17,17 +16,13 @@ router.post(
   async (req, res) => {
     try {
       const entityName = req.body.name;
-      const { userId } = req.user.userId;
+      const { userId } = req.user;
+      logger.info(`Пользователь ${userId} хочет создать внешнюю сущность ${entityName}`);
 
-      logger.info(`User ${userId} tries to create new entity ${entityName}`);
-
-      const entityId = createEntityUser(entityName, userId);
-      if (entityId === undefined) {
-        return res.status(403).json({ message: 'Не удалось создать новую сущность' });
-      }
-
-      return res.status(200).json({ id: entityId });
-    } catch (e) {
+      return addEntityToUser(entityName, userId)
+        .then((entityId) => res.status(201).json({ id: entityId }))
+        .catch(() => res.status(403).json({ message: 'Не удалось добавить внешнюю сущность' }));
+    } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
   },

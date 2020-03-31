@@ -1,3 +1,4 @@
+const logger = require('../config/logger').appLogger;
 const { models } = require('../models');
 
 const { ExternalEntity, ExternalEntityUser } = models;
@@ -52,11 +53,11 @@ async function deleteEntityUserConnection(entityId, userId) {
 
 /*
   Получение id Сущности по имени
-  В случае успеха возвращает ее id, иначе undefined
+  Возвращает Promise<Model>
 */
 async function getEntityIdByName(entityName) {
   if (entityName === undefined) {
-    throw new Error('Undefined arguments');
+    throw new Error('Нулевые аргументы');
   }
 
   return ExternalEntity.findOne({
@@ -64,7 +65,7 @@ async function getEntityIdByName(entityName) {
     where: {
       name: entityName,
     },
-  }).id;
+  });
 }
 
 /*
@@ -86,9 +87,9 @@ async function getEntityNameById(entityId) {
 
 /*
   Создает новую внешнюю сущность
-  В случае успеха возвращает ее id, иначе undefined
+  В случае успеха возвращает Promise<Model>
 */
-async function createExternalEntity(entityName) {
+async function createNewEntity(entityName) {
   if (entityName === undefined) {
     throw new Error('Undefined arguments');
   }
@@ -99,26 +100,39 @@ async function createExternalEntity(entityName) {
 }
 
 /*
-  Создает новую внешнюю сущность, если такой не существует, а затем привязывает ее к пользователю
-  Вернет id внешней сущности в случае успеха, иначе undefined
+  Добавляет пользователю внешнюю сущность
+  Возвращает Promise<number>
 */
-async function createEntityUser(entityName, userId) {
+async function addEntityToUser(entityName, userId) {
   if (entityName === undefined || userId === undefined) {
-    throw new Error('Undefined arguments');
+    throw new Error('Нулевые аргументы');
   }
 
-  let entityId = getEntityIdByName(entityName);
-  if (entityId === undefined) {
-    entityId = createExternalEntity(entityName);
-  }
-
-  if (await checkEntityUserConnection(entityId, userId) === undefined) {
-    await connectEntityUser(entityId, userId);
-  } else {
-    return undefined;
-  }
-
-  return entityId;
+  return getEntityIdByName(entityName)
+    .then((entity) => {
+      if (entity === null) {
+        return createNewEntity(entityName);
+      }
+      return entity;
+    })
+    .then(
+      (entity) => {
+        if (entity === null) {
+          throw new Error('Не удалось создать сущность');
+        }
+        return connectEntityUser(entity.get('id'), userId);
+      },
+      () => { throw new Error('Не удалось создать новую сущность'); },
+    )
+    .then(
+      (entityUser) => entityUser.get('external_entity_id'),
+      () => {
+        throw new Error('Не удалось добавить пользователю новую сущность');
+      },
+    )
+    .catch((err) => {
+      throw err;
+    });
 }
 
 async function checkEntityConnections(entityId) {
@@ -237,9 +251,5 @@ async function getUserEntities(userId) {
 }
 
 module.exports = {
-  createEntityUser,
-  getInfoById,
-  deleteEntityUser,
-  updateEntityName,
-  getUserEntities,
+  addEntityToUser,
 };
