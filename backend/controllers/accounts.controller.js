@@ -2,26 +2,30 @@ const { models } = require('../models');
 
 const { Account, AccountType } = models;
 
+/*
+  Создание нового Счета
+  Возвращает Promise<Model>
+*/
 async function createAccount(accountInfo, userId) {
-  if (accountInfo === undefined || userId === undefined) return undefined;
+  if (accountInfo === undefined || userId === undefined) {
+    throw new Error('Нулевые аргументы');
+  }
 
-  const accountType = await AccountType.findOne({
+  return AccountType.findOne({
     attributes: ['id'],
     where: {
       type_name: accountInfo.type,
     },
-  });
-
-  if (accountType != null) {
-    return Account.create({
+  })
+    .then((accountType) => Account.create({
       user_id: userId,
       name: accountInfo.name,
-      type_id: accountType.dataValues.id,
+      type_id: accountType.get('id'),
       balance: accountInfo.balance,
+    }))
+    .catch((err) => {
+      throw err;
     });
-  }
-
-  return undefined;
 }
 
 async function getUserAccounts(userId) {
