@@ -6,6 +6,7 @@ const auth = require('../middleware/auth.middleware');
 const {
   addEntityToUser,
   getUserEntities,
+  getEntityInfo,
 } = require('../controllers/entities.controller');
 
 const router = Router(sequelize);
@@ -39,7 +40,42 @@ router.get(
       logger.info(`Пользователь ${userId} запросил список сущностей`);
       return getUserEntities(userId)
         .then((entitiesList) => {
-          res.status(200).json(entitiesList);
+          const list = [];
+          for (let i = 0; i < entitiesList.length; i += 1) {
+            list.push({
+              id: entitiesList[i].id,
+              name: entitiesList[i].name,
+              popular_category_id: entitiesList[i].external_entity_users[0].popular_category_id,
+            });
+          }
+          res.status(200).json(list);
+        })
+        .catch(() => {
+          res.status(403).json({ message: 'Ошибка доступа' });
+        });
+    } catch (err) {
+      return res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  },
+);
+
+// /api/externalEntities/{entityId}
+router.get(
+  '/:entityId',
+  auth,
+  async (req, res) => {
+    try {
+      const { userId } = req.user;
+      const { entityId } = req.params;
+      logger.info(`Пользователь ${userId} запросил информацию по сущности ${entityId}`);
+
+      return getEntityInfo(entityId, userId)
+        .then((entity) => {
+          const info = {
+            name: entity.name,
+            popular_category_id: entity.external_entity_users[0].popular_category_id,
+          };
+          return res.status(200).json(info);
         })
         .catch(() => {
           res.status(403).json({ message: 'Ошибка доступа' });
