@@ -29,14 +29,10 @@ async function getUserAccounts(userId) {
   }
 
   return Account.findAll({
-    include: [{
-      attributes: ['type_name'],
-      model: AccountType,
-    }],
     where: {
       user_id: userId,
     },
-    attributes: ['id', 'name', 'balance'],
+    attributes: ['id', 'name', 'balance', 'type_id'],
   });
 }
 
