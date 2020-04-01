@@ -72,6 +72,7 @@ router.get(
   auth,
   async (req, res) => {
     try {
+      logger.info(`Пользователь ${req.user.userId} хочет получить список типов счетов`);
       return getAccountTypes()
         .then((list) => res.status(200).json(list))
         .catch(() => res.status(403).json({ message: 'Ошибка доступа' }));
@@ -81,16 +82,26 @@ router.get(
   },
 );
 
+// /api/accounts/:accountId
 router.get(
   '/:accountId',
   auth,
   async (req, res) => {
     try {
-      const account = await getAccountById(req.params.accountId, req.user.userId);
-      if (account !== undefined) {
-        return res.status(200).json(account);
-      }
-      return res.status(400).json({ message: 'Такого счета не существует' });
+      const { userId } = req.user;
+      const { accountId } = req.params;
+
+      return getAccountById(accountId, userId)
+        .then((entity) => {
+          const accountInfo = {
+            id: entity.id,
+            name: entity.name,
+            balance: entity.balance,
+            type_name: entity.account_type.type_name,
+          };
+          return res.status(200).json(accountInfo);
+        })
+        .catch(() => res.status(400).json({ message: 'Такого счета не существует' }));
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
