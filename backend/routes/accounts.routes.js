@@ -54,7 +54,7 @@ router.get(
               id: list[i].id,
               name: list[i].name,
               balance: list[i].balance,
-              type_name: list[i].account_type.type_name,
+              type_id: list[i].type_id,
             });
           }
           res.status(200).json(resList);
@@ -90,6 +90,7 @@ router.get(
     try {
       const { userId } = req.user;
       const { accountId } = req.params;
+      logger.info(`Пользователь ${userId} запрашивает информацию по аккаунту ${accountId}`);
 
       return getAccountById(accountId, userId)
         .then((entity) => {
@@ -108,32 +109,38 @@ router.get(
   },
 );
 
+// /api/accounts/:accountId
 router.put(
   '/:accountId',
   auth,
   async (req, res) => {
     try {
-      const code = await updateAccount(req.params.accountId, req.body, req.user.userId);
-      if (code !== undefined) {
-        return res.status(200).json({ message: 'Счет успешно обновлен' });
-      }
-      return res.status(403).json({ message: 'Счет не найден' });
+      const { userId } = req.user;
+      const { accountId } = req.params;
+      const accountInfo = req.body;
+      logger.info(`Пользователь ${userId} хочет изменить счет ${accountId}`);
+
+      return updateAccount(accountId, accountInfo, userId)
+        .then(() => res.status(200).json({ message: 'Счет успешно обновлен' }))
+        .catch(() => res.status(403).json({ message: 'Счет не найден' }));
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
   },
 );
 
+// /api/accounts/:accountId
 router.delete(
   '/:accountId',
   auth,
   async (req, res) => {
     try {
-      const code = await deleteAccount(req.params.accountId, req.user.userId);
-      if (code !== undefined) {
-        return res.status(200).json({ message: 'Счет успешно удален' });
-      }
-      return res.status(403).json({ message: 'Счет не найден' });
+      const { userId } = req.user;
+      const { accountId } = req.params;
+      logger.info(`Пользователь ${userId} хочет удалить счет ${accountId}`);
+      return deleteAccount(accountId, userId)
+        .then(() => res.status(200).json({ message: 'Счет успешно удален' }))
+        .catch(() => res.status(403).json({ message: 'Счет не найден' }));
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
