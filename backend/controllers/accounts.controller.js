@@ -47,10 +47,12 @@ async function getUserAccounts(userId) {
   });
 }
 
+/*
+  Получение всех типов счетов с их id
+  Возвращает Promise<Array<Model>>
+*/
 async function getAccountTypes() {
-  return AccountType.findAll({
-    attributes: ['type_name'],
-  });
+  return AccountType.findAll();
 }
 
 async function getAccountById(accountId, userId) {
