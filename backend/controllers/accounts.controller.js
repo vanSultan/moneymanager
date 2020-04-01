@@ -33,7 +33,9 @@ async function createAccount(accountInfo, userId) {
   Возвращает Promise<Array<Model>>
 */
 async function getUserAccounts(userId) {
-  if (userId === undefined) return undefined;
+  if (userId === undefined) {
+    throw new Error('Нулевые аргументы');
+  }
 
   return Account.findAll({
     include: [{
@@ -55,11 +57,16 @@ async function getAccountTypes() {
   return AccountType.findAll();
 }
 
+/*
+  Получение информации по конкретному счету
+  Возвращает Promise<Model>
+*/
 async function getAccountById(accountId, userId) {
   if (accountId === undefined) return undefined;
 
-  const accountInfo = await Account.findOne({
+  return Account.findOne({
     include: [{
+      attributes: ['type_name'],
       model: AccountType,
     }],
     where: {
@@ -68,17 +75,6 @@ async function getAccountById(accountId, userId) {
     },
     attributes: ['id', 'name', 'balance'],
   });
-
-  if (accountInfo !== undefined) {
-    return {
-      id: accountInfo.id,
-      name: accountInfo.name,
-      balance: accountInfo.balance,
-      type_name: accountInfo.account_type.type_name,
-    };
-  }
-
-  return undefined;
 }
 
 async function updateAccount(accountId, accountInfo, userId) {
