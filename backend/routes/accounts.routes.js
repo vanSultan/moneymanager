@@ -66,13 +66,15 @@ router.get(
   },
 );
 
+// /api/accounts/types/
 router.get(
   '/types/',
   auth,
   async (req, res) => {
     try {
-      const types = await getAccountTypes();
-      return res.status(200).json(types);
+      return getAccountTypes()
+        .then((list) => res.status(200).json(list))
+        .catch(() => res.status(403).json({ message: 'Ошибка доступа' }));
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
