@@ -11,21 +11,12 @@ async function createAccount(accountInfo, userId) {
     throw new Error('Нулевые аргументы');
   }
 
-  return AccountType.findOne({
-    attributes: ['id'],
-    where: {
-      type_name: accountInfo.type,
-    },
-  })
-    .then((accountType) => Account.create({
-      user_id: userId,
-      name: accountInfo.name,
-      type_id: accountType.get('id'),
-      balance: accountInfo.balance,
-    }))
-    .catch((err) => {
-      throw err;
-    });
+  return Account.create({
+    user_id: userId,
+    name: accountInfo.name,
+    type_id: accountInfo.type_id,
+    balance: accountInfo.balance,
+  });
 }
 
 /*
@@ -62,7 +53,9 @@ async function getAccountTypes() {
   Возвращает Promise<Model>
 */
 async function getAccountById(accountId, userId) {
-  if (accountId === undefined) return undefined;
+  if (accountId === undefined) {
+    throw new Error('Нулевые аргументы');
+  }
 
   return Account.findOne({
     include: [{
@@ -77,36 +70,27 @@ async function getAccountById(accountId, userId) {
   });
 }
 
+/*
+  Обновление информации по конкретному счету
+  Возвращает Promise<Array<number, number>>
+*/
 async function updateAccount(accountId, accountInfo, userId) {
   if (accountId === undefined || accountInfo === undefined
           || userId === undefined) return undefined;
 
-  if (await getAccountById(accountId, userId) !== undefined) {
-    const accountType = await AccountType.findOne({
-      attributes: ['id'],
+  return Account.update(
+    {
+      name: accountInfo.name,
+      type_id: accountInfo.type_id,
+      balance: accountInfo.balance,
+    },
+    {
       where: {
-        type_name: accountInfo.type,
+        user_id: userId,
+        id: accountId,
       },
-    });
-
-    await Account.update(
-      {
-        name: accountInfo.name,
-        balance: accountInfo.balance,
-        type_id: accountType.id,
-      },
-      {
-        where: {
-          user_id: userId,
-          id: accountId,
-        },
-      },
-    );
-
-    return 0;
-  }
-
-  return undefined;
+    },
+  );
 }
 
 async function deleteAccount(accountId, userId) {
