@@ -7,7 +7,7 @@ const { Account, AccountType } = models;
   Возвращает Promise<Model>
 */
 async function createAccount(accountInfo, userId) {
-  if (accountInfo === undefined || userId === undefined) {
+  if (accountInfo === null || userId === null) {
     throw new Error('Нулевые аргументы');
   }
 
@@ -24,7 +24,7 @@ async function createAccount(accountInfo, userId) {
   Возвращает Promise<Array<Model>>
 */
 async function getUserAccounts(userId) {
-  if (userId === undefined) {
+  if (userId === null) {
     throw new Error('Нулевые аргументы');
   }
 
@@ -53,7 +53,7 @@ async function getAccountTypes() {
   Возвращает Promise<Model>
 */
 async function getAccountById(accountId, userId) {
-  if (accountId === undefined) {
+  if (accountId === null) {
     throw new Error('Нулевые аргументы');
   }
 
@@ -75,8 +75,9 @@ async function getAccountById(accountId, userId) {
   Возвращает Promise<Array<number, number>>
 */
 async function updateAccount(accountId, accountInfo, userId) {
-  if (accountId === undefined || accountInfo === undefined
-          || userId === undefined) return undefined;
+  if (accountId === null || accountInfo === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
 
   return Account.update(
     {
@@ -93,20 +94,21 @@ async function updateAccount(accountId, accountInfo, userId) {
   );
 }
 
+/*
+  Удаление пользовательского счета
+  Возвращает Promise<number>
+*/
 async function deleteAccount(accountId, userId) {
-  if (accountId === undefined || userId === undefined) return undefined;
-
-  if (await getAccountById(accountId, userId) !== undefined) {
-    await Account.destroy({
-      where: {
-        user_id: userId,
-        id: accountId,
-      },
-    });
-    return 0;
+  if (accountId === null || userId === null) {
+    throw new Error('Нулевые аргументы');
   }
 
-  return undefined;
+  return Account.destroy({
+    where: {
+      user_id: userId,
+      id: accountId,
+    },
+  });
 }
 
 module.exports = {
