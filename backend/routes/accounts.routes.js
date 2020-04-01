@@ -19,10 +19,10 @@ router.post(
   '/',
   auth,
   async (req, res) => {
-    logger.info('Create new account');
     try {
       const accountInfo = req.body;
       const { userId } = req.user;
+      logger.info(`Пользователь ${userId} хочет создать счет ${accountInfo}`);
       return createAccount(accountInfo, userId)
         .then((account) => {
           const id = account.get('id');
@@ -37,14 +37,29 @@ router.post(
   },
 );
 
+// /api/accounts/
 router.get(
   '/',
   auth,
   async (req, res) => {
     try {
-      logger.info('Get all user\'s accounts');
-      const list = await getUserAccounts(req.user.userId);
-      return res.status(200).json(list);
+      const { userId } = req.user;
+      logger.info(`Пользователь ${userId} хочет получить список счетов`);
+
+      return getUserAccounts(userId)
+        .then((list) => {
+          const resList = [];
+          for (let i = 0; i < list.length; i += 1) {
+            resList.push({
+              id: list[i].id,
+              name: list[i].name,
+              balance: list[i].balance,
+              type_name: list[i].account_type.type_name,
+            });
+          }
+          res.status(200).json(resList);
+        })
+        .catch(() => res.status(403).json({ message: 'Ошибка доступа' }));
     } catch (e) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
