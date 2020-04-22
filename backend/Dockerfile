@@ -1,4 +1,4 @@
-FROM node
+FROM node:13.13gi
 ARG PORT=8080
 WORKDIR /usr/src/app
 COPY package*.json ./
