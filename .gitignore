@@ -1,4 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+# sqlite
+*.sqlite3
+
 ### Node template
 # Logs
 logs
@@ -106,3 +110,4 @@ dist
 .tern-port
 
 .idea/
+.vscode/
