@@ -3,12 +3,13 @@ dist: bionic
 os: linux
 language: node_js
 node_js:
-  - "10"
+  - 13
 
 services:
   - docker
 
 before_install:
+  - node -v
   - cd backend/
   - npm install
   - npm run lint
