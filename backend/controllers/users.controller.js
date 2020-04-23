@@ -18,6 +18,24 @@ async function getUserProfile(userId) {
   );
 }
 
+/*
+  Создание нового профиля
+  Возвращает Promise<Model>
+ */
+async function createUserProfile(userProfileInfo, userId) {
+  if (userProfileInfo === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return UserProfile.create({
+    user_id: userId,
+    email: userProfileInfo.email,
+    name: userProfileInfo.name,
+    surname: userProfileInfo.surname,
+  });
+}
+
 module.exports = {
   getUserProfile,
+  createUserProfile,
 };
