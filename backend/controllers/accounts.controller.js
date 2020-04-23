@@ -8,7 +8,7 @@ const { Account, AccountType } = models;
 */
 async function createAccount(accountInfo, userId) {
   if (accountInfo === null || userId === null) {
-    throw new Error('Нулевые аргументы');
+    throw new Error('Нулевonst accountInfo = req.bodyые аргументы');
   }
 
   return Account.create({
@@ -52,17 +52,13 @@ async function getAccountById(accountId, userId) {
   if (accountId === null) {
     throw new Error('Нулевые аргументы');
   }
-
+  
   return Account.findOne({
-    include: [{
-      attributes: ['type_name'],
-      model: AccountType,
-    }],
     where: {
       id: accountId,
       user_id: userId,
     },
-    attributes: ['id', 'name', 'balance'],
+    attributes: ['id', 'name', 'balance', 'type_id'],
   });
 }
 
