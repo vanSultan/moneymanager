@@ -40,6 +40,7 @@ router.post('/profile', auth, async (req, res) => {
       .then(
         () => res.status(201).json({ message: 'Профиль добавлен' }),
         (e) => {
+          // TODO: добавить обработку ошибки, когда такой профиль уже существует
           logger.error(e.message);
           return res.status(500).json({ message: 'Ошибка сервера' });
         },
