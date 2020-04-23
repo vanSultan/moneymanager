@@ -6,6 +6,7 @@ const auth = require('../middleware/auth.middleware');
 const {
   getUserProfile,
   createUserProfile,
+  updateUserProfile,
 } = require('../controllers/users.controller');
 
 const router = Router(sequelize);
@@ -45,6 +46,25 @@ router.post('/profile', auth, async (req, res) => {
           return res.status(500).json({ message: 'Ошибка сервера' });
         },
       );
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// /users/profile
+router.put('/profile', auth, async (req, res) => {
+  try {
+    const userProfile = req.body;
+    const { userId } = req.user;
+    logger.debug(`Пользователь ${userId} хочет обновить профиль`);
+
+    return updateUserProfile(userProfile, userId)
+      .then(() => res.status(200).json({ message: 'Профиль обновлен' }))
+      .catch((e) => {
+        logger.error(e.message);
+        return res.status(500).json({ message: 'Ошибка сервера' });
+      });
   } catch (e) {
     logger.error(e.message);
     return res.status(500).json({ message: 'Ошибка сервера' });

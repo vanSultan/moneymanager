@@ -35,7 +35,31 @@ async function createUserProfile(userProfileInfo, userId) {
   });
 }
 
+/*
+  Обновление информации о профиле пользователя
+  Возвращает Promise
+ */
+async function updateUserProfile(userProfileInfo, userId) {
+  if (userProfileInfo === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return UserProfile.update(
+    {
+      email: userProfileInfo.email,
+      name: userProfileInfo.name,
+      surname: userProfileInfo.surname,
+    },
+    {
+      where: {
+        user_id: userId,
+      },
+    },
+  );
+}
+
 module.exports = {
   getUserProfile,
   createUserProfile,
+  updateUserProfile,
 };
