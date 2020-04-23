@@ -52,7 +52,7 @@ async function getAccountById(accountId, userId) {
   if (accountId === null) {
     throw new Error('Нулевые аргументы');
   }
-  
+
   return Account.findOne({
     where: {
       id: accountId,
