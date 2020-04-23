@@ -2,18 +2,20 @@ const { models } = require('../models');
 
 const { UserProfile } = models;
 
-async function getUserProfile(req, res) {
-  const userProfile = await UserProfile.findByPk(req.user.userId);
-
-  if (userProfile != null) {
-    return res.status(200).json({
-      name: userProfile.name,
-      surname: userProfile.surname,
-      email: userProfile.email,
-    });
+/*
+  Получение профиля пользователя
+  Возвращает Promise<Model>
+ */
+async function getUserProfile(userId) {
+  if (userId === null) {
+    throw new Error('Нулевые аргументы');
   }
 
-  return res.status(404).json({ message: 'Профиль не найден, создайте его' });
+  return UserProfile.findByPk(
+    userId, {
+      attributes: ['name', 'surname', 'email'],
+    },
+  );
 }
 
 module.exports = {
