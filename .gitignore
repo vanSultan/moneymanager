@@ -3,6 +3,8 @@
 # sqlite
 *.sqlite3
 
+package-lock.json
+
 ### Node template
 # Logs
 logs
