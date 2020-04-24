@@ -58,8 +58,25 @@ async function updateUserProfile(userProfileInfo, userId) {
   );
 }
 
+/*
+  Удаление пользовательского профиля
+  Возвращает Promise
+ */
+async function deleteUserProfile(userId) {
+  if (userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return UserProfile.destroy({
+    where: {
+      user_id: userId,
+    },
+  });
+}
+
 module.exports = {
   getUserProfile,
   createUserProfile,
   updateUserProfile,
+  deleteUserProfile,
 };

@@ -7,6 +7,7 @@ const {
   getUserProfile,
   createUserProfile,
   updateUserProfile,
+  deleteUserProfile,
 } = require('../controllers/users.controller');
 
 const router = Router(sequelize);
@@ -61,6 +62,24 @@ router.put('/profile', auth, async (req, res) => {
 
     return updateUserProfile(userProfile, userId)
       .then(() => res.status(200).json({ message: 'Профиль обновлен' }))
+      .catch((e) => {
+        logger.error(e.message);
+        return res.status(500).json({ message: 'Ошибка сервера' });
+      });
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// /users/profile
+router.delete('/profile', auth, async (req, res) => {
+  try {
+    const { userId } = req.user;
+    logger.debug(`Пользователь ${userId} хочет удалить профиль`);
+
+    return deleteUserProfile(userId)
+      .then(() => res.status(200).json({ message: 'Профиль удален' }))
       .catch((e) => {
         logger.error(e.message);
         return res.status(500).json({ message: 'Ошибка сервера' });
