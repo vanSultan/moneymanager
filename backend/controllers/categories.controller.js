@@ -4,6 +4,25 @@ const logger = require('../config/logger').appLogger;
 const { Category, CategoryUser } = models;
 
 /*
+  Получение списка категорий доступных пользователю
+ */
+async function getCategoryUser(userId) {
+  if (userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return Category.findAll({
+    include: [{
+      attributes: ['hidden_flag'],
+      model: CategoryUser,
+      where: {
+        user_id: userId,
+      },
+    }],
+  });
+}
+
+/*
   Получение категории, созадание категории, если такой нет
   Возвращает Promise<model>
  */
@@ -45,5 +64,6 @@ async function createCategoryUser(categoryName, parentCategoryId, userId) {
 }
 
 module.exports = {
+  getCategoryUser,
   createCategoryUser,
 };
