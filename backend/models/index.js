@@ -40,6 +40,7 @@ models.Category.belongsTo(models.Category, { foreignKey: 'parent_category_id', o
 
 models.User.belongsToMany(models.Category, { foreignKey: 'user_id', through: 'category_user' });
 models.Category.belongsToMany(models.User, { foreignKey: 'category_id', through: 'category_user', onDelete: 'restrict' });
+models.Category.hasMany(models.CategoryUser, { foreignKey: 'category_id' });
 
 // ExternalEntity
 models.ExternalEntity = require('./external_entity/external_entity')(sequelize, Sequelize);
@@ -50,6 +51,7 @@ models.ExternalEntityUser.belongsTo(models.Category, { foreignKey: 'popular_cate
 
 models.User.belongsToMany(models.ExternalEntity, { foreignKey: 'user_id', through: 'external_entity_user' });
 models.ExternalEntity.belongsToMany(models.User, { foreignKey: 'external_entity_id', through: 'external_entity_user', onDelete: 'restrict' });
+models.ExternalEntity.hasMany(models.ExternalEntityUser, { foreignKey: 'external_entity_id' });
 
 // Operation
 models.Operation = require('./operation/operation')(sequelize, Sequelize);
