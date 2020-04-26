@@ -25,7 +25,7 @@ async function start() {
     initDatabase(db.models);
     app.listen(PORT, () => appLogger.info(`App has been started on port ${PORT}...`));
   } catch (e) {
-    appLogger.error(`Server Error: ${e.message}`);
+    appLogger.error('Server Error:', e.message);
     process.exit(1);
   }
 }

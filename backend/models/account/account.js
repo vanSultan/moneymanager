@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Account = sequelize.define('account', {
+  const attributes = {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -27,21 +27,16 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: '0',
       field: 'balance',
     },
-  }, {
+  };
+
+  const options = {
     freezeTableName: true,
     indexes: [{
       name: 'account_user_id_name_uindex',
       unique: true,
       fields: ['user_id', 'name'],
     }],
-  });
-
-  Account.associate = (models) => {
-    Account.belongsTo(models.AccountType, { foreignKey: 'type_id', onDelete: 'restrict' });
-    Account.belongsTo(models.User, { foreignKey: 'user_id' });
-    Account.hasMany(models.Operation, { foreignKey: 'account_from_id', onDelete: 'restrict' });
-    Account.hasMany(models.Operation, { foreignKey: 'account_to_id', onDelete: 'restrict' });
   };
 
-  return Account;
+  return sequelize.define('account', attributes, options);
 };

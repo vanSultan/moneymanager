@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const CategoryUser = sequelize.define('category_user', {
+  const attributes = {
     user_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,14 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       field: 'hidden_flag',
     },
-  }, {
-    freezeTableName: true,
-  });
-
-  CategoryUser.associate = (models) => {
-    CategoryUser.belongsTo(models.User, { targetKey: 'id', foreignKey: 'user_id' });
-    CategoryUser.belongsTo(models.Category, { targetKey: 'id', foreignKey: 'category_id' });
   };
 
-  return CategoryUser;
+  const options = {
+    freezeTableName: true,
+  };
+
+  return sequelize.define('category_user', attributes, options);
 };

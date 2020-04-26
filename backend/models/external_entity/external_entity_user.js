@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const ExternalEntityUser = sequelize.define('external_entity_user', {
+  const attributes = {
     user_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,13 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: null,
       field: 'popular_category_id',
     },
-  }, {
-    freezeTableName: true,
-  });
-
-  ExternalEntityUser.associate = (models) => {
-    ExternalEntityUser.belongsTo(models.Category, { foreignKey: 'popular_category_id', onDelete: 'set null' });
   };
 
-  return ExternalEntityUser;
+  const options = {
+    freezeTableName: true,
+  };
+
+  return sequelize.define('external_entity_user', attributes, options);
 };

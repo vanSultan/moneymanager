@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserProfile = sequelize.define('user_profile', {
+  const attributes = {
     user_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -21,13 +21,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       field: 'surname',
     },
-  }, {
-    freezeTableName: true,
-  });
-
-  UserProfile.associate = (models) => {
-    UserProfile.belongsTo(models.User, { foreignKey: 'user_id' });
   };
 
-  return UserProfile;
+  const options = {
+    freezeTableName: true,
+  };
+
+  return sequelize.define('user_profile', attributes, options);
 };

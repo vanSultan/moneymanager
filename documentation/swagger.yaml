@@ -35,8 +35,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserInfo'
-        204:
-          $ref: '#/components/responses/204'
         403:
           $ref: '#/components/responses/403'
     post:
@@ -658,12 +656,6 @@ paths:
           $ref: '#/components/responses/403'
 components:
   responses:
-    204:
-      description: "Информация отсутствует"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessage'
     403:
       description: "Ошибка доступа"
       content:

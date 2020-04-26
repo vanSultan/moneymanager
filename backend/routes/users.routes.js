@@ -1,92 +1,19 @@
 const { Router } = require('express');
 const sequelize = require('sequelize');
-const logger = require('../config/logger').appLogger;
-const auth = require('../middleware/auth.middleware');
 
-const {
-  getUserProfile,
-  createUserProfile,
-  updateUserProfile,
-  deleteUserProfile,
-} = require('../controllers/users.controller');
+const auth = require('../middleware/auth.middleware');
+const { getUserProfile } = require('../controllers/users.controller');
+const logger = require('../config/logger').appLogger;
 
 const router = Router(sequelize);
 
 // /users/profile
 router.get('/profile', auth, async (req, res) => {
   try {
-    const { userId } = req.user;
-    logger.debug(`Пользователь ${userId} хочет получить профиль`);
-
-    return getUserProfile(userId)
-      .then((model) => {
-        if (model === null) {
-          return res.status(204).json({ message: 'Информация отсутствует' });
-        }
-        return res.status(200).json(model);
-      });
+    return await getUserProfile(req, res);
   } catch (e) {
     logger.error(e.message);
-    return res.status(500).json({ message: 'Ошибка сервера' });
-  }
-});
-
-// /users/profile
-router.post('/profile', auth, async (req, res) => {
-  try {
-    const userProfileInfo = req.body;
-    const { userId } = req.user;
-    logger.debug(`Пользователь ${userId} хочет создать профиль`);
-
-    return createUserProfile(userProfileInfo, userId)
-      .then(
-        () => res.status(201).json({ message: 'Профиль добавлен' }),
-        (e) => {
-          // TODO: добавить обработку ошибки, когда такой профиль уже существует
-          logger.error(e.message);
-          return res.status(500).json({ message: 'Ошибка сервера' });
-        },
-      );
-  } catch (e) {
-    logger.error(e.message);
-    return res.status(500).json({ message: 'Ошибка сервера' });
-  }
-});
-
-// /users/profile
-router.put('/profile', auth, async (req, res) => {
-  try {
-    const userProfile = req.body;
-    const { userId } = req.user;
-    logger.debug(`Пользователь ${userId} хочет обновить профиль`);
-
-    return updateUserProfile(userProfile, userId)
-      .then(() => res.status(200).json({ message: 'Профиль обновлен' }))
-      .catch((e) => {
-        logger.error(e.message);
-        return res.status(500).json({ message: 'Ошибка сервера' });
-      });
-  } catch (e) {
-    logger.error(e.message);
-    return res.status(500).json({ message: 'Ошибка сервера' });
-  }
-});
-
-// /users/profile
-router.delete('/profile', auth, async (req, res) => {
-  try {
-    const { userId } = req.user;
-    logger.debug(`Пользователь ${userId} хочет удалить профиль`);
-
-    return deleteUserProfile(userId)
-      .then(() => res.status(200).json({ message: 'Профиль удален' }))
-      .catch((e) => {
-        logger.error(e.message);
-        return res.status(500).json({ message: 'Ошибка сервера' });
-      });
-  } catch (e) {
-    logger.error(e.message);
-    return res.status(500).json({ message: 'Ошибка сервера' });
+    return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
   }
 });
 

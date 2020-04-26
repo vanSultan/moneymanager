@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const AccountType = sequelize.define('account_type', {
+  const attributes = {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -12,13 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       field: 'type_name',
       unique: true,
     },
-  }, {
-    freezeTableName: true,
-  });
-
-  AccountType.associate = (models) => {
-    AccountType.hasMany(models.Account, { foreignKey: 'type_id', onDelete: 'restrict' });
   };
 
-  return AccountType;
+  const options = {
+    freezeTableName: true,
+  };
+
+  return sequelize.define('account_type', attributes, options);
 };
