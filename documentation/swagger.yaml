@@ -717,9 +717,6 @@ components:
     OperationInfoPost:
       type: object
       properties:
-        operationType:
-          type: integer
-          format: int64
         from:
           type: integer
         to:
@@ -741,9 +738,6 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-        operationType:
           type: integer
           format: int64
         from:
