@@ -741,7 +741,7 @@ components:
           type: integer
         value:
           type: number
-        userDate:
+        userDateTime:
           type: string
           format: date-time
         category:
