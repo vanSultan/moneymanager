@@ -171,6 +171,36 @@ async function getBaseCategories() {
   });
 }
 
+/*
+  Добавление базовых категорий новому пользовтелю
+  Возращает Promise
+ */
+async function initCategoriesToNewUser(userId) {
+  if (userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  const intUserId = parseInt(userId, 10);
+
+  return getBaseCategories()
+    .then((baseCategories) => {
+      const dataToInsert = [];
+      baseCategories.forEach((baseCategory) => {
+        dataToInsert.push({
+          user_id: intUserId,
+          category_id: baseCategory.id,
+          hidden_flag: false,
+        });
+      });
+
+      return CategoryUser.bulkCreate(dataToInsert, {
+        validate: true,
+        ignoreDuplicates: true,
+        logging: logger.debug,
+      });
+    });
+}
+
 module.exports = {
   getCategoriesUser,
   createCategoryUser,
@@ -178,4 +208,5 @@ module.exports = {
   updateCategoryUser,
   deleteCategoryUser,
   changeVisibleCategoryUser,
+  initCategoriesToNewUser,
 };
