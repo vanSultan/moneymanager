@@ -6,6 +6,7 @@ const auth = require('../middleware/auth.middleware');
 const {
   getCategoriesUser,
   createCategoryUser,
+  getCategoryUser,
 } = require('../controllers/categories.controller');
 
 const router = Router(sequelize);
@@ -49,6 +50,30 @@ router.post('/', auth, async (req, res) => {
 
     return createCategoryUser(categoryName, parentCategoryId, userId)
       .then((model) => res.status(201).json({ id: model.category_id }))
+      .catch((e) => {
+        logger.error(e.message);
+        return res.status(500).json({ message: 'Ошибка сервера' });
+      });
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// /categories/{categoryId}
+router.get('/:categoryId', auth, async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const { userId } = req.user;
+    logger.debug(`Пользователь ${userId} хочет получить категорию`);
+
+    return getCategoryUser(categoryId, userId)
+      .then((category) => res.status(200).json({
+        id: category.id,
+        name: category.name,
+        status: !category.category_users[0].hidden_flag,
+        parentCategoryId: category.parent_category_id,
+      }))
       .catch((e) => {
         logger.error(e.message);
         return res.status(500).json({ message: 'Ошибка сервера' });

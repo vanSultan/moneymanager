@@ -63,7 +63,29 @@ async function createCategoryUser(categoryName, parentCategoryId, userId) {
     );
 }
 
+/*
+  Получение категории пользователя
+  Возвращает Promise<Model>
+ */
+async function getCategoryUser(categoryId, userId) {
+  if (categoryId === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+  const catId = parseInt(categoryId, 10);
+
+  return Category.findByPk(catId, {
+    include: [{
+      attributes: ['hidden_flag'],
+      model: CategoryUser,
+      where: {
+        user_id: userId,
+      },
+    }],
+  });
+}
+
 module.exports = {
   getCategoriesUser,
   createCategoryUser,
+  getCategoryUser,
 };
