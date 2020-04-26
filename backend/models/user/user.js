@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const attributes = {
+  const User = sequelize.define('user', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -17,11 +17,21 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       field: 'password',
     },
-  };
-
-  const options = {
+  }, {
     freezeTableName: true,
+  });
+
+  User.associate = (models) => {
+    User.belongsTo(models.Role, { foreignKey: { name: 'role_id', allowNull: false }, onDelete: 'restrict' });
+    User.hasOne(models.UserProfile, { foreignKey: 'user_id' });
+    User.hasMany(models.Account, { foreignKey: 'user_id' });
+    User.hasMany(models.Operation, { foreignKey: 'user_id' });
+
+    User.belongsToMany(models.Category, { foreignKey: 'user_id', through: 'category_user' });
+    User.hasMany(models.CategoryUser, { foreignKey: 'user_id' });
+    User.belongsToMany(models.ExternalEntity, { foreignKey: 'user_id', through: 'external_entity_user' });
+    User.hasMany(models.ExternalEntityUser, { foreignKey: 'user_id' });
   };
 
-  return sequelize.define('user', attributes, options);
+  return User;
 };

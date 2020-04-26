@@ -1,7 +1,7 @@
 const { database: dbConfig } = require('../../config/config');
 
 module.exports = (sequelize, DataTypes) => {
-  const attributes = {
+  const Operation = sequelize.define('operation', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -56,11 +56,17 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: sequelize.literal(dbConfig.timestamp_now_function),
       field: 'updated_at',
     },
-  };
-
-  const options = {
+  }, {
     freezeTableName: true,
+  });
+
+  Operation.associate = (models) => {
+    Operation.belongsTo(models.User, { foreignKey: 'user_id' });
+    Operation.belongsTo(models.Account, { foreignKey: 'account_from_id', onDelete: 'restrict' });
+    Operation.belongsTo(models.Account, { foreignKey: 'account_to_id', onDelete: 'restrict' });
+    Operation.belongsTo(models.Category, { foreignKey: 'category_id', onDelete: 'restrict' });
+    Operation.belongsTo(models.ExternalEntity, { foreignKey: 'external_entity_id', onDelete: 'set null' });
   };
 
-  return sequelize.define('operation', attributes, options);
+  return Operation;
 };
