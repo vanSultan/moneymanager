@@ -259,5 +259,3 @@ describe('/api/accounts/', () => {
       .then(() => done());
   });
 });
-
-
