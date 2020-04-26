@@ -9,6 +9,7 @@ const {
   getCategoryUser,
   updateCategoryUser,
   deleteCategoryUser,
+  changeVisibleCategoryUser,
 } = require('../controllers/categories.controller');
 
 const router = Router(sequelize);
@@ -115,6 +116,25 @@ router.delete('/:categoryId', auth, async (req, res) => {
 
     return deleteCategoryUser(categoryId, userId)
       .then(() => res.status(200).json({ message: 'Категория удалена' }))
+      .catch((e) => {
+        logger.error(e.message);
+        return res.status(500).json({ message: 'Ошибка сервера' });
+      });
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// /categories/{categoryId}
+router.patch('/:categoryId', auth, async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const { userId } = req.user;
+    logger.debug(`Пользователь ${userId} хочет изменить видимость категории`);
+
+    return changeVisibleCategoryUser(categoryId, userId)
+      .then(() => res.status(200).json({ message: 'Видимость категории изменена' }))
       .catch((e) => {
         logger.error(e.message);
         return res.status(500).json({ message: 'Ошибка сервера' });

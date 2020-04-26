@@ -133,10 +133,37 @@ async function deleteCategoryUser(categoryId, userId) {
   });
 }
 
+/*
+  Изменение видимости категории
+  Возвращает Promise<Model>
+ */
+async function changeVisibleCategoryUser(categoryId, userId) {
+  if (categoryId === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return CategoryUser.findOne({
+    attributes: ['hidden_flag'],
+    where: {
+      user_id: userId,
+      category_id: categoryId,
+    },
+  }).then((category) => CategoryUser.update({
+    hidden_flag: !category.hidden_flag,
+  }, {
+    where: {
+      user_id: userId,
+      category_id: categoryId,
+    },
+  }));
+}
+
+
 module.exports = {
   getCategoriesUser,
   createCategoryUser,
   getCategoryUser,
   updateCategoryUser,
   deleteCategoryUser,
+  changeVisibleCategoryUser,
 };
