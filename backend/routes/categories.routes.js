@@ -8,6 +8,7 @@ const {
   createCategoryUser,
   getCategoryUser,
   updateCategoryUser,
+  deleteCategoryUser,
 } = require('../controllers/categories.controller');
 
 const router = Router(sequelize);
@@ -95,6 +96,25 @@ router.put('/:categoryId', auth, async (req, res) => {
 
     return updateCategoryUser(categoryId, categoryInfo, userId)
       .then(() => res.status(200).json({ message: 'Категория обновлена' }))
+      .catch((e) => {
+        logger.error(e.message);
+        return res.status(500).json({ message: 'Ошибка сервера' });
+      });
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// /categories/{categoryId}
+router.delete('/:categoryId', auth, async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const { userId } = req.user;
+    logger.debug(`Пользователь ${userId} хочет удалить информацию о категории`);
+
+    return deleteCategoryUser(categoryId, userId)
+      .then(() => res.status(200).json({ message: 'Категория удалена' }))
       .catch((e) => {
         logger.error(e.message);
         return res.status(500).json({ message: 'Ошибка сервера' });

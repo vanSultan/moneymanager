@@ -116,9 +116,27 @@ async function updateCategoryUser(categoryId, categoryInfo, userId) {
   ));
 }
 
+/*
+  Удаление категории
+  Возвращает Promise
+ */
+async function deleteCategoryUser(categoryId, userId) {
+  if (categoryId === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return CategoryUser.destroy({
+    where: {
+      user_id: userId,
+      category_id: categoryId,
+    },
+  });
+}
+
 module.exports = {
   getCategoriesUser,
   createCategoryUser,
   getCategoryUser,
   updateCategoryUser,
+  deleteCategoryUser,
 };
