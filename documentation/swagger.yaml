@@ -344,7 +344,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OperationInfo'
+              $ref: '#/components/schemas/OperationInfoPost'
       responses:
         201:
           description: "Операция сохранена"
@@ -353,7 +353,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  operationId:
+                  id:
                     description: "Идентификатор операции"
                     type: integer
         403:
@@ -393,7 +393,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OperationInfo'
+              $ref: '#/components/schemas/OperationInfoPost'
       responses:
         200:
           description: "Операция обновлена"
@@ -706,11 +706,12 @@ components:
           type: integer
         balance:
           type: number
-    OperationInfo:
+    OperationInfoPost:
       type: object
       properties:
         operationType:
-          type: string
+          type: integer
+          format: int64
         from:
           type: integer
         to:
@@ -721,7 +722,31 @@ components:
           type: string
           format: date-time
         category:
+          type: integer
+          format: int64
+        comment:
           type: string
+    OperationInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        operationType:
+          type: integer
+          format: int64
+        from:
+          type: integer
+        to:
+          type: integer
+        value:
+          type: number
+        userDate:
+          type: string
+          format: date-time
+        category:
+          type: integer
+          format: int64
         comment:
           type: string
     Category:
