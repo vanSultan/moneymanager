@@ -8,7 +8,7 @@ const { Account, AccountType } = models;
 */
 async function createAccount(accountInfo, userId) {
   if (accountInfo === null || userId === null) {
-    throw new Error('Нулевonst accountInfo = req.bodyые аргументы');
+    throw new Error('Нулевые аргументы');
   }
 
   return Account.create({
