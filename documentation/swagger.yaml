@@ -52,7 +52,7 @@ paths:
             schema:
               $ref: '#/components/schemas/UserInfo'
       responses:
-        200:
+        201:
           description: "Профиль добавлен"
         403:
           $ref: '#/components/responses/403'
@@ -175,9 +175,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccoutInfo'
+              properties:
+                name:
+                  type: string
+                type_id:
+                  type: integer
+                balance:
+                  type: integer
       responses:
-        200:
+        201:
           description: "Создан новый счет"
           content:
             application/json:
@@ -204,7 +210,11 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  properties:
+                    id:
+                      type: integer
+                    type_name:
+                      type: string
   /accounts/{accountId}:
     put:
       summary: "Изменение информации о счете"
@@ -224,7 +234,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccoutInfo'
+              properties:
+                name:
+                  type: string
+                type_id:
+                  type: integer
+                balance:
+                  type: integer
       responses:
         200:
           description: "Успешная операция"
@@ -330,16 +346,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OperationInfo'
+              $ref: '#/components/schemas/OperationInfoPost'
       responses:
-        200:
+        201:
           description: "Операция сохранена"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  operationId:
+                  id:
                     description: "Идентификатор операции"
                     type: integer
         403:
@@ -379,7 +395,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OperationInfo'
+              $ref: '#/components/schemas/OperationInfoPost'
       responses:
         200:
           description: "Операция обновлена"
@@ -423,7 +439,7 @@ paths:
                   type: integer
                   format: int64
       responses:
-        200:
+        201:
           description: "Идентификатор категории"
           content:
             application/json:
@@ -536,13 +552,8 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      format: int64
-                    name:
-                      type: string
+                  $ref: '#/components/schemas/ExternalEntity'
+                    
         403:
           $ref: '#/components/responses/403'
     post:
@@ -557,9 +568,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ExternalEntity'
+              properties:
+                name:
+                  type: string
       responses:
-        200:
+        201:
           description: "Идентификатор внешней сущности"
           content:
             application/json:
@@ -697,15 +710,16 @@ components:
           format: int64
         name:
           type: string
-        type:
-          type: string
+        type_id:
+          type: integer
         balance:
           type: number
-    OperationInfo:
+    OperationInfoPost:
       type: object
       properties:
         operationType:
-          type: string
+          type: integer
+          format: int64
         from:
           type: integer
         to:
@@ -716,7 +730,31 @@ components:
           type: string
           format: date-time
         category:
+          type: integer
+          format: int64
+        comment:
           type: string
+    OperationInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        operationType:
+          type: integer
+          format: int64
+        from:
+          type: integer
+        to:
+          type: integer
+        value:
+          type: number
+        userDateTime:
+          type: string
+          format: date-time
+        category:
+          type: integer
+          format: int64
         comment:
           type: string
     Category:
