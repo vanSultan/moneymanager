@@ -196,7 +196,6 @@ async function initCategoriesToNewUser(userId) {
       return CategoryUser.bulkCreate(dataToInsert, {
         validate: true,
         ignoreDuplicates: true,
-        logging: logger.debug,
       });
     });
 }
