@@ -71,9 +71,8 @@ async function getCategoryUser(categoryId, userId) {
   if (categoryId === null || userId === null) {
     throw new Error('Нулевые аргументы');
   }
-  const catId = parseInt(categoryId, 10);
 
-  return Category.findByPk(catId, {
+  return Category.findByPk(parseInt(categoryId, 10), {
     include: [{
       attributes: ['hidden_flag'],
       model: CategoryUser,
@@ -84,8 +83,42 @@ async function getCategoryUser(categoryId, userId) {
   });
 }
 
+/*
+  Обновление информации о категории
+  Возвращает Promise<Model>
+ */
+async function updateCategoryUser(categoryId, categoryInfo, userId) {
+  if (categoryId === null || categoryInfo === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return Category.update({
+    name: categoryInfo.name,
+    parent_category_id: categoryInfo.parentCategoryId,
+  }, {
+    where: {
+      id: categoryId,
+    },
+    include: [{
+      model: CategoryUser,
+      where: {
+        user_id: userId,
+      },
+    }],
+  }).then(() => CategoryUser.update(
+    { hidden_flag: !categoryInfo.status },
+    {
+      where: {
+        user_id: userId,
+        category_id: categoryId,
+      },
+    },
+  ));
+}
+
 module.exports = {
   getCategoriesUser,
   createCategoryUser,
   getCategoryUser,
+  updateCategoryUser,
 };
