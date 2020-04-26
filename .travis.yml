@@ -21,6 +21,9 @@ script:
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    /bin/bash/ stress_testing.sh;
+    fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
     docker push $DOCKERHUB_TOKEN/moneyback;
     fi
