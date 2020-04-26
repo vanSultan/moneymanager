@@ -158,6 +158,18 @@ async function changeVisibleCategoryUser(categoryId, userId) {
   }));
 }
 
+/*
+  Получение базовых категорий
+  Возвращает Promise<Array<Model>>
+ */
+async function getBaseCategories() {
+  return Category.findAll({
+    attributes: ['id', 'name'],
+    where: {
+      parent_category_id: null,
+    },
+  });
+}
 
 module.exports = {
   getCategoriesUser,
