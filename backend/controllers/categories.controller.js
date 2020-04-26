@@ -24,7 +24,7 @@ async function getCategoriesUser(userId) {
 
 /*
   Получение категории, созадание категории, если такой нет
-  Возвращает Promise<model>
+  Возвращает Promise<Array<model, created>>
  */
 async function getOrCreateCategory(categoryName, parentCategoryId) {
   if (categoryName === null || parentCategoryId === null) {
