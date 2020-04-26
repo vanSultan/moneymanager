@@ -729,7 +729,10 @@ components:
         userDate:
           type: string
           format: date-time
-        category:
+        categoryId:
+          type: integer
+          format: int64
+        externalEntityId:
           type: integer
           format: int64
         comment:
@@ -752,7 +755,10 @@ components:
         userDateTime:
           type: string
           format: date-time
-        category:
+        categoryId:
+          type: integer
+          format: int64
+        externalEntityId:
           type: integer
           format: int64
         comment:
