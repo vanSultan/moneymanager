@@ -4,7 +4,7 @@ const logger = require('../config/logger').appLogger;
 const auth = require('../middleware/auth.middleware');
 
 const {
-  getCategoryUser,
+  getCategoriesUser,
   createCategoryUser,
 } = require('../controllers/categories.controller');
 
@@ -16,7 +16,7 @@ router.get('/', auth, async (req, res) => {
     const { userId } = req.user;
     logger.debug(`Пользователь ${userId} хочет получить категории`);
 
-    return getCategoryUser(userId)
+    return getCategoriesUser(userId)
       .then((categoriesList) => {
         const list = [];
         for (let i = 0; i < categoriesList.length; i += 1) {

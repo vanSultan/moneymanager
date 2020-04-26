@@ -6,7 +6,7 @@ const { Category, CategoryUser } = models;
 /*
   Получение списка категорий доступных пользователю
  */
-async function getCategoryUser(userId) {
+async function getCategoriesUser(userId) {
   if (userId === null) {
     throw new Error('Нулевые аргументы');
   }
@@ -64,6 +64,6 @@ async function createCategoryUser(categoryName, parentCategoryId, userId) {
 }
 
 module.exports = {
-  getCategoryUser,
+  getCategoriesUser,
   createCategoryUser,
 };
