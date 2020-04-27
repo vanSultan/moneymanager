@@ -90,7 +90,25 @@ async function createOperation(operationInfo, userId) {
   });
 }
 
+/*
+  Удаление операции
+  Возвращает Promise<number>
+ */
+async function deleteOperation(operationId, userId) {
+  if (operationId === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return Operation.destroy({
+    where: {
+      id: operationId,
+      user_id: userId,
+    },
+  });
+}
+
 module.exports = {
   getOperations,
   createOperation,
+  deleteOperation,
 };
