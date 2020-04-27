@@ -41,15 +41,14 @@ describe('/api/operations', () => {
 });
 
 function loginUser(auth) {
-  return () => {
+  return (done) => {
     request
       .post('/api/auth/login/')
       .send(user)
       .end(onResponse);
+    function onResponse(err, res) {
+      auth.token = res.body.token;
+      return done();
+    }
   };
-
-  function onResponse(err, res) {
-    auth.token = res.body.token;
-    return done();
-  }
 }
