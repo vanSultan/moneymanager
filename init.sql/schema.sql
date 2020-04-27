@@ -826,37 +826,37 @@ ALTER TABLE ONLY public."user"
 --
 
 -- Роли
-insert into role (id, name)
+insert into public."role" (id, name)
 values (0, 'default_role');
 
 -- Пользователи
-insert into "user" (id, login, password, role_id)
+insert into public."user" (id, login, password, role_id)
 values (0, 'default_user', '$2a$12$oE7xS1IQJ/bxlXP3clpB0uPLOR1oZP3ARr.NuXxgwUVQ4xAf7iExG', 0);
-insert into user_profile (user_id, email, name, surname)
+insert into public."user_profile" (user_id, email, name, surname)
 values (0, 'default_email', 'default_name', 'default_surname');
 
 -- Категории
-insert into category (id, name, parent_category_id)
+insert into public."category" (id, name, parent_category_id)
 values (0, 'default_category', null);
-insert into category_user (user_id, category_id)
+insert into public."category_user" (user_id, category_id)
 values (0, 0);
 
 -- Счета
-insert into account_type (id, type_name)
+insert into public."account_type" (id, type_name)
 values (0, 'default_type');
-insert into account (id, user_id, name, type_id, balance)
+insert into public."account" (id, user_id, name, type_id, balance)
 values (0, 0, 'first_account', 0, 1000);
-insert into account (id, user_id, name, type_id, balance)
+insert into public."account" (id, user_id, name, type_id, balance)
 values (1, 0, 'second_account', 0, 1000);
 
 -- Внешние сущности
-insert into external_entity (id, name)
+insert into public."external_entity" (id, name)
 values (0, 'default_entity');
-insert into external_entity_user (user_id, external_entity_id, popular_category_id)
+insert into public."external_entity_user" (user_id, external_entity_id, popular_category_id)
 values (0, 0, null);
 
 -- Операции
-insert into operation (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment,
+insert into public."operation" (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment,
                        system_date, user_date)
 values (0, 0, 0, 1, 0, 0, 1000, 'default operation', date(now()), date(now()));
 
