@@ -249,7 +249,7 @@ CREATE TABLE public.operation (
     value double precision DEFAULT 0 NOT NULL,
     comment character varying,
     system_date timestamp without time zone DEFAULT now() NOT NULL,
-    user_date timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -493,7 +493,7 @@ COPY public.external_entity_user (user_id, external_entity_id, popular_category_
 -- Data for Name: operation; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY public.operation (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment, system_date, user_date) FROM stdin;
+COPY public.operation (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment, system_date, updated_at) FROM stdin;
 \.
 
 
@@ -857,7 +857,7 @@ values (0, 0, null);
 
 -- Операции
 insert into public."operation" (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment,
-                       system_date, user_date)
+                       system_date, updated_at)
 values (0, 0, 0, 1, 0, 0, 1000, 'default operation', date(now()), date(now()));
 
 insert into public."category" ("name") values ('Прочее');
