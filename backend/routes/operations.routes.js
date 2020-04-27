@@ -3,9 +3,46 @@ const sequelize = require('sequelize');
 const logger = require('../config/logger').appLogger;
 const auth = require('../middleware/auth.middleware');
 
-const { createOperation } = require('../controllers/operations.controllers');
+const {
+  getOperations,
+  createOperation,
+} = require('../controllers/operations.controllers');
 
 const router = Router(sequelize);
+
+// /operations
+router.get('/', auth, async (req, res) => {
+  try {
+    const operationQuery = req.query;
+    const { userId } = req.user;
+    logger.debug(`Пользователь ${userId} хочет получить операции`);
+
+    return getOperations(operationQuery, userId)
+      .then((operationsList) => {
+        const list = [];
+        operationsList.forEach((operation) => {
+          list.push({
+            id: operation.id,
+            from: operation.account_from_id,
+            to: operation.account_to_id,
+            value: operation.value,
+            userDateTime: operation.updated_at,
+            categoryId: operation.category_id,
+            externalEntityId: operation.external_entity_id,
+            comment: operation.comment,
+          });
+        });
+        return res.status(200).json(list);
+      })
+      .catch((e) => {
+        logger.error(e.message);
+        return res.status(500).json({ message: 'Ошибка сервера' });
+      });
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
 
 // /operations
 router.post('/', auth, async (req, res) => {
