@@ -717,9 +717,6 @@ components:
     OperationInfoPost:
       type: object
       properties:
-        operationType:
-          type: integer
-          format: int64
         from:
           type: integer
         to:
@@ -729,7 +726,10 @@ components:
         userDate:
           type: string
           format: date-time
-        category:
+        categoryId:
+          type: integer
+          format: int64
+        externalEntityId:
           type: integer
           format: int64
         comment:
@@ -738,9 +738,6 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-        operationType:
           type: integer
           format: int64
         from:
@@ -752,7 +749,10 @@ components:
         userDateTime:
           type: string
           format: date-time
-        category:
+        categoryId:
+          type: integer
+          format: int64
+        externalEntityId:
           type: integer
           format: int64
         comment:
