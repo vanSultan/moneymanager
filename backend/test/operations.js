@@ -1,51 +1,35 @@
+/* eslint-disable */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
+let request = require('supertest')(server);
 
 chai.should();
 chai.use(chaiHttp);
 
 const user = {
-  login: 'operations_user',
-  password: 'operations_password',
+  login: 'default_user',
+  password: 'default_password',
 };
 
 const newOperation = {
-  operationType: 0,
   from: 0,
   to: 1,
+  categoryId: 0,
+  externalEntityId: 0,
   value: 1000,
-  userDate: '2020-04-27T01:22:59.940Z',
-  category: 0,
   comment: 'string',
+  userDateTime: '2020-04-27T10:03',
 };
 
-let token;
-
 describe('/api/operations', () => {
-  before('Авторизация пользователя', (done) => {
-    chai.request(server)
-      .post('/api/auth/register/')
-      .send(user)
-      .end((err, res) => {
-        res.should.have.status(201);
-        chai.request(server)
-          .post('/api/auth/login/')
-          .send(user)
-          .end((error, response) => {
-            response.should.have.status(200);
-            token = response.body.token;
-          });
-      });
-    chai.request(server)
-      .post('/api/');
-    done();
-  });
+  const auth = {};
+  before(loginUser(auth));
 
   it('Создание новой операции', (done) => {
     chai.request(server)
-      .post('/api/auth/register/')
-      .set('authorization', `Bearer ${token}`)
+      .post('/api/operations/')
+      .set('Authorization', 'bearer ' + auth.token)
       .send(newOperation)
       .end((err, res) => {
         res.should.have.status(201);
@@ -55,3 +39,17 @@ describe('/api/operations', () => {
     done();
   });
 });
+
+function loginUser(auth) {
+  return () => {
+    request
+      .post('/api/auth/login/')
+      .send(user)
+      .end(onResponse);
+  };
+
+  function onResponse(err, res) {
+    auth.token = res.body.token;
+    return done();
+  }
+}
