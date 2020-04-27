@@ -91,6 +91,32 @@ async function createOperation(operationInfo, userId) {
 }
 
 /*
+  Обновление информации об операции
+  Возвращает Promise<Model>
+ */
+async function updateOperation(operationInfo, operationId, userId) {
+  if (operationInfo === null || operationId === null || userId === null) {
+    throw new Error('Нулевые аргументы');
+  }
+
+  return Operation.update({
+    account_from_id: operationInfo.from,
+    account_to_id: operationInfo.to,
+    category_id: operationInfo.categoryId,
+    external_entity_id: operationInfo.externalEntityId,
+    value: operationInfo.value,
+    comment: operationInfo.comment,
+    system_date: new Date(Date.now()).toUTCString(),
+    updated_at: new Date(operationInfo.userDateTime).toUTCString(),
+  }, {
+    where: {
+      id: operationId,
+      user_id: userId,
+    },
+  });
+}
+
+/*
   Удаление операции
   Возвращает Promise<number>
  */
@@ -110,5 +136,6 @@ async function deleteOperation(operationId, userId) {
 module.exports = {
   getOperations,
   createOperation,
+  updateOperation,
   deleteOperation,
 };
