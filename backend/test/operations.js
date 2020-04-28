@@ -22,6 +22,16 @@ const newOperation = {
   userDateTime: '2020-04-27T10:03',
 };
 
+const invalidOperation = {
+  from: 1,
+  to: 0,
+  categoryId: -1,
+  externalEntityId: 0,
+  value: 1000,
+  comment: 'string',
+  userDateTime: '2020-04-27T10:03',
+};
+
 describe('/api/operations', () => {
   const auth = {};
   before(loginUser(auth));
@@ -35,8 +45,54 @@ describe('/api/operations', () => {
         res.should.have.status(201);
         res.body.should.be.a('object');
         res.body.should.have.property('id');
+        done();
       });
-    done();
+  });
+  it('Создание операции с ошибкой', (done) => {
+    chai.request(server)
+      .post('/api/operations/')
+      .set('Authorization', 'bearer ' + auth.token)
+      .send(invalidOperation)
+      .end((err, res) => {
+        res.should.have.status(500);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.message.should.be.equal('Ошибка сервера');
+        done();
+      });
+  });
+  it('Получение списка операций', (done) => {
+    chai.request(server)
+      .get('/api/operations/')
+      .set('Authorization', 'bearer ' + auth.token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        res.body.length.should.be.equal(2);
+        res.body[0].should.have.property('userDateTime');
+        res.body[1].should.have.property('userDateTime');
+        done();
+      });
+  });
+  it('Получение списка операций по идентификатору', (done) => {
+    chai.request(server)
+      .put('/api/operations/0')
+      .set('Authorization', 'bearer ' + auth.token)
+      .send(newOperation)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Удаление операции', (done) => {
+    chai.request(server)
+      .delete('/api/operations/0')
+      .set('Authorization', 'bearer ' + auth.token)
+      .send(newOperation)
+      .end((err, res)=> {
+        res.should.have.status(200);
+        done();
+      });
   });
 });
 
