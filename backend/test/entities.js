@@ -73,7 +73,7 @@ describe('/api/entities/', () => {
       .set('Authorization', `bearer ${auth.token}`)
       .end((err, res) => {
         res.should.have.status(200);
-        res.should.be.a('array');
+        res.body.should.be.a('array');
         res.body.length.should.be.greaterThan(0);
         done();
       });
@@ -86,9 +86,8 @@ describe('/api/entities/', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.a('object');
-        res.body.should.have.property('id');
         res.body.should.have.property('name');
-        res.body.should.have.property('popularCategoryId');
+        res.body.should.have.property('popular_category_id');
         done();
       });
   });
@@ -107,20 +106,20 @@ describe('/api/entities/', () => {
 
   it('Обновление информации о новой внешней сущности', (done) => {
     chai.request(server)
-      .put('/api/externalEntities/')
+      .put('/api/externalEntities/1')
       .set('Authorization', `bearer ${auth.token}`)
       .send(updateEntity)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
-        res.body.should.have.property('id');
+        res.body.should.have.property('name');
         done();
       });
   });
 
   it('Удаление внешней сущности по id', (done) => {
     chai.request(server)
-      .delete('/api/externalEntities/0')
+      .delete('/api/externalEntities/1')
       .set('Authorization', `bearer ${auth.token}`)
       .end((err, res) => {
         res.should.have.status(200);
