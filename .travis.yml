@@ -18,7 +18,6 @@ before_install:
 
 script:
   - docker-compose build
-  - docker-compose run backend test
 
 after_success:
   - sudo apt-get install apache2-utils
