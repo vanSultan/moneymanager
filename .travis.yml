@@ -21,6 +21,7 @@ script:
 
 after_success:
   - sudo apt-get install apache2-utils
+  - docker-compose run backend start
   - /bin/bash stress_testing.sh;
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
