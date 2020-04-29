@@ -1,4 +1,5 @@
 dist: bionic
+sudo: required
 
 os: linux
 language: node_js
@@ -20,6 +21,7 @@ script:
   - docker-compose run backend test
 
 after_success:
+  - sudo apt-get install apache2-utils
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     /bin/bash/ stress_testing.sh;
     fi
