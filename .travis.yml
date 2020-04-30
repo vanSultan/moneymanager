@@ -10,6 +10,7 @@ services:
   - docker
 
 before_install:
+  - sudo apt-get install apache2-utils
   - node -v
   - cd backend/
   - npm install
@@ -19,10 +20,9 @@ before_install:
 script:
   - docker-compose build
   - docker-compose run backend silent
+  - /bin/bash stress_testing.sh;
 
 after_success:
-  - sudo apt-get install apache2-utils
-  - /bin/bash stress_testing.sh;
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKERHUB_TOKEN" -p="$DOCKERHUB_PASSWORD";
     docker push $DOCKERHUB_TOKEN/moneyback;
