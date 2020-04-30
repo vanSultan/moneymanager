@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { app: appConfig } = require('../config/config');
 const { models } = require('../models');
+const { initCategoriesToNewUser } = require('./categories.controller');
+const logger = require('../config/logger').appLogger;
 
 const { User, Role } = models;
 
@@ -17,13 +19,17 @@ async function createUser(req, res) {
   const userRole = await Role.findOne({ where: { name: 'user' } });
 
   const hashedPassword = await bcrypt.hash(password, 12);
-  User.create({
+
+  return User.create({
     login,
     password: hashedPassword,
     role_id: userRole.id,
-  });
-
-  return res.status(201).json({ message: 'Пользователь создан' });
+  }).then((user) => initCategoriesToNewUser(user.id)
+    .then(() => res.status(201).json({ message: 'Пользователь создан' })))
+    .catch((e) => {
+      logger.error(e.message);
+      res.status(500).json({ message: 'Ошибка сервера' });
+    });
 }
 
 async function getTokenOfUser(req, res) {

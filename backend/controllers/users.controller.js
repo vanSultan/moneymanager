@@ -1,6 +1,6 @@
 const { models } = require('../models');
 
-const { UserProfile } = models;
+const { UserProfile, User, Role } = models;
 
 /*
   Получение профиля пользователя
@@ -16,6 +16,27 @@ async function getUserProfile(userId) {
       attributes: ['name', 'surname', 'email'],
     },
   );
+}
+
+/*
+  Получение списка пользователей
+  Возвращает Promise<Array<Model>>
+ */
+async function getUsers() {
+  return User.findAll({
+    attributes: ['login'],
+  });
+}
+
+/*
+  Проверка роли пользователя
+  Возвращает Promise<Model>
+ */
+async function checkRole(roleName, userId) {
+  const rolePromise = Role.findOne({ where: { name: roleName } });
+
+  return rolePromise
+    .then((role) => User.findOne({ where: { id: userId, role_id: role.id } }));
 }
 
 /*
@@ -79,4 +100,6 @@ module.exports = {
   createUserProfile,
   updateUserProfile,
   deleteUserProfile,
+  getUsers,
+  checkRole,
 };
