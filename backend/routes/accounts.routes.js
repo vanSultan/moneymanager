@@ -98,7 +98,7 @@ router.get(
             id: entity.id,
             name: entity.name,
             balance: entity.balance,
-            type_name: entity.account_type.type_name,
+            type_id: entity.type_id,
           };
           return res.status(200).json(accountInfo);
         })
