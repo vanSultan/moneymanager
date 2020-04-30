@@ -8,7 +8,7 @@
         "server": "nodemon app.js",
         "lint": "./node_modules/.bin/eslint .",
         "test": "mocha --timeout 10000 --exit",
-        "silent": "forever start app.js"
+        "silent": "forever start app.js",
         "generate-docs": "jsdoc -c config/jsdoc.json -d ../documentation"
     },
     "repository": {
@@ -43,7 +43,7 @@
         "eslint-plugin-mocha": "^6.3.0",
         "mocha": "^7.1.1",
         "nodemon": "^2.0.2",
-        "forever": "^2.0.0"
+        "forever": "^2.0.0",
         "supertest": "^4.0.2"
     }
 }
