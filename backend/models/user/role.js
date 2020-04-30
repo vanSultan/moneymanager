@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const attributes = {
+  const Role = sequelize.define('role', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -12,11 +12,13 @@ module.exports = (sequelize, DataTypes) => {
       field: 'name',
       unique: true,
     },
-  };
-
-  const options = {
+  }, {
     freezeTableName: true,
+  });
+
+  Role.associate = (models) => {
+    Role.hasMany(models.User, { foreignKey: { name: 'role_id', allowNull: false }, onDelete: 'restrict' });
   };
 
-  return sequelize.define('role', attributes, options);
+  return Role;
 };
