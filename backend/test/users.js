@@ -128,7 +128,7 @@ describe('/api/profile/', () => {
 
   // Удаляем пользователя после всех тестов
   after((done) => {
-    User.destroy({ where: {}, truncate: true })
+    User.destroy({ where: {}, truncate: false})
       .then(() => done());
   });
 });
