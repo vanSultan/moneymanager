@@ -4,7 +4,7 @@ const server = require('../app');
 
 const { models } = require('../models');
 
-const { User, UserProfile } = models;
+const { UserProfile } = models;
 
 // Чтобы держать сессию
 let token = '';
