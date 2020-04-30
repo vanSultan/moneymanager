@@ -1,11 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
-const { gt } = require('../models').db.Sequelize.Op;
-
-const { models } = require('../models');
-
-const { User, Account } = models;
 
 // Чтобы держать сессию
 let token = '';
