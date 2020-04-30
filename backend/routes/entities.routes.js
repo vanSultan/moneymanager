@@ -26,7 +26,7 @@ router.post(
 
       return addEntityToUser(entityName, userId)
         .then((entityId) => res.status(201).json({ id: entityId }))
-        .catch(() => res.status(403).json({ message: 'Не удалось добавить внешнюю сущность' }));
+        .catch(() => res.status(500).json({ message: 'Не удалось добавить внешнюю сущность' }));
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
@@ -54,7 +54,7 @@ router.get(
           res.status(200).json(list);
         })
         .catch(() => {
-          res.status(403).json({ message: 'Ошибка доступа' });
+          res.status(500).json({ message: 'Ошибка доступа' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -81,7 +81,7 @@ router.get(
           return res.status(200).json(info);
         })
         .catch(() => {
-          res.status(403).json({ message: 'Ошибка доступа' });
+          res.status(500).json({ message: 'Ошибка доступа' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -102,10 +102,10 @@ router.put(
 
       return updateUserEntity(entityId, newEntityName, userId)
         .then(() => {
-          res.status(200).json();
+          res.status(200).json({ name: newEntityName });
         })
         .catch(() => {
-          res.status(403).json({ message: 'Операция не выполнена' });
+          res.status(500).json({ message: 'Операция не выполнена' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -129,7 +129,7 @@ router.delete(
           return res.status(200).json();
         })
         .catch(() => {
-          res.status(403).json({ message: 'Операция не выполнена' });
+          res.status(500).json({ message: 'Операция не выполнена' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });

@@ -6,16 +6,26 @@ chai.should();
 
 chai.use(chaiHttp);
 
-const user = {
-  login: 'new_user',
-  password: 'new_password',
+const defaultUser = {
+  login: 'default_user',
+  password: 'default_password',
 };
 
-describe('/POST user', () => {
-  it('it should create new user', (done) => {
+const newUser = {
+  login: 'register_user',
+  password: 'register_password',
+};
+
+const wrongPasswordUser = {
+  login: 'register_user_password',
+  password: '',
+};
+
+describe('/api/auth/register', () => {
+  it('Создание нового пользователя', (done) => {
     chai.request(server)
       .post('/api/auth/register/')
-      .send(user)
+      .send(newUser)
       .end((err, res) => {
         res.should.have.status(201);
         res.body.should.be.a('object');
@@ -23,12 +33,10 @@ describe('/POST user', () => {
         done();
       });
   });
-  it('it should return an error on existing user', (done) => {
-    user.login = 'existing_user';
-    user.password = 'existing_password';
+  it('Создание пользовтеля с совпадающим логином', (done) => {
     chai.request(server)
       .post('/api/auth/register/')
-      .send(user)
+      .send(defaultUser)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
@@ -36,12 +44,10 @@ describe('/POST user', () => {
         done();
       });
   });
-  it('it should return an error on invalid password (less then 6 chars)', (done) => {
-    user.login = 'unknown user';
-    user.password = '';
+  it('Создание пользователя с неподходящим паролем', (done) => {
     chai.request(server)
       .post('/api/auth/register/')
-      .send(user)
+      .send(wrongPasswordUser)
       .end((err, res) => {
         res.should.have.status(400);
         res.should.be.a('object');

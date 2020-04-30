@@ -54,15 +54,11 @@ async function getAccountById(accountId, userId) {
   }
 
   return Account.findOne({
-    include: [{
-      attributes: ['type_name'],
-      model: AccountType,
-    }],
     where: {
       id: accountId,
       user_id: userId,
     },
-    attributes: ['id', 'name', 'balance'],
+    attributes: ['id', 'name', 'balance', 'type_id'],
   });
 }
 
