@@ -18,7 +18,7 @@ before_install:
 
 script:
   - docker-compose build
-  - docker-compose run silent
+  - docker-compose run backend silent
 
 after_success:
   - sudo apt-get install apache2-utils
