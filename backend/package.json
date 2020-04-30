@@ -9,6 +9,7 @@
         "lint": "./node_modules/.bin/eslint .",
         "test": "mocha --timeout 10000 --exit",
         "silent": "forever start app.js"
+        "generate-docs": "jsdoc -c config/jsdoc.json -d ../documentation"
     },
     "repository": {
         "type": "git",
@@ -43,5 +44,6 @@
         "mocha": "^7.1.1",
         "nodemon": "^2.0.2",
         "forever": "^2.0.0"
+        "supertest": "^4.0.2"
     }
 }

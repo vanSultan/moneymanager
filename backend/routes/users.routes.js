@@ -8,9 +8,34 @@ const {
   createUserProfile,
   updateUserProfile,
   deleteUserProfile,
+  getUsers,
+  checkRole,
 } = require('../controllers/users.controller');
 
 const router = Router(sequelize);
+
+// /users
+router.get('/', auth, async (req, res) => {
+  try {
+    const { userId } = req.user;
+    logger.debug(`Пользователь ${userId} хочет получить список пользователй`);
+
+    return checkRole('moderator', userId)
+      .then((moderator) => {
+        if (moderator === null) {
+          return res.status(401).json({ message: 'Ошибка доступа' });
+        }
+        return getUsers().then((userList) => {
+          const list = [];
+          userList.forEach((user) => { list.push(user.login); });
+          res.status(200).json(list);
+        });
+      });
+  } catch (e) {
+    logger.error(e.message);
+    return res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
 
 // /users/profile
 router.get('/profile', auth, async (req, res) => {
