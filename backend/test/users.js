@@ -125,10 +125,4 @@ describe('/api/profile/', () => {
         done();
       });
   });
-
-  // Удаляем пользователя после всех тестов
-  after((done) => {
-    User.destroy({ where: {}, truncate: false })
-      .then(() => done());
-  });
 });
