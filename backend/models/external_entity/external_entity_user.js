@@ -1,4 +1,15 @@
+/**
+ * Модуль Сущностей пользователя
+ * @module models/external_entity
+ */
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} user_id
+   * @property {number} external_entity_id
+   * @property {number} popular_category_id
+   * @property {boolean} freezeTableName
+   */
   const ExternalEntityUser = sequelize.define('external_entity_user', {
     user_id: {
       type: DataTypes.INTEGER,

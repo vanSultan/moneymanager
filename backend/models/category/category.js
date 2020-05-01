@@ -1,4 +1,15 @@
+/**
+ * Модуль Категории
+ * @module models/category
+ */
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} id
+   * @property {string} name
+   * @property {number} parent_category_id
+   * @property {boolean} freezeTableName
+   */
   const Category = sequelize.define('category', {
     id: {
       type: DataTypes.INTEGER,

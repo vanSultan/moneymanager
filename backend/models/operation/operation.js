@@ -1,6 +1,24 @@
+/**
+ * Модуль операций
+ * @module models/operation
+ */
 const { database: dbConfig } = require('../../config/config');
 
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} id
+   * @property {number} user_id
+   * @property {number} account_from_id
+   * @property {number} account_to_id
+   * @property {number} category_id
+   * @property {number} external_entity_id
+   * @property {number} value
+   * @property {string} comment
+   * @property {date} created_at
+   * @property {date} updated_at
+   * @property {boolean} freezeTableName
+   */
   const Operation = sequelize.define('operation', {
     id: {
       type: DataTypes.INTEGER,

@@ -1,4 +1,14 @@
+/**
+ * Модуль Сущностей
+ * @module models/external_entity
+ */
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} id
+   * @property {string} name
+   * @property {boolean} freezeTableName
+   */
   const ExternalEntity = sequelize.define('external_entity', {
     id: {
       type: DataTypes.INTEGER,
