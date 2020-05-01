@@ -4,7 +4,7 @@ const server = require('../app');
 
 const { models } = require('../models');
 
-const { User, UserProfile } = models;
+const { UserProfile } = models;
 
 // Чтобы держать сессию
 let token = '';
@@ -124,11 +124,5 @@ describe('/api/profile/', () => {
 
         done();
       });
-  });
-
-  // Удаляем пользователя после всех тестов
-  after((done) => {
-    User.destroy({ where: {}, truncate: false })
-      .then(() => done());
   });
 });
