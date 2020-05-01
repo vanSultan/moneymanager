@@ -7,6 +7,12 @@ const logger = require('../config/logger').appLogger;
 
 const { User, Role } = models;
 
+/**
+ * @description Создание пользователя
+ * @param req {Request} - запрос
+ * @param res {Request} - ответ
+ * @returns {Promise<User>}
+ */
 async function createUser(req, res) {
   const { login, password } = req.body;
 
@@ -32,6 +38,12 @@ async function createUser(req, res) {
     });
 }
 
+/**
+ * @description Получение токена
+ * @param req {Request} - запрос
+ * @param res {Request} - ответ
+ * @returns {Promise<Object>}
+ */
 async function getTokenOfUser(req, res) {
   const { login, password } = req.body;
 
@@ -56,6 +68,12 @@ async function getTokenOfUser(req, res) {
   return res.status(200).json({ token });
 }
 
+/**
+ * @description Удаление токена
+ * @param req {Request} - запрос
+ * @param res {Request} - ответ
+ * @returns {Promise<Object>}
+ */
 async function destroyTokenOfUser(req, res) {
   // Реализуем на стороне клиента
   return res.status(200).json({ message: 'Токен успешно сброшен' });
