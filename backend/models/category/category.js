@@ -5,10 +5,10 @@
 module.exports = (sequelize, DataTypes) => {
   /**
    * @type {Model}
-   * @property {number} id
-   * @property {string} name
-   * @property {number} parent_category_id
-   * @property {boolean} freezeTableName
+   * @property {number} id - идентификатор
+   * @property {string} name - имя категории
+   * @property {number} parent_category_id - id родительской категории
+   * @property {boolean} freezeTableName - фиксорованное имя
    */
   const Category = sequelize.define('category', {
     id: {

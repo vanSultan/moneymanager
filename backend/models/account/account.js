@@ -7,11 +7,11 @@
 module.exports = (sequelize, DataTypes) => {
   /**
    * @type {Model}
-   * @property {number} id
-   * @property {number} user_id
-   * @property {string} name
-   * @property {number} type_id
-   * @property {number} balance
+   * @property {number} id - индентификатор
+   * @property {number} user_id - id пользователя
+   * @property {string} name - имя аккаунта
+   * @property {number} type_id - тип аккаунта
+   * @property {number} balance - баланс аккаунта
    * @property {boolean} freezeTableName
    */
   const Account = sequelize.define('account', {

@@ -5,9 +5,9 @@
 module.exports = (sequelize, DataTypes) => {
   /**
    * @type {Model}
-   * @property {number} id
-   * @property {string} name
-   * @property {boolean} freezeTableName
+   * @property {number} id - индентификатор
+   * @property {string} name - имя роли пользователя
+   * @property {boolean} freezeTableName - фиксорованное имя
    */
   const Role = sequelize.define('role', {
     id: {

@@ -7,8 +7,8 @@
 module.exports = (sequelize, DataTypes) => {
   /**
    * @type {Model}
-   * @property {number} id
-   * @property {string} type_name
+   * @property {number} id - индетификатор
+   * @property {string} type_name - имя типа аккаунта
    * @property {boolean} freezeTableName
    */
   const AccountType = sequelize.define('account_type', {
