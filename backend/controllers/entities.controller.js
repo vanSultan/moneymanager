@@ -2,10 +2,12 @@ const { models } = require('../models');
 
 const { ExternalEntity, ExternalEntityUser } = models;
 
-/*
-  Создает связь Пользователь-Внешняя сущность
-  Возвращает id связи в случае успеха, иначе null
-*/
+/**
+ * @description Создает связь Пользователь-Внешняя сущность
+ * @param entityId {number} - id сущности
+ * @param userId {number} - id пользователя
+ * @returns {Promise<number>}
+ */
 async function connectEntityUser(entityId, userId) {
   if (entityId === null || userId === null) {
     throw new Error('Undefined arguments');
@@ -17,10 +19,12 @@ async function connectEntityUser(entityId, userId) {
   });
 }
 
-/*
-  Получение id Сущности по имени
-  Возвращает Promise<Model>
-*/
+
+/**
+ * @description Получение id Сущности по имени
+ * @param entityName {string} - название сущности
+ * @returns {Promise<Model>}
+ */
 async function getEntityIdByName(entityName) {
   if (entityName === null) {
     throw new Error('Нулевые аргументы');
@@ -34,10 +38,12 @@ async function getEntityIdByName(entityName) {
   });
 }
 
-/*
-  Создает новую внешнюю сущность
-  В случае успеха возвращает Promise<Model>
-*/
+
+/**
+ * @description  Создает новую внешнюю сущность
+ * @param entityName {string} - название сущности
+ * @returns {Promise<Model>}
+ */
 async function createNewEntity(entityName) {
   if (entityName === null) {
     throw new Error('Undefined arguments');
@@ -48,10 +54,12 @@ async function createNewEntity(entityName) {
   });
 }
 
-/*
-  Добавляет пользователю внешнюю сущность
-  Возвращает Promise<number>
-*/
+/**
+ * @description Добавляет пользователю внешнюю сущность
+ * @param entityName {string} - название сущности
+ * @param userId {number} - id пользователя
+ * @returns {Promise<number>}
+ */
 async function addEntityToUser(entityName, userId) {
   if (entityName === null || userId === null) {
     throw new Error('Нулевые аргументы');
@@ -84,10 +92,13 @@ async function addEntityToUser(entityName, userId) {
     });
 }
 
-/*
-  Получает информацию о внешней сущности пользователя по ее id и id пользователя.
-  Возвращает Promise<Model>
-*/
+
+/**
+ * @description Получает информацию о внешней сущности пользователя по ее id и id пользователя.
+ * @param entityId {number} - id сущности
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Model>}
+ */
 async function getEntityInfo(entityId, userId) {
   if (entityId === null || userId === null) {
     throw new Error('Undefined arguments');
@@ -106,10 +117,12 @@ async function getEntityInfo(entityId, userId) {
   });
 }
 
-/*
-  Получает внешние сущности пользователя
-  Возвращвет Promise<Array<Model>>
-*/
+
+/**
+ * @description Получает внешние сущности пользователя
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Array<Model>>}
+ */
 async function getUserEntities(userId) {
   if (userId === null) {
     throw new Error('Нулевые аргументы');
@@ -127,10 +140,14 @@ async function getUserEntities(userId) {
   });
 }
 
-/*
-  Обновляет название Сущности у пользователя
-  Возвращает Promise<Array<number,number>>
-*/
+
+/**
+ * @description  Обновляет название Сущности у пользователя
+ * @param entityId {number} - id сущности
+ * @param entityName {string} - новое название сущности
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Array<number,number>>}
+ */
 async function updateUserEntity(entityId, newEntityName, userId) {
   if (entityId === null || newEntityName === null || userId === null) {
     throw new Error('Нулевые аргументы функции');
@@ -155,10 +172,12 @@ async function updateUserEntity(entityId, newEntityName, userId) {
   });
 }
 
-/*
-  Удаляет Сущность, если пользователи ее не используют
-  Возвращает Promise<number>
-*/
+
+/**
+ * @description Удаляет Сущность, если пользователи ее не используют
+ * @param entityId {number} - id сущности
+ * @returns {Promise<number>}
+ */
 async function deleteEntity(entityId) {
   if (entityId === null) return;
 
@@ -177,10 +196,13 @@ async function deleteEntity(entityId) {
   });
 }
 
-/*
-  Удаляет внешнюю сущность у пользователя
-  Возвращает Promise<number>
-*/
+
+/**
+ * @description Удаляет внешнюю сущность у пользователя
+ * @param entityId {number} - id сущности
+ * @param userId {number} - id пользователя
+ * @returns {Promise<number>}
+ */
 async function deleteUserEntity(entityId, userId) {
   if (entityId === null || userId === null) {
     throw new Error('Нулевые аргументы функции');

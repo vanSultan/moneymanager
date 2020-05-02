@@ -2,9 +2,11 @@ const { models } = require('../models');
 
 const { UserProfile, User, Role } = models;
 
-/*
-  Получение профиля пользователя
-  Возвращает Promise<Model>
+
+/**
+ * @description Получение профиля пользователя
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Model>}
  */
 async function getUserProfile(userId) {
   if (userId === null) {
@@ -18,9 +20,10 @@ async function getUserProfile(userId) {
   );
 }
 
-/*
-  Получение списка пользователей
-  Возвращает Promise<Array<Model>>
+
+/**
+ * @description Получение списка пользователей
+ * @returns {Promise<Array<Model>>}
  */
 async function getUsers() {
   return User.findAll({
@@ -28,9 +31,11 @@ async function getUsers() {
   });
 }
 
-/*
-  Проверка роли пользователя
-  Возвращает Promise<Model>
+/**
+ * @description Проверка роли пользователя
+ * @param roleName {string} - название роли
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Model>}
  */
 async function checkRole(roleName, userId) {
   const rolePromise = Role.findOne({ where: { name: roleName } });
@@ -39,9 +44,12 @@ async function checkRole(roleName, userId) {
     .then((role) => User.findOne({ where: { id: userId, role_id: role.id } }));
 }
 
-/*
-  Создание нового профиля
-  Возвращает Promise<Model>
+
+/**
+ * @description  Создание нового профиля
+ * @param userProfileInfo {Object} - информаци о профиле
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Model>}
  */
 async function createUserProfile(userProfileInfo, userId) {
   if (userProfileInfo === null || userId === null) {
@@ -56,9 +64,12 @@ async function createUserProfile(userProfileInfo, userId) {
   });
 }
 
-/*
-  Обновление информации о профиле пользователя
-  Возвращает Promise
+
+/**
+ * @description Обновление информации о профиле пользователя
+ * @param userProfileInfo {Object} - информаци о профиле
+ * @param userId {number} - id пользователя
+ * @returns {Promise}
  */
 async function updateUserProfile(userProfileInfo, userId) {
   if (userProfileInfo === null || userId === null) {
@@ -79,9 +90,10 @@ async function updateUserProfile(userProfileInfo, userId) {
   );
 }
 
-/*
-  Удаление пользовательского профиля
-  Возвращает Promise
+/**
+ * @description Удаление пользовательского профиля
+ * @param userId {number} - id пользователя
+ * @returns {Promise}
  */
 async function deleteUserProfile(userId) {
   if (userId === null) {

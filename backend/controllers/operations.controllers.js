@@ -3,9 +3,11 @@ const { gte, lte, or } = require('../models').db.Sequelize.Op;
 
 const { Operation } = models;
 
-/*
-  Формирование where-условия на основе параметров
-  Возвращает Object
+
+/**
+ * @description Формирование where-условия на основе параметров
+ * @param operationQuery {Object} - параметры операции
+ * @returns {Object}
  */
 function getWhereClauseFromParams(operationQuery) {
   const whereObject = Object();
@@ -51,9 +53,13 @@ function getWhereClauseFromParams(operationQuery) {
   return whereObject;
 }
 
-/*
-  Получение списка операций
-  Возвращает Promise<Array<Model>>
+
+/**
+ * @description Получение списка операций
+ * @param operationQuery {Object} - параметры операции
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Array<Model>>}
+ * @throws Error
  */
 async function getOperations(operationQuery, userId) {
   if (userId === null) {
@@ -68,9 +74,13 @@ async function getOperations(operationQuery, userId) {
   });
 }
 
-/*
-  Создание новой операции
-  Возвращает Promise<Model>
+
+/**
+ * @description Создание новой операции
+ * @param operationInfo {Object} - информация об операции
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Model>}
+ * @throws Error
  */
 async function createOperation(operationInfo, userId) {
   if (operationInfo === null || userId === null) {
@@ -90,9 +100,14 @@ async function createOperation(operationInfo, userId) {
   });
 }
 
-/*
-  Обновление информации об операции
-  Возвращает Promise<Model>
+
+/**
+ * @description Обновление информации об операции
+ * @param operationInfo {Object} - информация об операции
+ * @param operationId {number} - id операции
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Model>}
+ * @throws Error
  */
 async function updateOperation(operationInfo, operationId, userId) {
   if (operationInfo === null || operationId === null || userId === null) {
@@ -116,9 +131,13 @@ async function updateOperation(operationInfo, operationId, userId) {
   });
 }
 
-/*
-  Удаление операции
-  Возвращает Promise<number>
+
+/**
+ * @description Удаление операции
+ * @param operationId {number} - id операции
+ * @param userId {number} - id пользователя
+ * @returns {Promise<number>}
+ * @throws Error
  */
 async function deleteOperation(operationId, userId) {
   if (operationId === null || userId === null) {

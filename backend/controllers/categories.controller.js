@@ -3,8 +3,11 @@ const logger = require('../config/logger').appLogger;
 
 const { Category, CategoryUser } = models;
 
-/*
-  Получение списка категорий доступных пользователю
+/**
+ * @description Получение списка категорий доступных пользователю
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Array<Model>>}
+ * @throws Error
  */
 async function getCategoriesUser(userId) {
   if (userId === null) {
@@ -22,9 +25,13 @@ async function getCategoriesUser(userId) {
   });
 }
 
-/*
-  Получение категории, созадание категории, если такой нет
-  Возвращает Promise<Array<model, created>>
+
+/**
+ * @description Получение категории, созадание категории, если такой нет
+ * @param categoryName {string} - имя категории
+ * @param parentCategoryId {number} - id родительской категории
+ * @returns {Promise<Array<Model, boolean>>}
+ * @throws Error
  */
 async function getOrCreateCategory(categoryName, parentCategoryId) {
   if (categoryName === null || parentCategoryId === null) {
@@ -39,9 +46,13 @@ async function getOrCreateCategory(categoryName, parentCategoryId) {
   });
 }
 
-/*
-  Создание новой пользовательской категории
-  Возвращает Promise<Model>
+/**
+ * @description Создание новой пользовательской категории
+ * @param categoryName {string} - имя категории
+ * @param parentCategoryId {number} - id родительской категории
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Array<Model, boolean>>}
+ * @throws Error
  */
 async function createCategoryUser(categoryName, parentCategoryId, userId) {
   if (categoryName === null || parentCategoryId === null || userId === null) {
@@ -63,9 +74,11 @@ async function createCategoryUser(categoryName, parentCategoryId, userId) {
     );
 }
 
-/*
-  Получение категории пользователя
-  Возвращает Promise<Model>
+/**
+ * @description Получение категории пользователя
+ * @param categoryId {number} - id категории
+ * @param userId {number} - id пользователя
+ * @returns {Promise<Model>}
  */
 async function getCategoryUser(categoryId, userId) {
   if (categoryId === null || userId === null) {
@@ -83,9 +96,14 @@ async function getCategoryUser(categoryId, userId) {
   });
 }
 
-/*
-  Обновление информации о категории
-  Возвращает Promise<Model>
+
+/**
+ * @description Обновление информации о категории
+ * @param categoryId {number} - id категории
+ * @param categoryInfo {Object} - информация о категории
+ * @param userId {number} - id пользователя
+ * @returns {Promise<any>}
+ * @throws Error
  */
 async function updateCategoryUser(categoryId, categoryInfo, userId) {
   if (categoryId === null || categoryInfo === null || userId === null) {
@@ -116,9 +134,12 @@ async function updateCategoryUser(categoryId, categoryInfo, userId) {
   ));
 }
 
-/*
-  Удаление категории
-  Возвращает Promise
+
+/**
+ * @param categoryId {number} - id категории
+ * @param userId {number} - id пользователя
+ * @throws Error
+ * @returns {Promise<number>}
  */
 async function deleteCategoryUser(categoryId, userId) {
   if (categoryId === null || userId === null) {
@@ -133,9 +154,12 @@ async function deleteCategoryUser(categoryId, userId) {
   });
 }
 
-/*
-  Изменение видимости категории
-  Возвращает Promise<Model>
+/**
+ * @description Изменение видимости категории
+ * @param categoryId {number} - id категории
+ * @param userId {number} - id пользователя
+ * @throws Error
+ * @returns {Promise<Model>}
  */
 async function changeVisibleCategoryUser(categoryId, userId) {
   if (categoryId === null || userId === null) {
@@ -158,9 +182,10 @@ async function changeVisibleCategoryUser(categoryId, userId) {
   }));
 }
 
-/*
-  Получение базовых категорий
-  Возвращает Promise<Array<Model>>
+
+/**
+ * @description олучение базовых категорий
+ * @returns {Promise<Array<Model>>}
  */
 async function getBaseCategories() {
   return Category.findAll({
@@ -171,9 +196,10 @@ async function getBaseCategories() {
   });
 }
 
-/*
-  Добавление базовых категорий новому пользовтелю
-  Возращает Promise
+/**
+ * @description  Добавление базовых категорий новому пользовтелю
+ * @param userId {string} - id пользовател
+ * @returns {Promise<Model>}
  */
 async function initCategoriesToNewUser(userId) {
   if (userId === null) {
