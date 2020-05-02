@@ -844,10 +844,10 @@ values (0, 0);
 -- Счета
 insert into public."account_type" (id, type_name)
 values (0, 'default_type');
-insert into public."account" (id, user_id, name, type_id, balance)
-values (0, 0, 'first_account', 0, 1000);
-insert into public."account" (id, user_id, name, type_id, balance)
-values (1, 0, 'second_account', 0, 1000);
+insert into public."account" (user_id, name, type_id, balance)
+values (0, 'first_account', 0, 1000);
+insert into public."account" (user_id, name, type_id, balance)
+values (0, 'second_account', 0, 1000);
 
 -- Внешние сущности
 insert into public."external_entity" (id, name)
@@ -858,7 +858,7 @@ values (0, 0, null);
 -- Операции
 insert into public."operation" (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment,
                        system_date, updated_at)
-values (0, 0, 0, 1, 0, 0, 1000, 'default operation', date(now()), date(now()));
+values (0, 0, 1, 2, 0, 0, 1000, 'default operation', date(now()), date(now()));
 
 insert into public."category" ("name") values ('Прочее');
 insert into public."category" ("name") values ('Еда и напитки');

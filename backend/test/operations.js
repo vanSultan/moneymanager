@@ -19,8 +19,8 @@ const user = {
 };
 
 const newOperation = {
-  from: 0,
-  to: 1,
+  from: 1,
+  to: 2,
   categoryId: 0,
   externalEntityId: 0,
   value: 1000,
@@ -29,8 +29,8 @@ const newOperation = {
 };
 
 const invalidOperation = {
-  from: 1,
-  to: 0,
+  from: 2,
+  to: 1,
   categoryId: -1,
   externalEntityId: 0,
   value: 1000,
