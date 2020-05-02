@@ -1,4 +1,15 @@
+/**
+ * Модуль пользователя
+ * @module models/user
+ */
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} id - индентификатор
+   * @property {string} login - логин пользователя
+   * @property {string} password - пароль пользователя
+   * @property {boolean} freezeTableName - фиксорованное имя
+   */
   const User = sequelize.define('user', {
     id: {
       type: DataTypes.INTEGER,

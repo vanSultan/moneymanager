@@ -1,5 +1,14 @@
+/**
+ * Модуль базы данных
+ * @module models/init_database
+ */
 const logger = require('../../config/logger').appLogger;
 
+/**
+ * @description Заполнение базы (типы модели)
+ * @param AccountTypeModel {Object}
+ * @returns {Promise}
+ */
 module.exports = async function initAccountType(AccountTypeModel) {
   AccountTypeModel.bulkCreate([
     { type_name: 'cash' },

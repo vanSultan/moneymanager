@@ -1,4 +1,14 @@
+/**
+ * Модуль ролей пользователя
+ * @module models/user
+ */
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} id - индентификатор
+   * @property {string} name - имя роли пользователя
+   * @property {boolean} freezeTableName - фиксорованное имя
+   */
   const Role = sequelize.define('role', {
     id: {
       type: DataTypes.INTEGER,

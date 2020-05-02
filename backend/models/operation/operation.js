@@ -1,6 +1,24 @@
+/**
+ * Модуль операций
+ * @module models/operation
+ */
 const { database: dbConfig } = require('../../config/config');
 
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} id - индентификатор
+   * @property {number} user_id - id пользователя
+   * @property {number} account_from_id - id отправителя
+   * @property {number} account_to_id - id получателя
+   * @property {number} category_id - id категории
+   * @property {number} external_entity_id - id расширенной категории
+   * @property {number} value - сумма
+   * @property {string} comment - комментарий
+   * @property {date} created_at - дата перевода
+   * @property {date} updated_at - дата обновления
+   * @property {boolean} freezeTableName - фиксорованное имя
+   */
   const Operation = sequelize.define('operation', {
     id: {
       type: DataTypes.INTEGER,

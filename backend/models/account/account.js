@@ -1,4 +1,19 @@
+/**
+ * Модуль Аккаунта
+ * @module models/account
+ */
+
+/** Все данные об аккаунте */
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * @type {Model}
+   * @property {number} id - индентификатор
+   * @property {number} user_id - id пользователя
+   * @property {string} name - имя аккаунта
+   * @property {number} type_id - тип аккаунта
+   * @property {number} balance - баланс аккаунта
+   * @property {boolean} freezeTableName
+   */
   const Account = sequelize.define('account', {
     id: {
       type: DataTypes.INTEGER,
