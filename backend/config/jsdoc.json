@@ -2,7 +2,10 @@
   "plugins": [],
   "recurseDepth": 10,
   "source": {
-    "include": ["controllers", "middleware", "models", "routes"],
+    "include": ["controllers", "middleware", "test",
+      "models/account", "models/category", "models/external_entity",
+      "models/init_database", "models/operation", "models/user",
+      "routes"],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
