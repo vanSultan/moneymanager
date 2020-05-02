@@ -1,3 +1,7 @@
+/**
+ * ROUTERS
+ * @module routers/routers
+ */
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const { check, validationResult } = require('express-validator');
@@ -14,6 +18,13 @@ router.post(
     check('login', 'Введите логин').exists(),
     check('password', 'Введите пароль').isLength({ min: 6 }),
   ],
+  /**
+     * @method /auth/register POST
+     * @description  Регистрация нового пользователя
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -40,6 +51,13 @@ router.post(
     check('login', 'Введите логин').exists(),
     check('password', 'Введите пароль').exists(),
   ],
+  /**
+     * @method /auth/login POST
+     * @description  Авторизация пользователя
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -60,13 +78,21 @@ router.post(
 );
 
 // /auth/logout
-router.get('/logout', auth, async (req, res) => {
-  try {
-    return await destroyTokenOfUser(req, res);
-  } catch (e) {
-    logger.error(e.message);
-    return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
-  }
-});
+router.get('/logout', auth,
+  /**
+     * @method /auth/logout GET
+     * @description  Выход из приложения
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
+  async (req, res) => {
+    try {
+      return await destroyTokenOfUser(req, res);
+    } catch (e) {
+      logger.error(e.message);
+      return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+    }
+  });
 
 module.exports = router;
