@@ -1,3 +1,7 @@
+/**
+ * ROUTERS
+ * @module routers/entities
+ */
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const logger = require('../config/logger').appLogger;
@@ -18,6 +22,13 @@ const router = Router(sequelize);
 router.post(
   '/',
   auth,
+  /**
+     * @method /api/externalEntities/ POST
+     * @description  оздание новой внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const entityName = req.body.name;
@@ -37,6 +48,13 @@ router.post(
 router.get(
   '/',
   auth,
+  /**
+     * @method /api/externalEntities/ GET
+     * @description  Получение списка внешних сущностей
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -66,6 +84,13 @@ router.get(
 router.get(
   '/:entityId',
   auth,
+  /**
+     * @method /api/externalEntities/{entityId} GET
+     * @description  Получение информации о внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -93,6 +118,13 @@ router.get(
 router.put(
   '/:entityId',
   auth,
+  /**
+     * @method /api/externalEntities/{entityId} PUT
+     * @description  Создание новой внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -117,6 +149,13 @@ router.put(
 router.delete(
   '/:entityId',
   auth,
+  /**
+     * @method /api/externalEntities/{entityId} DELETE
+     * @description  Удаление внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
