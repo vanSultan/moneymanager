@@ -1,3 +1,9 @@
+/**
+ * Модуль тестирования
+ * @module test/register
+ */
+
+/** Тестирование регистрации пользователя */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');

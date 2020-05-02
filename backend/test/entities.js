@@ -1,3 +1,9 @@
+/**
+ * Модуль тестирования
+ * @module test/entities
+ */
+
+/** Тестирование сущностей */
 /* eslint-disable */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -24,6 +30,10 @@ const updateEntity = {
   name: 'newEntityName',
 };
 
+/**
+ * @description Функция авторизации пользователя
+ * @param auth {Object} - структура данных авторизации
+ */
 function loginUser(auth) {
   return (done) => {
     request

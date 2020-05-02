@@ -1,3 +1,9 @@
+/**
+ * Модуль тестирования
+ * @module test/operations
+ */
+
+/** Тестирование операций пользователя */
 /* eslint-disable */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
