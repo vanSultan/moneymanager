@@ -1,6 +1,6 @@
 /**
  * ROUTERS
- * @module routers/routers
+ * @module routers/auth
  */
 const { Router } = require('express');
 const sequelize = require('sequelize');
