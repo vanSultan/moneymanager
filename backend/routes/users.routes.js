@@ -73,7 +73,7 @@ router.get('/profile', auth,
         .catch((e) => {
           logger.error(e.message);
           return res.status(500).json({ message: 'Ошибка сервера' });
-        });;
+        });
     } catch (e) {
       logger.error(e.message);
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -100,7 +100,7 @@ router.post('/profile', auth,
         .catch((e) => {
           logger.error(e.message);
           return res.status(500).json({ message: 'Ошибка сервера' });
-        });;
+        });
     } catch (e) {
       logger.error(e.message);
       return res.status(500).json({ message: 'Ошибка сервера' });
