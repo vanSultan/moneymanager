@@ -69,7 +69,11 @@ router.get('/profile', auth,
             return res.status(204).json({ message: 'Информация отсутствует' });
           }
           return res.status(200).json(model);
-        });
+        })
+        .catch((e) => {
+          logger.error(e.message);
+          return res.status(500).json({ message: 'Ошибка сервера' });
+        });;
     } catch (e) {
       logger.error(e.message);
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -92,14 +96,11 @@ router.post('/profile', auth,
       logger.debug(`Пользователь ${userId} хочет создать профиль`);
 
       return createUserProfile(userProfileInfo, userId)
-        .then(
-          () => res.status(201).json({ message: 'Профиль добавлен' }),
-          (e) => {
-          // TODO: добавить обработку ошибки, когда такой профиль уже существует
-            logger.error(e.message);
-            return res.status(500).json({ message: 'Ошибка сервера' });
-          },
-        );
+        .then(() => res.status(201).json({ message: 'Профиль добавлен' }))
+        .catch((e) => {
+          logger.error(e.message);
+          return res.status(500).json({ message: 'Ошибка сервера' });
+        });;
     } catch (e) {
       logger.error(e.message);
       return res.status(500).json({ message: 'Ошибка сервера' });
