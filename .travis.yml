@@ -19,7 +19,7 @@ before_install:
 script:
   - docker-compose build
   - docker-compose run backend test
-  - docker-compose run --service-ports -d backend start
+  - docker-compose run --service-ports -d backend silent
   - /bin/bash stress_testing.sh
 
 after_success:
