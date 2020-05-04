@@ -42,6 +42,10 @@ router.get('/', auth,
             userList.forEach((user) => { list.push(user.login); });
             res.status(200).json(list);
           });
+        })
+        .catch((e) => {
+          logger.error(e.message);
+          return res.status(500).json({ message: 'Ошибка сервера' });
         });
     } catch (e) {
       logger.error(e.message);
