@@ -26,7 +26,6 @@ Backend приложения MoneyManager. С помощью данного пр
 
 ```
 npm i
-npm run build
 ```
 
 Запуск:
@@ -46,6 +45,12 @@ npm run server
 
 ```
 npm run generate-docs
+```
+
+Запустить тестирование:
+
+```
+npm run test
 ```
 
 ## Команда разработки
