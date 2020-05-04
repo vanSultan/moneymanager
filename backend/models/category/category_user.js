@@ -1,5 +1,16 @@
+/**
+ * Модуль Категории пользователя
+ * @module models/category
+ */
 module.exports = (sequelize, DataTypes) => {
-  const attributes = {
+  /**
+   * @type {Model}
+   * @property {number} user_id - id пользователя
+   * @property {number} category_id - id категории
+   * @property {boolean} hidden_flag - видимость категории
+   * @property {boolean} freezeTableName - фиксорованное имя
+   */
+  const CategoryUser = sequelize.define('category_user', {
     user_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,11 +26,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       field: 'hidden_flag',
     },
-  };
-
-  const options = {
+  }, {
     freezeTableName: true,
+  });
+
+  CategoryUser.associate = (models) => {
+    CategoryUser.belongsTo(models.User, { targetKey: 'id', foreignKey: 'user_id' });
+    CategoryUser.belongsTo(models.Category, { targetKey: 'id', foreignKey: 'category_id' });
   };
 
-  return sequelize.define('category_user', attributes, options);
+  return CategoryUser;
 };

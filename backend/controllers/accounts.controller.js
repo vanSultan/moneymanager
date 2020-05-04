@@ -2,10 +2,13 @@ const { models } = require('../models');
 
 const { Account, AccountType } = models;
 
-/*
-  Создание нового Счета
-  Возвращает Promise<Model>
-*/
+/**
+ * @description Создание нового счёта
+ * @param accountInfo {Object} - структура с информацией об аккаунте
+ * @param userId {Integer} - id пользователя
+ * @returns {Promise<Account>}
+ * @throws Error
+ */
 async function createAccount(accountInfo, userId) {
   if (accountInfo === null || userId === null) {
     throw new Error('Нулевые аргументы');
@@ -19,10 +22,13 @@ async function createAccount(accountInfo, userId) {
   });
 }
 
-/*
-  Получение всех пользовательских счетов
-  Возвращает Promise<Array<Model>>
-*/
+
+/**
+ * @description Получение всех пользовательских счетов
+ * @param userId
+ * @returns Promise<Array<Model>>
+ * @throws Error
+ */
 async function getUserAccounts(userId) {
   if (userId === null) {
     throw new Error('Нулевые аргументы');
@@ -36,40 +42,42 @@ async function getUserAccounts(userId) {
   });
 }
 
-/*
-  Получение всех типов счетов с их id
-  Возвращает Promise<Array<Model>>
-*/
+/**
+ * @description Получение всех типов счетов и их id
+ * @returns {Promise<Array<Model>>}
+ */
 async function getAccountTypes() {
   return AccountType.findAll();
 }
 
-/*
-  Получение информации по конкретному счету
-  Возвращает Promise<Model>
-*/
+/**
+ * @description Получение информации по конкретному счёту
+ * @param accountId {Integer} - id аккаунта
+ * @param userId {Integer} - id пользователя
+ * @returns {Promise<Model>}
+ * @throws Error
+ */
 async function getAccountById(accountId, userId) {
   if (accountId === null) {
     throw new Error('Нулевые аргументы');
   }
 
   return Account.findOne({
-    include: [{
-      attributes: ['type_name'],
-      model: AccountType,
-    }],
     where: {
       id: accountId,
       user_id: userId,
     },
-    attributes: ['id', 'name', 'balance'],
+    attributes: ['id', 'name', 'balance', 'type_id'],
   });
 }
 
-/*
-  Обновление информации по конкретному счету
-  Возвращает Promise<Array<number, number>>
-*/
+/**
+ * @description Обновление информации по конкретному счету
+ * @param accountId {integer} - id аккаунта
+ * @param accountInfo {Object} - информация об аккаунте
+ * @param userId {integer} - id пользователя
+ * @throws Error
+ */
 async function updateAccount(accountId, accountInfo, userId) {
   if (accountId === null || accountInfo === null || userId === null) {
     throw new Error('Нулевые аргументы');
@@ -90,10 +98,13 @@ async function updateAccount(accountId, accountInfo, userId) {
   );
 }
 
-/*
-  Удаление пользовательского счета
-  Возвращает Promise<number>
-*/
+/**
+ * @description Удаление пользовательского счёта
+ * @param accountId {integer} - id аккаунта
+ * @param userId {integer} - id пользователя
+ * @returns Promise<number>
+ * @throws Error
+ */
 async function deleteAccount(accountId, userId) {
   if (accountId === null || userId === null) {
     throw new Error('Нулевые аргументы');

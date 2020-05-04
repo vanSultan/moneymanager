@@ -1,5 +1,15 @@
+/**
+ * Модуль ролей пользователя
+ * @module models/user
+ */
 module.exports = (sequelize, DataTypes) => {
-  const attributes = {
+  /**
+   * @type {Model}
+   * @property {number} id - индентификатор
+   * @property {string} name - имя роли пользователя
+   * @property {boolean} freezeTableName - фиксорованное имя
+   */
+  const Role = sequelize.define('role', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -12,11 +22,13 @@ module.exports = (sequelize, DataTypes) => {
       field: 'name',
       unique: true,
     },
-  };
-
-  const options = {
+  }, {
     freezeTableName: true,
+  });
+
+  Role.associate = (models) => {
+    Role.hasMany(models.User, { foreignKey: { name: 'role_id', allowNull: false }, onDelete: 'restrict' });
   };
 
-  return sequelize.define('role', attributes, options);
+  return Role;
 };

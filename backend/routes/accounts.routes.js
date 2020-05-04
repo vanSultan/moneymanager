@@ -1,3 +1,7 @@
+/**
+ * ROUTERS
+ * @module routers/account
+ */
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const logger = require('../config/logger').appLogger;
@@ -18,6 +22,13 @@ const router = Router(sequelize);
 router.post(
   '/',
   auth,
+  /**
+   * @method /api/accounts/ POST
+   * @description  Создание нового счёта
+   * @param req {Request} - запрос
+   * @param res {Request} - ответ
+   * @returns {Promise<*>}
+   */
   async (req, res) => {
     try {
       const accountInfo = req.body;
@@ -41,6 +52,13 @@ router.post(
 router.get(
   '/',
   auth,
+  /**
+     * @method /api/accounts/ GET
+     * @description  Получение списка счетов пользователя
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -70,6 +88,13 @@ router.get(
 router.get(
   '/types/',
   auth,
+  /**
+     * @method  /api/accounts/types/ GET
+     * @description Получение доступных типов счетов
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       logger.info(`Пользователь ${req.user.userId} хочет получить список типов счетов`);
@@ -86,6 +111,13 @@ router.get(
 router.get(
   '/:accountId',
   auth,
+  /**
+     * @method  /api/accounts/:accountId GET
+     * @description Получение информации о счете
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -98,7 +130,7 @@ router.get(
             id: entity.id,
             name: entity.name,
             balance: entity.balance,
-            type_name: entity.account_type.type_name,
+            type_id: entity.type_id,
           };
           return res.status(200).json(accountInfo);
         })
@@ -113,6 +145,13 @@ router.get(
 router.put(
   '/:accountId',
   auth,
+  /**
+     * @method  /api/accounts/:accountId PUT
+     * @description Изменение информации о счете
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -133,6 +172,13 @@ router.put(
 router.delete(
   '/:accountId',
   auth,
+  /**
+     * @method  /api/accounts/:accountId DELETE
+     * @description Удаление пользовательского счета
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;

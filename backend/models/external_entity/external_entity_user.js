@@ -1,5 +1,16 @@
+/**
+ * Модуль Сущностей пользователя
+ * @module models/external_entity
+ */
 module.exports = (sequelize, DataTypes) => {
-  const attributes = {
+  /**
+   * @type {Model}
+   * @property {number} user_id - id пользователя
+   * @property {number} external_entity_id - id категории
+   * @property {number} popular_category_id - id популярной категории
+   * @property {boolean} freezeTableName - фиксорованное имя
+   */
+  const ExternalEntityUser = sequelize.define('external_entity_user', {
     user_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,11 +26,13 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: null,
       field: 'popular_category_id',
     },
-  };
-
-  const options = {
+  }, {
     freezeTableName: true,
+  });
+
+  ExternalEntityUser.associate = (models) => {
+    ExternalEntityUser.belongsTo(models.Category, { foreignKey: 'popular_category_id', onDelete: 'set null' });
   };
 
-  return sequelize.define('external_entity_user', attributes, options);
+  return ExternalEntityUser;
 };

@@ -1,3 +1,9 @@
+/**
+ * Модуль тестирования
+ * @module test/login
+ */
+
+/** Тестирование авторизации пользователя */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
@@ -5,16 +11,26 @@ const server = require('../app');
 chai.should();
 chai.use(chaiHttp);
 
-const user = {
-  login: 'not existing user',
-  password: 'some valid password',
+const notExistingUser = {
+  login: 'some_user',
+  password: 'some_password',
+};
+
+const defaultUser = {
+  login: 'default_user',
+  password: 'default_password',
+};
+
+const wrongPasswordUser = {
+  login: 'default_user',
+  password: 'not_default_password',
 };
 
 describe('/api/auth/login', () => {
-  it('it should return an error for not existing user', (done) => {
+  it('Авторизация несуществующего пользователя', (done) => {
     chai.request(server)
       .post('/api/auth/login/')
-      .send(user)
+      .send(notExistingUser)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
@@ -23,12 +39,10 @@ describe('/api/auth/login', () => {
       });
   });
 
-  it('it should return an error for invalid password', (done) => {
-    user.login = 'existing_user';
-    user.password = 'not_existing_password';
+  it('Неверный пароль', (done) => {
     chai.request(server)
       .post('/api/auth/login/')
-      .send(user)
+      .send(wrongPasswordUser)
       .end((err, res) => {
         res.should.have.status(400);
         res.should.be.a('object');
@@ -37,12 +51,10 @@ describe('/api/auth/login', () => {
       });
   });
 
-  it('it should login successfully', (done) => {
-    user.login = 'new user';
-    user.password = 'new password';
+  it('Успешный вход', (done) => {
     chai.request(server)
       .post('/api/auth/login')
-      .send(user)
+      .send(defaultUser)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');

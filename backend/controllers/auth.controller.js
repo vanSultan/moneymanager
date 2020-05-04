@@ -2,9 +2,17 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { app: appConfig } = require('../config/config');
 const { models } = require('../models');
+const { initCategoriesToNewUser } = require('./categories.controller');
+const logger = require('../config/logger').appLogger;
 
 const { User, Role } = models;
 
+/**
+ * @description Создание пользователя
+ * @param req {Request} - запрос
+ * @param res {Request} - ответ
+ * @returns {Promise<User>}
+ */
 async function createUser(req, res) {
   const { login, password } = req.body;
 
@@ -17,15 +25,25 @@ async function createUser(req, res) {
   const userRole = await Role.findOne({ where: { name: 'user' } });
 
   const hashedPassword = await bcrypt.hash(password, 12);
-  User.create({
+
+  return User.create({
     login,
     password: hashedPassword,
     role_id: userRole.id,
-  });
-
-  return res.status(201).json({ message: 'Пользователь создан' });
+  }).then((user) => initCategoriesToNewUser(user.id)
+    .then(() => res.status(201).json({ message: 'Пользователь создан' })))
+    .catch((e) => {
+      logger.error(e.message);
+      res.status(500).json({ message: 'Ошибка сервера' });
+    });
 }
 
+/**
+ * @description Получение токена
+ * @param req {Request} - запрос
+ * @param res {Request} - ответ
+ * @returns {Promise<Object>}
+ */
 async function getTokenOfUser(req, res) {
   const { login, password } = req.body;
 
@@ -50,6 +68,12 @@ async function getTokenOfUser(req, res) {
   return res.status(200).json({ token });
 }
 
+/**
+ * @description Удаление токена
+ * @param req {Request} - запрос
+ * @param res {Request} - ответ
+ * @returns {Promise<Object>}
+ */
 async function destroyTokenOfUser(req, res) {
   // Реализуем на стороне клиента
   return res.status(200).json({ message: 'Токен успешно сброшен' });

@@ -249,7 +249,7 @@ CREATE TABLE public.operation (
     value double precision DEFAULT 0 NOT NULL,
     comment character varying,
     system_date timestamp without time zone DEFAULT now() NOT NULL,
-    user_date timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -493,7 +493,7 @@ COPY public.external_entity_user (user_id, external_entity_id, popular_category_
 -- Data for Name: operation; Type: TABLE DATA; Schema: postgres; Owner: moneymanager
 --
 
-COPY public.operation (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment, system_date, user_date) FROM stdin;
+COPY public.operation (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment, system_date, updated_at) FROM stdin;
 \.
 
 
@@ -825,8 +825,41 @@ ALTER TABLE ONLY public."user"
 -- PostgreSQL database dump complete
 --
 
-insert into public."user" ("login", "password", role_id) values ('existing_user', 'existing_password', 1);
-insert into public."user" ("login", "password", role_id) values ('new user', '$2a$12$dAIFnhO2kIljY0Y/c3hfi.EJxukhcCBBiXJgEQ0Ry3JdzotLCds.q', 1);
+-- Роли
+insert into public."role" (id, name)
+values (0, 'default_role');
+
+-- Пользователи
+insert into public."user" (id, login, password, role_id)
+values (0, 'default_user', '$2a$12$oE7xS1IQJ/bxlXP3clpB0uPLOR1oZP3ARr.NuXxgwUVQ4xAf7iExG', 0);
+insert into public."user_profile" (user_id, email, name, surname)
+values (0, 'default_email', 'default_name', 'default_surname');
+
+-- Категории
+insert into public."category" (id, name, parent_category_id)
+values (0, 'default_category', null);
+insert into public."category_user" (user_id, category_id)
+values (0, 0);
+
+-- Счета
+insert into public."account_type" (id, type_name)
+values (0, 'default_type');
+insert into public."account" (user_id, name, type_id, balance)
+values (0, 'first_account', 0, 1000);
+insert into public."account" (user_id, name, type_id, balance)
+values (0, 'second_account', 0, 1000);
+
+-- Внешние сущности
+insert into public."external_entity" (id, name)
+values (0, 'default_entity');
+insert into public."external_entity_user" (user_id, external_entity_id, popular_category_id)
+values (0, 0, null);
+
+-- Операции
+insert into public."operation" (id, user_id, account_from_id, account_to_id, category_id, external_entity_id, value, comment,
+                       system_date, updated_at)
+values (0, 0, 1, 2, 0, 0, 1000, 'default operation', date(now()), date(now()));
+
 insert into public."category" ("name") values ('Прочее');
 insert into public."category" ("name") values ('Еда и напитки');
 insert into public."category" ("name") values ('Покупки');

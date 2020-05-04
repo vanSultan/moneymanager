@@ -1,3 +1,7 @@
+/**
+ * ROUTERS
+ * @module routers/entities
+ */
 const { Router } = require('express');
 const sequelize = require('sequelize');
 const logger = require('../config/logger').appLogger;
@@ -18,6 +22,13 @@ const router = Router(sequelize);
 router.post(
   '/',
   auth,
+  /**
+     * @method /api/externalEntities/ POST
+     * @description  оздание новой внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const entityName = req.body.name;
@@ -26,7 +37,7 @@ router.post(
 
       return addEntityToUser(entityName, userId)
         .then((entityId) => res.status(201).json({ id: entityId }))
-        .catch(() => res.status(403).json({ message: 'Не удалось добавить внешнюю сущность' }));
+        .catch(() => res.status(500).json({ message: 'Не удалось добавить внешнюю сущность' }));
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
     }
@@ -37,6 +48,13 @@ router.post(
 router.get(
   '/',
   auth,
+  /**
+     * @method /api/externalEntities/ GET
+     * @description  Получение списка внешних сущностей
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -54,7 +72,7 @@ router.get(
           res.status(200).json(list);
         })
         .catch(() => {
-          res.status(403).json({ message: 'Ошибка доступа' });
+          res.status(500).json({ message: 'Ошибка доступа' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -66,6 +84,13 @@ router.get(
 router.get(
   '/:entityId',
   auth,
+  /**
+     * @method /api/externalEntities/{entityId} GET
+     * @description  Получение информации о внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -81,7 +106,7 @@ router.get(
           return res.status(200).json(info);
         })
         .catch(() => {
-          res.status(403).json({ message: 'Ошибка доступа' });
+          res.status(500).json({ message: 'Ошибка доступа' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -93,6 +118,13 @@ router.get(
 router.put(
   '/:entityId',
   auth,
+  /**
+     * @method /api/externalEntities/{entityId} PUT
+     * @description  Создание новой внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -102,10 +134,10 @@ router.put(
 
       return updateUserEntity(entityId, newEntityName, userId)
         .then(() => {
-          res.status(200).json();
+          res.status(200).json({ name: newEntityName });
         })
         .catch(() => {
-          res.status(403).json({ message: 'Операция не выполнена' });
+          res.status(500).json({ message: 'Операция не выполнена' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });
@@ -117,6 +149,13 @@ router.put(
 router.delete(
   '/:entityId',
   auth,
+  /**
+     * @method /api/externalEntities/{entityId} DELETE
+     * @description  Удаление внешней сущности
+     * @param req {Request} - запрос
+     * @param res {Request} - ответ
+     * @returns {Promise<*>}
+     */
   async (req, res) => {
     try {
       const { userId } = req.user;
@@ -129,7 +168,7 @@ router.delete(
           return res.status(200).json();
         })
         .catch(() => {
-          res.status(403).json({ message: 'Операция не выполнена' });
+          res.status(500).json({ message: 'Операция не выполнена' });
         });
     } catch (err) {
       return res.status(500).json({ message: 'Ошибка сервера' });

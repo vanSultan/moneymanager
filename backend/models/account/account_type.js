@@ -1,5 +1,17 @@
+/**
+ * Модуль Типа аккаунта
+ * @module models/account_types
+ */
+
+/** Все данные о типе аккаунта */
 module.exports = (sequelize, DataTypes) => {
-  const attributes = {
+  /**
+   * @type {Model}
+   * @property {number} id - индетификатор
+   * @property {string} type_name - имя типа аккаунта
+   * @property {boolean} freezeTableName
+   */
+  const AccountType = sequelize.define('account_type', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -12,11 +24,13 @@ module.exports = (sequelize, DataTypes) => {
       field: 'type_name',
       unique: true,
     },
-  };
-
-  const options = {
+  }, {
     freezeTableName: true,
+  });
+
+  AccountType.associate = (models) => {
+    AccountType.hasMany(models.Account, { foreignKey: 'type_id', onDelete: 'restrict' });
   };
 
-  return sequelize.define('account_type', attributes, options);
+  return AccountType;
 };
