@@ -9,7 +9,6 @@ services:
   - docker
 
 before_install:
-  - sudo apt-get install apache2-utils
   - node -v
   - cd backend/
   - npm install
@@ -19,8 +18,6 @@ before_install:
 script:
   - docker-compose build
   - docker-compose run backend test
-  - docker-compose run --service-ports backend silent
-  - /bin/bash stress_testing.sh
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
