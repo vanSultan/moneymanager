@@ -54,8 +54,8 @@ npm run test
 ```
 
 ## Команда разработки
-* [Султан](https://github.com/vanSultan)
-* [Игорь](https://github.com/SpIgor)
-* [Леля](https://github.com/k-t-l-h)
+* [Жумабаев Султан ИУ7-83Б](https://github.com/vanSultan)
+* [Спирин Игорь ИУ7-81Б](https://github.com/SpIgor)
+* [Кочкраова Лейла ИУ7-85Б](https://github.com/k-t-l-h)
 
 
